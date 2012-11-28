@@ -1,0 +1,1061 @@
+a:4:{s:15:"default_content";a:0:{}s:8:"sections";a:0:{}s:6:"source";s:70861:"
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns:fb="http://www.facebook.com/2008/fbml" xmlns:og="http://opengraph.org/schema/" xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <meta property="og:title" content="MailChimp Boot Camp - no.10"><meta property="fb:page_id" content="43929265776"><title>MailChimp Boot Camp - no.10</title>
+		
+    
+ 
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
+<script src="http://us2.campaign-archive1.com/js/mailchimp/fancyzoom.mc.js"></script>
+<script src="http://us2.campaign-archive1.com/js/mailchimp/likebutton.js"></script>
+<script type="text/javascript">
+	var likeButtonCount = 0;
+	
+	$(document).ready(function () {
+        loadFbScript();
+		var likeButtons = $('a[rel=fblikebtn]');
+		likeButtonCount = likeButtons.length; 
+		likeButtons.each(function(i) {
+			// the href for each like button has information on the specific element to like
+			var href = $(this).attr('href');
+			var params = getUrlParams(href);
+			if (params['likeu']) {
+				var divId = unescape(decodeURI(params['fblike']));
+				$(this).attr('href', '#'+divId);
+				addLikeButton(unescape(decodeURI(params['likeu'])), unescape(decodeURI(params['liket'])), divId);
+			} else {
+				$(this).attr('href', '#fbshare-campaign');
+			}
+
+			//now attach fancy zoom to it
+			$(this).fancyZoom({"width":450, "height":150});
+
+			if (i == likeButtonCount - 1) {
+				window.likeButtonsReady();
+			} 
+	    });
+			    $('a[rel=fbcommentbtn]').each(function(i) {
+		    $(this).bind('click', function() {
+			    $('#fb-comments-notes').html('').hide();//clear out the notes when it's clicked
+			});
+		    $(this).fancyZoom({"width":620, "height":450, "zoom_id":"zoom_comments", "persist":true, "firstTimeCallback": function() {
+				$('#fb-comments-content').html('<iframe src="http://us2.admin.mailchimp.com/facebook/comments?u=ea39d4a37ae3343c217eaadde&id=05650577aa&e=beeffb08d4" frameborder="0" align="bottom" height="450px" width="620px" onload="hideLoading(\'#fb-comments-loading\')"></iframe>');
+			}}); 
+	    });
+	    	    
+	    // handle the facebook send buttons
+	    $('a[rel=fbsendbtn]').each(function(i) {
+            $(this).bind('click', function() {
+                $('#fb-send-notes').html('').hide();//clear out the notes when it's clicked
+            });
+            $(this).fancyZoom({"width":500, "height":300, "zoom_id":"zoomsend", "persist":true, "firstTimeCallback": function() {
+                $('#fb-send-content').html('<iframe src="http://us2.admin.mailchimp.com/facebook/send?u=ea39d4a37ae3343c217eaadde&id=05650577aa&e=beeffb08d4" frameborder="0" align="bottom" height="300px" width="500px" onload="hideLoading(\'#fb-send-loading\')"></iframe>');
+            }}); 
+        });
+	});
+
+	window.likeButtonsReady = function() { };//callback in case anything needs to do something when all buttons are ready
+
+	function getUrlParams(str) {
+	    var vars = [], hash;
+	    var hashes = str.slice(str.indexOf('?') + 1).split('&');
+	    for(var i = 0; i < hashes.length; i++)
+	    {
+	        hash = hashes[i].split('=');
+	        vars.push(hash[0]);
+	        vars[hash[0]] = hash[1];
+	    }
+	    return vars;
+	}
+	
+	function hideLoading(id) {
+		$(id).hide();
+	}
+
+	window.fbAsyncInit = function() {
+		// insert the loading img
+		FB.init( { "appId" : '123400977701723', "status" : true, "cookie" : true, "xfbml" : true, "oauth" : true });
+		FB.Event.subscribe('xfbml.render', function() {
+			while ($('#fb-loading').length > 0) {// do this because the fancyzoom does non-fancy things and copies the innerHTML so there are two or more of evertyhing
+				$('#fb-loading').remove();
+			}
+		});
+		FB.Event.subscribe('edge.create', function(href, widget) {
+			noteLikeEvent(href);
+		});
+	};
+
+    function loadFbScript() {
+    	var fbscripty = document.createElement('script');
+    	fbscripty.type = 'text/javascript';
+    	fbscripty.src = document.location.protocol + '//connect.facebook.net/en_US/all.js';
+    	fbscripty.async = true;
+    	$('#fb-root').append(fbscripty);
+    };
+
+
+	function showLikeElement(source) {
+		$(source).trigger('click');
+	}
+
+	function isCampaignUrl(href) {
+		var hostname = 'campaign-archive';
+		return href.indexOf(hostname) != -1;
+	}
+	
+	function noteLikeEvent(href) {
+		if (isCampaignUrl(href)) {// only track the like stat when it's for this campaign
+			$.get("http://us2.campaign-archive1.com/facebook/like?u=ea39d4a37ae3343c217eaadde&id=05650577aa&e=beeffb08d4");
+		}
+	}
+</script>
+
+<style type="text/css">
+		#outlook a{
+			padding:0;
+		}
+		body{
+			width:100% !important;
+		}
+		.ReadMsgBody{
+			width:100%;
+		}
+		.ExternalClass{
+			width:100%;
+		}
+		body{
+			-webkit-text-size-adjust:none;
+		}
+		body{
+			margin:0;
+			padding:0;
+		}
+		img{
+			border:0;
+			height:auto;
+			line-height:100%;
+			outline:none;
+			text-decoration:none;
+		}
+		table td{
+			border-collapse:collapse;
+		}
+		#backgroundTable{
+			height:100% !important;
+			margin:0;
+			padding:0;
+			width:100% !important;
+		}
+		body,#backgroundTable{
+			background-color:#AAAAAA;
+		}
+		h1,h2,h3,h4{
+			display:block;
+			font-family:Helvetica;
+			font-weight:bold;
+			line-height:100%;
+		}
+		h1{
+			color:#3F3F38 !important;
+			font-size:50px;
+			font-weight:bold;
+			letter-spacing:-3px;
+			margin-top:0;
+			margin-right:0;
+			margin-bottom:10px;
+			margin-left:0;
+			text-align:left;
+		}
+		h2{
+			color:#FFFFFF !important;
+			font-size:25px;
+			font-weight:bold;
+			letter-spacing:normal;
+			margin-top:0;
+			margin-right:0;
+			margin-bottom:0;
+			margin-left:0;
+			text-align:center;
+		}
+		h3{
+			color:#202020 !important;
+			font-size:17px;
+			font-weight:bold;
+			letter-spacing:-.5px;
+			margin-top:0;
+			margin-right:0;
+			margin-bottom:0;
+			margin-left:0;
+			text-align:left;
+		}
+		h4{
+			color:#303030 !important;
+			font-size:15px;
+			font-weight:bold;
+			letter-spacing:normal;
+			margin-top:0;
+			margin-right:0;
+			margin-bottom:0;
+			margin-left:0;
+			text-align:left;
+		}
+		.preheaderContent{
+			color:#303030;
+			font-family:Helvetica;
+			font-size:11px;
+			line-height:125%;
+		}
+		.preheaderContent a:link,.preheaderContent a:visited{
+			color:#303030;
+		}
+		#templateHeader{
+			background-color:#EFEFEF;
+			background-image:url('http://cdn-images.mailchimp.com/template_images/bootcamp_bg_camo.jpg');
+			background-position:left bottom;
+			background-repeat:repeat;
+		}
+		.headerContent{
+			color:#202020;
+			font-family:Helvetica;
+			font-size:15px;
+			letter-spacing:-.7px;
+			line-height:125%;
+		}
+		#issueRibbon{
+			background-color:#3F3F38;
+		}
+		#titleBar{
+			background:rgba(0, 0, 0, 0.1);
+			border-top:1px solid #909090;
+			border-bottom:1px solid #909090;
+		}
+		#templateBody{
+			background-color:#FFFFFF;
+		}
+		.bodyContent{
+			color:#707070;
+			font-family:Helvetica;
+			font-size:15px;
+			letter-spacing:-.5px;
+			line-height:125%;
+		}
+		.bodyContent a:link,.bodyContent a:visited{
+			color:#E95C41;
+			font-weight:bold;
+			text-decoration:none;
+		}
+		#muscleUpBlock{
+			background-color:#EEEEEE;
+			border:1px solid #CCCCCC;
+		}
+		.muscleUpContent{
+			color:#505050;
+			font-family:Helvetica;
+			font-size:13px;
+			letter-spacing:-.5px;
+			line-height:125%;
+		}
+		.muscleUpContent a:link,.muscleUpContent a:visited{
+			color:#E95C41;
+			font-weight:bold;
+			text-decoration:none;
+		}
+		#templateFooter{
+			background-color:#303030;
+		}
+		.footerContent{
+			color:#EEEEEE;
+			font-family:Helvetica;
+			font-size:11px;
+			letter-spacing:-.5px;
+			line-height:125%;
+		}
+		.footerContent a:link,.footerContent a:visited{
+			color:#FFFFFF;
+			text-decoration:none;
+		}
+		#unsubscribeButton{
+			background-color:#808080;
+			border-top:1px solid #AAAAAA;
+			border-right:1px solid #404040;
+			border-bottom:1px solid #404040;
+			border-left:1px solid #AAAAAA;
+			border-radius:5px;
+		}
+		#unsubscribeButtonContent,#unsubscribeButtonContent a:link,#unsubscribeButtonContent a:visited{
+			color:#FFFFFF;
+			font-family:Helvetica;
+			font-size:13px;
+			font-weight:bold;
+			text-decoration:none;
+		}
+		#fblike{
+			min-width:450px;
+			max-width:450px;
+			margin:-10px -10px 10px -10px;
+			padding:10px;
+			border-top:20px solid #3B5998;
+			font-family:Helvetica,arial,sans-serif;
+			text-align:center;
+		}
+		#fbsend{
+			min-width:500px;
+			max-width:500px;
+			margin:-10px -10px 10px -10px;
+			padding:10px;
+			border-top:20px solid #3B5998;
+			font-family:Helvetica,arial,sans-serif;
+			text-align:center;
+		}
+		#fbcomment{
+			min-width:620px;
+			max-width:620px;
+			margin:-10px -10px 10px -10px;
+			padding:10px;
+			border-top:20px solid #3B5998;
+			font-family:Helvetica,arial,sans-serif;
+			text-align:center;
+		}
+		#fblike h2,#fbsend h2{
+			margin:15px 0;
+			color:#3B5998;
+		}
+		.fb_edge_widget_with_comment{
+			margin:10px 0 10px 10%;
+		}
+		.widget_button_count_left{
+			background:transparent url(http://cdn-images.mailchimp.com/fb/comment_start.png) no-repeat 0px 0px;
+			float:left;
+			height:15px;
+			left:2px;
+			position:relative;
+			top:3px;
+			width:5px;
+			z-index:2;
+		}
+		.widget_button_count{
+			color:#333;
+			background-color:#FEFEFE;
+			border-color:#C1C1C1;
+			border-style:solid;
+			border-width:1px;
+			float:left;
+			font-weight:bold;
+			height:15px;
+			margin-left:1px;
+			padding:1px 3px;
+			border-spacing:0px 0px;
+			border-collapse:collapse;
+			font-size:11px;
+			text-align:left;
+			font-family:'lucida grande', tahoma, verdana, arial, sans-serif;
+		}
+		#fb-comments-notes,#fb-send-notes{
+			padding:10px;
+			text-align:left;
+		}
+		#awesomebar img{
+			margin:0;
+			padding:0;
+		}
+		.hover-link:hover{
+			color:#666 !important;
+		}
+		body{
+			margin:0 !important;
+			padding:0 !important;
+		}
+</style></head>
+    <body leftmargin="0" marginwidth="0" topmargin="0" marginheight="0" offset="0" style="-webkit-text-size-adjust: none;margin: 0;padding: 0;background-color: #AAAAAA;width: 100% !important;"><div id="awesomebar" style="padding-bottom:60px; position:relative; z-index:999999;" class="notranslate"><div style="position:absolute; top:0; left:0;"><table width="100%" style="position:fixed; min-width:850px; clear:both; margin:0 !important; padding:0px !important; background:url(http://gallery.mailchimp.com/e709a491029b04e745834d34d/images/awesomebar_bg.png) !important; -moz-box-shadow:0 1px 10px #333; box-shadow:0 1px 10px #333; -webkit-box-shadow:0 1px 10px #333; -op-box-shadow:0 3px 3px #666;" cellpadding="8" cellspacing="0"><tr>
+    <td width="310" align="left" style="margin:0px !important;color:#111 !important;border:none !important;font-family:Helvetica,Arial,Sans !important;font-size:11px !important;font-weight:normal !important;font-style:normal !important;text-decoration:none !important;vertical-align:bottom !important;text-align:left !important;padding:15px 10px 17px 25px !important; width:310px !important; min-width:310px;">
+        <a class="hover-btn-dark" href="http://eepurl.com/fE45w" style="position:relative !important; padding:8px !important; -webkit-border-radius:4px !important; -moz-border-radius:4px !important; -o-border-radius:4px !important; border-radius:4px !important; text-decoration:none !important; font-family:helvetica, arial, sans-serif !important; font-size:12px !important; font-weight: bold !important; margin-right: 10px !important; background: #333 url(http://gallery.mailchimp.com/ac97c9129c6d84654f83eb4bc/images/dark_btn_tile.png) repeat-x !important;border:1px solid #000 !important;color:#eee !important;text-shadow:1px 1px 1px #333 !important;">Subscribe to List</a>
+	     <a href="http://us2.campaign-archive2.com/home/?u=ea39d4a37ae3343c217eaadde&id=4753c69b32" style="position:relative !important; padding:8px !important; -webkit-border-radius:4px !important; -moz-border-radius:4px !important; -o-border-radius:4px !important; border-radius:4px !important; text-decoration:none !important; font-family:helvetica, arial, sans-serif !important; font-size:12px !important; font-weight: bold !important; background:#fff url(http://gallery.mailchimp.com/ac97c9129c6d84654f83eb4bc/images/light_btn_tile.png) repeat-x !important;border:1px solid #c6c5c2 !important;color:#333 !important;text-shadow:1px 1px 1px #ddd !important;margin-right:-5px !important;-webkit-border-radius:4px 0 0 4px !important; -moz-border-radius:4px 0 0 4px !important; -o-border-radius:4px 0 0 4px !important; border-radius:4px 0 0 4px !important;">View Past Issues</a><a href="http://us2.campaign-archive1.com/feed?u=ea39d4a37ae3343c217eaadde&id=4753c69b32" style="position:relative !important; padding:8px !important; -webkit-border-radius:4px !important; -moz-border-radius:4px !important; -o-border-radius:4px !important; border-radius:4px !important; text-decoration:none !important; font-family:helvetica, arial, sans-serif !important; font-size:12px !important; font-weight: bold !important; background: #fff url(http://gallery.mailchimp.com/ac97c9129c6d84654f83eb4bc/images/light_btn_tile.png) repeat-x !important;border: 1px solid #c6c5c2;color: #333 !important;text-shadow: 1px 1px 1px #ddd !important; background-color:#fff !important; background-image: url(http://gallery.mailchimp.com/ac97c9129c6d84654f83eb4bc/images/rss.png), url(http://gallery.mailchimp.com/ac97c9129c6d84654f83eb4bc/images/light_btn_tile.png) !important;background-position: 8px 6px, left center !important;background-repeat: no-repeat, repeat-x !important;padding-left: 28px !important;-webkit-border-radius:0 4px 4px 0 !important; -moz-border-radius:0 4px 4px 0 !important; -o-border-radius:0 4px 4px 0 !important; border-radius:0 4px 4px 0 !important;" title="subscribe to the email archive feed">RSS</a>
+    </td> 
+	<td width="100" align="left" style="margin:0px !important;color:#111 !important;border:none !important;font-family:Helvetica,Arial,Sans !important;font-size:11px !important;font-weight:normal !important;font-style:normal !important;text-decoration:none !important;vertical-align:bottom !important;text-align:left !important;width:100px !important; min-width:100px; position:relative !important; padding:25px 10px 17px 0 !important;">
+    	<a href="#" style="position:relative !important; padding:8px !important; -webkit-border-radius:4px !important; -moz-border-radius:4px !important; -o-border-radius:4px !important; border-radius:4px !important; text-decoration:none !important; font-family:helvetica, arial, sans-serif !important; font-size:12px !important; font-weight: bold !important; background-color:#fff !important; background-image: url(http://gallery.mailchimp.com/ac97c9129c6d84654f83eb4bc/images/Navigation_down_16x16.png), url(http://gallery.mailchimp.com/ac97c9129c6d84654f83eb4bc/images/light_btn_tile.png) !important;background-position: 8px 6px, left center !important;background-repeat: no-repeat, repeat-x !important;padding-left: 28px !important;border: 1px solid #c6c5c2 !important;color: #333;text-shadow: 1px 1px 1px #ddd !important;" onclick="if(document.getElementById('mc_translate_links').style.display=='none'){ document.getElementById('mc_translate_links').style.display = 'block'; } else { document.getElementById('mc_translate_links').style.display = 'none'; } return false;">translate</a>
+    <div id="mc_translate_links" style="display: none;position:absolute !important;background-color:#fff !important; border:1px solid #ccc !important; padding:10px !important;max-height:700px;overflow-y:scroll;"><a class="hover-link" style="color:#333; line-height:18px; position:relative !important; padding:8px !important; -webkit-border-radius:4px !important; -moz-border-radius:4px !important; -o-border-radius:4px !important; border-radius:4px !important; text-decoration:none !important; font-family:helvetica, arial, sans-serif !important; font-size:12px !important; font-weight: bold !important;" rel="nofollow" title="English" href="http://translate.google.com/translate?hl=auto&langpair=auto|en&u=http%3A%2F%2Feepurl.com%2FgkCPX">English</a><br><a class="hover-link" style="color:#333; line-height:18px; position:relative !important; padding:8px !important; -webkit-border-radius:4px !important; -moz-border-radius:4px !important; -o-border-radius:4px !important; border-radius:4px !important; text-decoration:none !important; font-family:helvetica, arial, sans-serif !important; font-size:12px !important; font-weight: bold !important;" rel="nofollow" title="العربية" href="http://translate.google.com/translate?hl=auto&langpair=auto|ar&u=http%3A%2F%2Feepurl.com%2FgkCPX">العربية</a><br><a class="hover-link" style="color:#333; line-height:18px; position:relative !important; padding:8px !important; -webkit-border-radius:4px !important; -moz-border-radius:4px !important; -o-border-radius:4px !important; border-radius:4px !important; text-decoration:none !important; font-family:helvetica, arial, sans-serif !important; font-size:12px !important; font-weight: bold !important;" rel="nofollow" title="Afrikaans" href="http://translate.google.com/translate?hl=auto&langpair=auto|af&u=http%3A%2F%2Feepurl.com%2FgkCPX">Afrikaans</a><br><a class="hover-link" style="color:#333; line-height:18px; position:relative !important; padding:8px !important; -webkit-border-radius:4px !important; -moz-border-radius:4px !important; -o-border-radius:4px !important; border-radius:4px !important; text-decoration:none !important; font-family:helvetica, arial, sans-serif !important; font-size:12px !important; font-weight: bold !important;" rel="nofollow" title="беларуская мова" href="http://translate.google.com/translate?hl=auto&langpair=auto|be&u=http%3A%2F%2Feepurl.com%2FgkCPX">беларуская мова</a><br><a class="hover-link" style="color:#333; line-height:18px; position:relative !important; padding:8px !important; -webkit-border-radius:4px !important; -moz-border-radius:4px !important; -o-border-radius:4px !important; border-radius:4px !important; text-decoration:none !important; font-family:helvetica, arial, sans-serif !important; font-size:12px !important; font-weight: bold !important;" rel="nofollow" title="български" href="http://translate.google.com/translate?hl=auto&langpair=auto|bg&u=http%3A%2F%2Feepurl.com%2FgkCPX">български</a><br><a class="hover-link" style="color:#333; line-height:18px; position:relative !important; padding:8px !important; -webkit-border-radius:4px !important; -moz-border-radius:4px !important; -o-border-radius:4px !important; border-radius:4px !important; text-decoration:none !important; font-family:helvetica, arial, sans-serif !important; font-size:12px !important; font-weight: bold !important;" rel="nofollow" title="català" href="http://translate.google.com/translate?hl=auto&langpair=auto|ca&u=http%3A%2F%2Feepurl.com%2FgkCPX">català</a><br><a class="hover-link" style="color:#333; line-height:18px; position:relative !important; padding:8px !important; -webkit-border-radius:4px !important; -moz-border-radius:4px !important; -o-border-radius:4px !important; border-radius:4px !important; text-decoration:none !important; font-family:helvetica, arial, sans-serif !important; font-size:12px !important; font-weight: bold !important;" rel="nofollow" title="中文（简体）" href="http://translate.google.com/translate?hl=auto&langpair=auto|zh-CN&u=http%3A%2F%2Feepurl.com%2FgkCPX">中文（简体）</a><br><a class="hover-link" style="color:#333; line-height:18px; position:relative !important; padding:8px !important; -webkit-border-radius:4px !important; -moz-border-radius:4px !important; -o-border-radius:4px !important; border-radius:4px !important; text-decoration:none !important; font-family:helvetica, arial, sans-serif !important; font-size:12px !important; font-weight: bold !important;" rel="nofollow" title="中文（繁體）" href="http://translate.google.com/translate?hl=auto&langpair=auto|zh-TW&u=http%3A%2F%2Feepurl.com%2FgkCPX">中文（繁體）</a><br><a class="hover-link" style="color:#333; line-height:18px; position:relative !important; padding:8px !important; -webkit-border-radius:4px !important; -moz-border-radius:4px !important; -o-border-radius:4px !important; border-radius:4px !important; text-decoration:none !important; font-family:helvetica, arial, sans-serif !important; font-size:12px !important; font-weight: bold !important;" rel="nofollow" title="Hrvatski" href="http://translate.google.com/translate?hl=auto&langpair=auto|hr&u=http%3A%2F%2Feepurl.com%2FgkCPX">Hrvatski</a><br><a class="hover-link" style="color:#333; line-height:18px; position:relative !important; padding:8px !important; -webkit-border-radius:4px !important; -moz-border-radius:4px !important; -o-border-radius:4px !important; border-radius:4px !important; text-decoration:none !important; font-family:helvetica, arial, sans-serif !important; font-size:12px !important; font-weight: bold !important;" rel="nofollow" title="Česky" href="http://translate.google.com/translate?hl=auto&langpair=auto|cs&u=http%3A%2F%2Feepurl.com%2FgkCPX">Česky</a><br><a class="hover-link" style="color:#333; line-height:18px; position:relative !important; padding:8px !important; -webkit-border-radius:4px !important; -moz-border-radius:4px !important; -o-border-radius:4px !important; border-radius:4px !important; text-decoration:none !important; font-family:helvetica, arial, sans-serif !important; font-size:12px !important; font-weight: bold !important;" rel="nofollow" title="Dansk" href="http://translate.google.com/translate?hl=auto&langpair=auto|da&u=http%3A%2F%2Feepurl.com%2FgkCPX">Dansk</a><br><a class="hover-link" style="color:#333; line-height:18px; position:relative !important; padding:8px !important; -webkit-border-radius:4px !important; -moz-border-radius:4px !important; -o-border-radius:4px !important; border-radius:4px !important; text-decoration:none !important; font-family:helvetica, arial, sans-serif !important; font-size:12px !important; font-weight: bold !important;" rel="nofollow" title="eesti&nbsp;keel" href="http://translate.google.com/translate?hl=auto&langpair=auto|et&u=http%3A%2F%2Feepurl.com%2FgkCPX">eesti&nbsp;keel</a><br><a class="hover-link" style="color:#333; line-height:18px; position:relative !important; padding:8px !important; -webkit-border-radius:4px !important; -moz-border-radius:4px !important; -o-border-radius:4px !important; border-radius:4px !important; text-decoration:none !important; font-family:helvetica, arial, sans-serif !important; font-size:12px !important; font-weight: bold !important;" rel="nofollow" title="Nederlands" href="http://translate.google.com/translate?hl=auto&langpair=auto|nl&u=http%3A%2F%2Feepurl.com%2FgkCPX">Nederlands</a><br><a class="hover-link" style="color:#333; line-height:18px; position:relative !important; padding:8px !important; -webkit-border-radius:4px !important; -moz-border-radius:4px !important; -o-border-radius:4px !important; border-radius:4px !important; text-decoration:none !important; font-family:helvetica, arial, sans-serif !important; font-size:12px !important; font-weight: bold !important;" rel="nofollow" title="Suomi" href="http://translate.google.com/translate?hl=auto&langpair=auto|fi&u=http%3A%2F%2Feepurl.com%2FgkCPX">Suomi</a><br><a class="hover-link" style="color:#333; line-height:18px; position:relative !important; padding:8px !important; -webkit-border-radius:4px !important; -moz-border-radius:4px !important; -o-border-radius:4px !important; border-radius:4px !important; text-decoration:none !important; font-family:helvetica, arial, sans-serif !important; font-size:12px !important; font-weight: bold !important;" rel="nofollow" title="Fran&ccedil;ais" href="http://translate.google.com/translate?hl=auto&langpair=auto|fr&u=http%3A%2F%2Feepurl.com%2FgkCPX">Fran&ccedil;ais</a><br><a class="hover-link" style="color:#333; line-height:18px; position:relative !important; padding:8px !important; -webkit-border-radius:4px !important; -moz-border-radius:4px !important; -o-border-radius:4px !important; border-radius:4px !important; text-decoration:none !important; font-family:helvetica, arial, sans-serif !important; font-size:12px !important; font-weight: bold !important;" rel="nofollow" title="Deutsch" href="http://translate.google.com/translate?hl=auto&langpair=auto|de&u=http%3A%2F%2Feepurl.com%2FgkCPX">Deutsch</a><br><a class="hover-link" style="color:#333; line-height:18px; position:relative !important; padding:8px !important; -webkit-border-radius:4px !important; -moz-border-radius:4px !important; -o-border-radius:4px !important; border-radius:4px !important; text-decoration:none !important; font-family:helvetica, arial, sans-serif !important; font-size:12px !important; font-weight: bold !important;" rel="nofollow" title="&Epsilon;&lambda;&lambda;&eta;&nu;&iota;&kappa;ή" href="http://translate.google.com/translate?hl=auto&langpair=auto|el&u=http%3A%2F%2Feepurl.com%2FgkCPX">&Epsilon;&lambda;&lambda;&eta;&nu;&iota;&kappa;ή</a><br><a class="hover-link" style="color:#333; line-height:18px; position:relative !important; padding:8px !important; -webkit-border-radius:4px !important; -moz-border-radius:4px !important; -o-border-radius:4px !important; border-radius:4px !important; text-decoration:none !important; font-family:helvetica, arial, sans-serif !important; font-size:12px !important; font-weight: bold !important;" rel="nofollow" title="हिन्दी" href="http://translate.google.com/translate?hl=auto&langpair=auto|hi&u=http%3A%2F%2Feepurl.com%2FgkCPX">हिन्दी</a><br><a class="hover-link" style="color:#333; line-height:18px; position:relative !important; padding:8px !important; -webkit-border-radius:4px !important; -moz-border-radius:4px !important; -o-border-radius:4px !important; border-radius:4px !important; text-decoration:none !important; font-family:helvetica, arial, sans-serif !important; font-size:12px !important; font-weight: bold !important;" rel="nofollow" title="Magyar" href="http://translate.google.com/translate?hl=auto&langpair=auto|hu&u=http%3A%2F%2Feepurl.com%2FgkCPX">Magyar</a><br><a class="hover-link" style="color:#333; line-height:18px; position:relative !important; padding:8px !important; -webkit-border-radius:4px !important; -moz-border-radius:4px !important; -o-border-radius:4px !important; border-radius:4px !important; text-decoration:none !important; font-family:helvetica, arial, sans-serif !important; font-size:12px !important; font-weight: bold !important;" rel="nofollow" title="Gaeilge" href="http://translate.google.com/translate?hl=auto&langpair=auto|ga&u=http%3A%2F%2Feepurl.com%2FgkCPX">Gaeilge</a><br><a class="hover-link" style="color:#333; line-height:18px; position:relative !important; padding:8px !important; -webkit-border-radius:4px !important; -moz-border-radius:4px !important; -o-border-radius:4px !important; border-radius:4px !important; text-decoration:none !important; font-family:helvetica, arial, sans-serif !important; font-size:12px !important; font-weight: bold !important;" rel="nofollow" title="Indonesia" href="http://translate.google.com/translate?hl=auto&langpair=auto|id&u=http%3A%2F%2Feepurl.com%2FgkCPX">Indonesia</a><br><a class="hover-link" style="color:#333; line-height:18px; position:relative !important; padding:8px !important; -webkit-border-radius:4px !important; -moz-border-radius:4px !important; -o-border-radius:4px !important; border-radius:4px !important; text-decoration:none !important; font-family:helvetica, arial, sans-serif !important; font-size:12px !important; font-weight: bold !important;" rel="nofollow" title="íslenska" href="http://translate.google.com/translate?hl=auto&langpair=auto|is&u=http%3A%2F%2Feepurl.com%2FgkCPX">íslenska</a><br><a class="hover-link" style="color:#333; line-height:18px; position:relative !important; padding:8px !important; -webkit-border-radius:4px !important; -moz-border-radius:4px !important; -o-border-radius:4px !important; border-radius:4px !important; text-decoration:none !important; font-family:helvetica, arial, sans-serif !important; font-size:12px !important; font-weight: bold !important;" rel="nofollow" title="Italiano" href="http://translate.google.com/translate?hl=auto&langpair=auto|it&u=http%3A%2F%2Feepurl.com%2FgkCPX">Italiano</a><br><a class="hover-link" style="color:#333; line-height:18px; position:relative !important; padding:8px !important; -webkit-border-radius:4px !important; -moz-border-radius:4px !important; -o-border-radius:4px !important; border-radius:4px !important; text-decoration:none !important; font-family:helvetica, arial, sans-serif !important; font-size:12px !important; font-weight: bold !important;" rel="nofollow" title="日本語" href="http://translate.google.com/translate?hl=auto&langpair=auto|ja&u=http%3A%2F%2Feepurl.com%2FgkCPX">日本語</a><br><a class="hover-link" style="color:#333; line-height:18px; position:relative !important; padding:8px !important; -webkit-border-radius:4px !important; -moz-border-radius:4px !important; -o-border-radius:4px !important; border-radius:4px !important; text-decoration:none !important; font-family:helvetica, arial, sans-serif !important; font-size:12px !important; font-weight: bold !important;" rel="nofollow" title="한국어" href="http://translate.google.com/translate?hl=auto&langpair=auto|ko&u=http%3A%2F%2Feepurl.com%2FgkCPX">한국어</a><br><a class="hover-link" style="color:#333; line-height:18px; position:relative !important; padding:8px !important; -webkit-border-radius:4px !important; -moz-border-radius:4px !important; -o-border-radius:4px !important; border-radius:4px !important; text-decoration:none !important; font-family:helvetica, arial, sans-serif !important; font-size:12px !important; font-weight: bold !important;" rel="nofollow" title="македонски&nbsp;јазик" href="http://translate.google.com/translate?hl=auto&langpair=auto|mk&u=http%3A%2F%2Feepurl.com%2FgkCPX">македонски&nbsp;јазик</a><br><a class="hover-link" style="color:#333; line-height:18px; position:relative !important; padding:8px !important; -webkit-border-radius:4px !important; -moz-border-radius:4px !important; -o-border-radius:4px !important; border-radius:4px !important; text-decoration:none !important; font-family:helvetica, arial, sans-serif !important; font-size:12px !important; font-weight: bold !important;" rel="nofollow" title="بهاس ملايو" href="http://translate.google.com/translate?hl=auto&langpair=auto|ms&u=http%3A%2F%2Feepurl.com%2FgkCPX">بهاس ملايو</a><br><a class="hover-link" style="color:#333; line-height:18px; position:relative !important; padding:8px !important; -webkit-border-radius:4px !important; -moz-border-radius:4px !important; -o-border-radius:4px !important; border-radius:4px !important; text-decoration:none !important; font-family:helvetica, arial, sans-serif !important; font-size:12px !important; font-weight: bold !important;" rel="nofollow" title="Malti" href="http://translate.google.com/translate?hl=auto&langpair=auto|mt&u=http%3A%2F%2Feepurl.com%2FgkCPX">Malti</a><br><a class="hover-link" style="color:#333; line-height:18px; position:relative !important; padding:8px !important; -webkit-border-radius:4px !important; -moz-border-radius:4px !important; -o-border-radius:4px !important; border-radius:4px !important; text-decoration:none !important; font-family:helvetica, arial, sans-serif !important; font-size:12px !important; font-weight: bold !important;" rel="nofollow" title="Norsk" href="http://translate.google.com/translate?hl=auto&langpair=auto|no&u=http%3A%2F%2Feepurl.com%2FgkCPX">Norsk</a><br><a class="hover-link" style="color:#333; line-height:18px; position:relative !important; padding:8px !important; -webkit-border-radius:4px !important; -moz-border-radius:4px !important; -o-border-radius:4px !important; border-radius:4px !important; text-decoration:none !important; font-family:helvetica, arial, sans-serif !important; font-size:12px !important; font-weight: bold !important;" rel="nofollow" title="Polski" href="http://translate.google.com/translate?hl=auto&langpair=auto|pl&u=http%3A%2F%2Feepurl.com%2FgkCPX">Polski</a><br><a class="hover-link" style="color:#333; line-height:18px; position:relative !important; padding:8px !important; -webkit-border-radius:4px !important; -moz-border-radius:4px !important; -o-border-radius:4px !important; border-radius:4px !important; text-decoration:none !important; font-family:helvetica, arial, sans-serif !important; font-size:12px !important; font-weight: bold !important;" rel="nofollow" title="Portugu&ecirc;s" href="http://translate.google.com/translate?hl=auto&langpair=auto|pt&u=http%3A%2F%2Feepurl.com%2FgkCPX">Portugu&ecirc;s</a><br><a class="hover-link" style="color:#333; line-height:18px; position:relative !important; padding:8px !important; -webkit-border-radius:4px !important; -moz-border-radius:4px !important; -o-border-radius:4px !important; border-radius:4px !important; text-decoration:none !important; font-family:helvetica, arial, sans-serif !important; font-size:12px !important; font-weight: bold !important;" rel="nofollow" title="Portugu&ecirc;s&nbsp;-&nbsp;Portugal" href="http://translate.google.com/translate?hl=auto&langpair=auto|pt-PT&u=http%3A%2F%2Feepurl.com%2FgkCPX">Portugu&ecirc;s&nbsp;-&nbsp;Portugal</a><br><a class="hover-link" style="color:#333; line-height:18px; position:relative !important; padding:8px !important; -webkit-border-radius:4px !important; -moz-border-radius:4px !important; -o-border-radius:4px !important; border-radius:4px !important; text-decoration:none !important; font-family:helvetica, arial, sans-serif !important; font-size:12px !important; font-weight: bold !important;" rel="nofollow" title="Rom&acirc;nă" href="http://translate.google.com/translate?hl=auto&langpair=auto|ro&u=http%3A%2F%2Feepurl.com%2FgkCPX">Rom&acirc;nă</a><br><a class="hover-link" style="color:#333; line-height:18px; position:relative !important; padding:8px !important; -webkit-border-radius:4px !important; -moz-border-radius:4px !important; -o-border-radius:4px !important; border-radius:4px !important; text-decoration:none !important; font-family:helvetica, arial, sans-serif !important; font-size:12px !important; font-weight: bold !important;" rel="nofollow" title="Русский" href="http://translate.google.com/translate?hl=auto&langpair=auto|ru&u=http%3A%2F%2Feepurl.com%2FgkCPX">Русский</a><br><a class="hover-link" style="color:#333; line-height:18px; position:relative !important; padding:8px !important; -webkit-border-radius:4px !important; -moz-border-radius:4px !important; -o-border-radius:4px !important; border-radius:4px !important; text-decoration:none !important; font-family:helvetica, arial, sans-serif !important; font-size:12px !important; font-weight: bold !important;" rel="nofollow" title="Espa&ntilde;ol" href="http://translate.google.com/translate?hl=auto&langpair=auto|es&u=http%3A%2F%2Feepurl.com%2FgkCPX">Espa&ntilde;ol</a><br><a class="hover-link" style="color:#333; line-height:18px; position:relative !important; padding:8px !important; -webkit-border-radius:4px !important; -moz-border-radius:4px !important; -o-border-radius:4px !important; border-radius:4px !important; text-decoration:none !important; font-family:helvetica, arial, sans-serif !important; font-size:12px !important; font-weight: bold !important;" rel="nofollow" title="Kiswahili" href="http://translate.google.com/translate?hl=auto&langpair=auto|sw&u=http%3A%2F%2Feepurl.com%2FgkCPX">Kiswahili</a><br><a class="hover-link" style="color:#333; line-height:18px; position:relative !important; padding:8px !important; -webkit-border-radius:4px !important; -moz-border-radius:4px !important; -o-border-radius:4px !important; border-radius:4px !important; text-decoration:none !important; font-family:helvetica, arial, sans-serif !important; font-size:12px !important; font-weight: bold !important;" rel="nofollow" title="Svenska" href="http://translate.google.com/translate?hl=auto&langpair=auto|sv&u=http%3A%2F%2Feepurl.com%2FgkCPX">Svenska</a><br><a class="hover-link" style="color:#333; line-height:18px; position:relative !important; padding:8px !important; -webkit-border-radius:4px !important; -moz-border-radius:4px !important; -o-border-radius:4px !important; border-radius:4px !important; text-decoration:none !important; font-family:helvetica, arial, sans-serif !important; font-size:12px !important; font-weight: bold !important;" rel="nofollow" title="עברית" href="http://translate.google.com/translate?hl=auto&langpair=auto|iw&u=http%3A%2F%2Feepurl.com%2FgkCPX">עברית</a><br><a class="hover-link" style="color:#333; line-height:18px; position:relative !important; padding:8px !important; -webkit-border-radius:4px !important; -moz-border-radius:4px !important; -o-border-radius:4px !important; border-radius:4px !important; text-decoration:none !important; font-family:helvetica, arial, sans-serif !important; font-size:12px !important; font-weight: bold !important;" rel="nofollow" title="Lietuvių" href="http://translate.google.com/translate?hl=auto&langpair=auto|lt&u=http%3A%2F%2Feepurl.com%2FgkCPX">Lietuvių</a><br><a class="hover-link" style="color:#333; line-height:18px; position:relative !important; padding:8px !important; -webkit-border-radius:4px !important; -moz-border-radius:4px !important; -o-border-radius:4px !important; border-radius:4px !important; text-decoration:none !important; font-family:helvetica, arial, sans-serif !important; font-size:12px !important; font-weight: bold !important;" rel="nofollow" title="latviešu" href="http://translate.google.com/translate?hl=auto&langpair=auto|lv&u=http%3A%2F%2Feepurl.com%2FgkCPX">latviešu</a><br><a class="hover-link" style="color:#333; line-height:18px; position:relative !important; padding:8px !important; -webkit-border-radius:4px !important; -moz-border-radius:4px !important; -o-border-radius:4px !important; border-radius:4px !important; text-decoration:none !important; font-family:helvetica, arial, sans-serif !important; font-size:12px !important; font-weight: bold !important;" rel="nofollow" title="slovenčina" href="http://translate.google.com/translate?hl=auto&langpair=auto|sk&u=http%3A%2F%2Feepurl.com%2FgkCPX">slovenčina</a><br><a class="hover-link" style="color:#333; line-height:18px; position:relative !important; padding:8px !important; -webkit-border-radius:4px !important; -moz-border-radius:4px !important; -o-border-radius:4px !important; border-radius:4px !important; text-decoration:none !important; font-family:helvetica, arial, sans-serif !important; font-size:12px !important; font-weight: bold !important;" rel="nofollow" title="slovenščina" href="http://translate.google.com/translate?hl=auto&langpair=auto|sl&u=http%3A%2F%2Feepurl.com%2FgkCPX">slovenščina</a><br><a class="hover-link" style="color:#333; line-height:18px; position:relative !important; padding:8px !important; -webkit-border-radius:4px !important; -moz-border-radius:4px !important; -o-border-radius:4px !important; border-radius:4px !important; text-decoration:none !important; font-family:helvetica, arial, sans-serif !important; font-size:12px !important; font-weight: bold !important;" rel="nofollow" title="српски" href="http://translate.google.com/translate?hl=auto&langpair=auto|sr&u=http%3A%2F%2Feepurl.com%2FgkCPX">српски</a><br><a class="hover-link" style="color:#333; line-height:18px; position:relative !important; padding:8px !important; -webkit-border-radius:4px !important; -moz-border-radius:4px !important; -o-border-radius:4px !important; border-radius:4px !important; text-decoration:none !important; font-family:helvetica, arial, sans-serif !important; font-size:12px !important; font-weight: bold !important;" rel="nofollow" title="ภาษาไทย" href="http://translate.google.com/translate?hl=auto&langpair=auto|th&u=http%3A%2F%2Feepurl.com%2FgkCPX">ภาษาไทย</a><br><a class="hover-link" style="color:#333; line-height:18px; position:relative !important; padding:8px !important; -webkit-border-radius:4px !important; -moz-border-radius:4px !important; -o-border-radius:4px !important; border-radius:4px !important; text-decoration:none !important; font-family:helvetica, arial, sans-serif !important; font-size:12px !important; font-weight: bold !important;" rel="nofollow" title="Türkçe" href="http://translate.google.com/translate?hl=auto&langpair=auto|tr&u=http%3A%2F%2Feepurl.com%2FgkCPX">Türkçe</a><br><a class="hover-link" style="color:#333; line-height:18px; position:relative !important; padding:8px !important; -webkit-border-radius:4px !important; -moz-border-radius:4px !important; -o-border-radius:4px !important; border-radius:4px !important; text-decoration:none !important; font-family:helvetica, arial, sans-serif !important; font-size:12px !important; font-weight: bold !important;" rel="nofollow" title="Filipino" href="http://translate.google.com/translate?hl=auto&langpair=auto|tl&u=http%3A%2F%2Feepurl.com%2FgkCPX">Filipino</a><br><a class="hover-link" style="color:#333; line-height:18px; position:relative !important; padding:8px !important; -webkit-border-radius:4px !important; -moz-border-radius:4px !important; -o-border-radius:4px !important; border-radius:4px !important; text-decoration:none !important; font-family:helvetica, arial, sans-serif !important; font-size:12px !important; font-weight: bold !important;" rel="nofollow" title="slovenčina" href="http://translate.google.com/translate?hl=auto&langpair=auto|uk&u=http%3A%2F%2Feepurl.com%2FgkCPX">slovenčina</a><br><a class="hover-link" style="color:#333; line-height:18px; position:relative !important; padding:8px !important; -webkit-border-radius:4px !important; -moz-border-radius:4px !important; -o-border-radius:4px !important; border-radius:4px !important; text-decoration:none !important; font-family:helvetica, arial, sans-serif !important; font-size:12px !important; font-weight: bold !important;" rel="nofollow" title="Tiếng&nbsp;Việt" href="http://translate.google.com/translate?hl=auto&langpair=auto|vi&u=http%3A%2F%2Feepurl.com%2FgkCPX">Tiếng&nbsp;Việt</a></div>
+    </td>
+	<td style="margin:0px !important;color:#111 !important;border:none !important;font-family:Helvetica,Arial,Sans !important;font-size:11px !important;font-weight:normal !important;font-style:normal !important;text-decoration:none !important;vertical-align:bottom !important;text-align:left !important">&nbsp;</td>
+    <td width="80" align="left" style="margin:0px !important;color:#111 !important;border:none !important;font-family:Helvetica,Arial,Sans !important;font-size:11px !important;font-weight:normal !important;font-style:normal !important;text-decoration:none !important;vertical-align:bottom !important;text-align:left !important;width:80px !important; min-width:80px; padding:15px 10px 8px 10px !important;">
+		<img src="http://cdn-images.mailchimp.com/googleicon.png" alt="facebook" style="float: left;margin:3px 5px 0 0;padding: 0;">
+        <a href="http://us2.campaign-archive1.com/?u=ea39d4a37ae3343c217eaadde&id=05650577aa&socialproxy=http%3A%2F%2Fus2.campaign-archive2.com%2Fsocial-proxy%2Fgoogle-plus-one%3Fu%3Dea39d4a37ae3343c217eaadde%26id%3D05650577aa%26url%3Dhttp%253A%252F%252Fus2.campaign-archive2.com%252F%253Fu%253Dea39d4a37ae3343c217eaadde%2526id%253D05650577aa%26title%3DMailChimp%2520Boot%2520Camp%2520-%2520no.10" class="twitter-share-button" rel="socialproxy" style="position: relative; display:block; float:left; padding: 8px 15px 8px 8px;-webkit-border-radius: 4px;-moz-border-radius: 4px;-o-border-radius: 4px;border-radius: 4px;text-decoration: none;font-family: helvetica, arial, sans-serif;font-size: 12px;font-weight: bold; background: #fff url(http://gallery.mailchimp.com/ac97c9129c6d84654f83eb4bc/images/light_btn_tile.png) repeat-x; border: 1px solid #c6c5c2;color: #333;text-shadow: 1px 1px 1px #ddd;margin-right: -5px;">+1 </a>
+    </td>
+    <td width="160" align="left" style="margin:0px !important;color:#111 !important;border:none !important;font-family:Helvetica,Arial,Sans !important;font-size:11px !important;font-weight:normal !important;font-style:normal !important;text-decoration:none !important;vertical-align:bottom !important;text-align:left !important;width:160px !important; min-width:160px; padding:15px 10px 8px 10px !important;">
+		<img src="http://gallery.mailchimp.com/ac97c9129c6d84654f83eb4bc/images/facebook.png" alt="facebook" style="float: left;margin:3px 5px 0 0;padding: 0;">
+    	<a rel="fblikebtn" href="#fbshare-campaign" title="Like MailChimp Boot Camp - no.10 on Facebook" style="position: relative; display:block; float:left; padding: 8px 15px 8px 8px; -webkit-border-radius: 4px 0 0 4px;-moz-border-radius: 4px 0 0 4px;-o-border-radius: 4px 0 0 4px;border-radius: 4px 0 0 4px;text-decoration: none;font-family: helvetica, arial, sans-serif;font-size: 12px;font-weight: bold;background: #fff url(http://gallery.mailchimp.com/ac97c9129c6d84654f83eb4bc/images/light_btn_tile.png) repeat-x;border: 1px solid #c6c5c2;color: #333;text-shadow: 1px 1px 1px #ddd;margin-right: -5px;">Like <span class="count" style="position: absolute;top: -13px;right: 2px;z-index: 100;padding: 2px 4px 1px 4px;min-width: 10px;text-align: center;line-height: 14px;background: #767676;color: #fff;border: 2px solid #fff;-moz-box-shadow: 2px 2px 3px #999;-webkit-box-shadow: 2px 2px 3px #999;box-shadow: 2px 2px 3px #999;-webkit-border-radius: 14px;-moz-border-radius: 14px;-o-border-radius: 14px;border-radius: 14px;text-shadow: 1px 1px 1px #666;font-size: 11px;background-clip: padding-box;">1</span></a>    <!--<td width="107" align="left" style="margin:0px !important;color:#111 !important;border:none !important;font-family:Helvetica,Arial,Sans !important;font-size:11px !important;font-weight:normal !important;font-style:normal !important;text-decoration:none !important;vertical-align:bottom !important;text-align:left !important;width:107 px !important;">-->
+    					
+				<a href="#fbcomments" rel="fbcommentbtn" style="position: relative; display:block; float:left; padding: 8px 15px 8px 8px;-webkit-border-radius: 0;-moz-border-radius: 0;-o-border-radius: 0;border-radius: 0;text-decoration: none;font-family: helvetica, arial, sans-serif;font-size: 12px;font-weight: bold;background: #fff url(http://gallery.mailchimp.com/ac97c9129c6d84654f83eb4bc/images/light_btn_tile.png) repeat-x;border: 1px solid #c6c5c2;color: #333;text-shadow: 1px 1px 1px #ddd;margin-right: -5px;">Comment <span class="count" style="position: absolute;top: -13px;right: 2;z-index: 100;padding: 2px 4px 1px 4px;min-width: 10px;text-align: center;line-height: 14px;background: #767676;color: #fff;border: 2px solid #fff;-moz-box-shadow: 2px 2px 3px #999;-webkit-box-shadow: 2px 2px 3px #999;box-shadow: 2px 2px 3px #999;-webkit-border-radius: 14px;-moz-border-radius: 14px;-o-border-radius: 14px;border-radius: 14px;text-shadow: 1px 1px 1px #666;font-size: 11px;background-clip: padding-box;">1</span></a>    </td>
+ 	<td width="85" align="left" style="margin:0px !important;color:#111 !important;border:none !important;font-family:Helvetica,Arial,Sans !important;font-size:11px !important;font-weight:normal !important;font-style:normal !important;text-decoration:none !important;vertical-align:bottom !important;text-align:left !important;width:85px !important; min-width:85px; padding:15px 25px 8px 10px !important;">
+		<img src="http://gallery.mailchimp.com/ac97c9129c6d84654f83eb4bc/images/twitter.png" alt="twitter" style="float: left;margin:3px 5px 0 0;padding: 0;">
+    	<a href="http://twitter.com/share?url=http%3A%2F%2Feepurl.com%2FgkCPX" class="twitter-share-button" data-url="http://eepurl.com/gkCPX" data-text="" data-count="" target="_blank" style="position: relative; display:block; float:left; padding: 8px 15px 8px 8px;-webkit-border-radius: 4px;-moz-border-radius: 4px;-o-border-radius: 4px;border-radius: 4px;text-decoration: none;font-family: helvetica, arial, sans-serif;font-size: 12px;font-weight: bold; background: #fff url(http://gallery.mailchimp.com/ac97c9129c6d84654f83eb4bc/images/light_btn_tile.png) repeat-x; border: 1px solid #c6c5c2;color: #333;text-shadow: 1px 1px 1px #ddd;margin-right: -5px;">Tweet <span style="position: absolute;top: -13px;right: -3px;z-index: 100;padding: 2px 4px 1px 4px;min-width: 10px;text-align: center;line-height: 14px;background: #767676;color: #fff;border: 2px solid #fff;-moz-box-shadow: 2px 2px 3px #999;-webkit-box-shadow: 2px 2px 3px #999;box-shadow: 2px 2px 3px #999;-webkit-border-radius: 14px;-moz-border-radius: 14px;-o-border-radius: 14px;border-radius: 14px;text-shadow: 1px 1px 1px #666;font-size: 11px;background-clip: padding-box;">2</span></a>
+    </td>
+</tr></table></div></div><div id="fb-root"></div>
+<!--  like element -->
+<div id="fbshare-campaign" style="display:none;"> <div id="fblike" style="display:block;"><h2 class="fbshare-header">Like 'MailChimp Boot Camp - no.10' on Facebook</h2> <div id="fb-loading"><img src="http://cdn-images.mailchimp.com/ajax_loader.gif" border="0"> Connecting to Facebook</div> <fb:like href="http://us2.campaign-archive2.com/?u=ea39d4a37ae3343c217eaadde&id=05650577aa&eo=beeffb08d4" layout="standard" show_faces="true" width="450" action="like" colorscheme="light"></fb:like> </div> </div>
+
+<!--  comments element -->
+<div id="fbcomments" style="display:none"> <div id="fbcomment" style="display:block;"> <div id="fb-comments-loading"><img src="http://cdn-images.mailchimp.com/ajax_loader.gif" border="0"> Connecting to Facebook</div> <div id="fb-comments-notes"></div> <div id="fb-comments-content"></div> </div> </div>
+<div id="fbsend" style="display:none;"> <div id="fbsend" style="display:block;"> <h2 class="fbshare-header">Share 'MailChimp Boot Camp - no.10' on Facebook</h2> <div id="fb-send-loading"><img src="http://cdn-images.mailchimp.com/ajax_loader.gif" border="0"> Connecting to Facebook</div> <div id="fb-send-notes"></div> </div> <div id="fb-send-content"></div> </div>
+
+    	<center>
+        	<table border="0" cellpadding="0" cellspacing="0" height="100%" width="100%" id="backgroundTable" style="margin: 0;padding: 0;background-color: #AAAAAA;height: 100% !important;width: 100% !important;">
+            	<tr>
+                	<td align="center" valign="top" style="border-collapse: collapse;">
+						<table border="0" cellpadding="0" cellspacing="0" width="600">
+                        	<tr>
+                                <!-- // BEGIN PREHEADER -->
+                            	<td align="center" valign="top" width="600" style="padding-top: 10px;padding-bottom: 20px;border-collapse: collapse;">
+                                    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                                        <tr>
+                                            <td align="left" valign="top" class="preheaderContent" style="border-collapse: collapse;color: #303030;font-family: Helvetica;font-size: 11px;line-height: 125%;">
+                                                MailChimp Boot Camp is here to make you a fine-tuned emailing machine.
+                                                <br>
+                                                Day 10: Never forget your survival gear. Use our resources.
+                                            </td>
+                                            <!--  -->
+                                        </tr>
+                                    </table>
+                                </td>
+                                <!-- END PREHEADER // -->
+                            </tr>
+                        	<tr>
+                                <!-- // BEGIN HEADER -->
+                            	<td align="center" valign="top" width="600" style="border-collapse: collapse;">
+                                    <table background="http://cdn-images.mailchimp.com/template_images/bootcamp_bg_camo.jpg" border="0" cellpadding="0" cellspacing="0" width="100%" id="templateHeader" style="background-color: #EFEFEF;background-image: url(http://cdn-images.mailchimp.com/template_images/bootcamp_bg_camo.jpg);background-position: left bottom;background-repeat: repeat;">
+                                        <tr>
+                                        	<td align="left" valign="top" width="500" style="padding-top: 0;padding-right: 0;padding-bottom: 20px;padding-left: 20px;border-collapse: collapse;">
+                                            	<table border="0" cellpadding="0" cellspacing="0" width="100%">
+                                                	<tr>
+                                                        <td align="left" valign="top" style="padding-top: 20px;padding-right: 20px;padding-bottom: 10px;border-collapse: collapse;">
+                                                        	<img src="http://cdn-images.mailchimp.com/template_images/bootcamp_mailchimp_logo.png" height="25" width="96" style="border: 0;height: auto;line-height: 100%;outline: none;text-decoration: none;">
+                                                        	<h1 style="display: block;font-family: Helvetica;font-weight: bold;line-height: 100%;font-size: 50px;letter-spacing: -3px;margin-top: 0;margin-right: 0;margin-bottom: 10px;margin-left: 0;text-align: left;color: #3F3F38 !important;">Boot Camp</h1>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            </td>
+                                            <td align="center" valign="top" width="60" style="padding-top: 0;padding-right: 20px;padding-bottom: 20px;padding-left: 20px;border-collapse: collapse;">
+                                            	<table border="0" cellpadding="0" cellspacing="0" id="issueRibbonContainer">
+                                                	<tr>
+                                                    	<td style="border-collapse: collapse;">
+                                                        	<table border="0" cellpadding="0" cellspacing="0" width="60" id="issueRibbon" style="background-color: #3F3F38;">
+                                                            	<tr>
+                                                                	<td align="center" valign="middle" style="padding-top: 10px;border-collapse: collapse;">
+                                                                    	<img src="http://cdn-images.mailchimp.com/template_images/bootcamp_no.png" height="10" width="16" style="border: 0;height: auto;line-height: 100%;outline: none;text-decoration: none;">
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td align="center" valign="middle" style="padding-top: 10px;border-collapse: collapse;">
+                                                                    	<h2 style="display: block;font-family: Helvetica;font-weight: bold;line-height: 100%;font-size: 25px;letter-spacing: normal;margin-top: 0;margin-right: 0;margin-bottom: 0;margin-left: 0;text-align: center;color: #FFFFFF !important;">10</h2>
+                                                                    </td>
+                                                                </tr>
+                                                            	<tr>
+                                                                	<td align="center" valign="middle" style="padding-top: 10px;border-collapse: collapse;">
+                                                                    	<img src="http://cdn-images.mailchimp.com/template_images/bootcamp_rank10.png" height="45" width="35" style="border: 0;height: auto;line-height: 100%;outline: none;text-decoration: none;">
+                                                                    </td>
+                                                                </tr>
+                                                            </table>
+                                                        </td>
+                                                    </tr>
+                                                	<tr>
+                                                        <td align="center" valign="middle" style="border-collapse: collapse;">
+                                                            <img src="http://cdn-images.mailchimp.com/template_images/bootcamp_ribbonend.png" style="display: block;border: 0;height: auto;line-height: 100%;outline: none;text-decoration: none;" height="12" width="60">
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                        	<td colspan="2" style="border-collapse: collapse;">
+                                            	<table border="0" cellpadding="0" cellspacing="0" width="100%" id="titleBar" style="background: rgba(0, 0, 0, 0.1);border-top: 1px solid #909090;border-bottom: 1px solid #909090;">
+                                                	<tr>
+                                                    	<td align="left" valign="middle" width="120" style="background-color: #3F3F38;border-collapse: collapse;">
+                                                        	<table border="0" cellpadding="0" cellspacing="0" width="120">
+                                                            	<tr>
+                                                                	<td align="center" valign="middle" style="background-color: #3F3F38;padding-top: 15px;padding-right: 10px;padding-left: 20px;padding-bottom: 10px;border-collapse: collapse;">
+			                                                        	<h2 style="display: block;font-family: Helvetica;font-weight: bold;line-height: 100%;font-size: 25px;letter-spacing: normal;margin-top: 0;margin-right: 0;margin-bottom: 0;margin-left: 0;text-align: center;color: #FFFFFF !important;">DAY 10</h2>
+                                                                    </td>
+                                                                </tr>
+                                                            </table>
+                                                        </td>
+                                                        <td align="left" valign="middle" width="12" style="border-collapse: collapse;">
+                                                            <img src="http://cdn-images.mailchimp.com/template_images/bootcamp_ribbonend_ccw.png" height="50" width="12" style="display: block;border: 0;height: auto;line-height: 100%;outline: none;text-decoration: none;">
+                                                        </td>
+                                                        <td align="left" valign="middle" style="padding-left: 20px;border-collapse: collapse;">
+                                                        	<h3 style="display: block;font-family: Helvetica;font-weight: bold;line-height: 100%;font-size: 17px;letter-spacing: -.5px;margin-top: 0;margin-right: 0;margin-bottom: 0;margin-left: 0;text-align: left;color: #202020 !important;">Never Forget Your Survival Gear</h3>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </td>
+                                <!-- END HEADER // -->
+                            </tr>
+                            <tr>
+                                <!-- // BEGIN BODY -->
+                                <td align="center" valign="top" width="600" style="border-collapse: collapse;">
+                                	<table border="0" cellpadding="20" cellspacing="0" width="100%" id="templateBody" style="background-color: #FFFFFF;">
+                                    	<tr>
+                                        	<td valign="top" class="bodyContent" style="padding-top: 40px;padding-bottom: 40px;border-collapse: collapse;color: #707070;font-family: Helvetica;font-size: 15px;letter-spacing: -.5px;line-height: 125%;">
+                                                <h4 style="display: block;font-family: Helvetica;font-weight: bold;line-height: 100%;font-size: 15px;letter-spacing: normal;margin-top: 0;margin-right: 0;margin-bottom: 0;margin-left: 0;text-align: left;color: #303030 !important;">Just because we're wrapping up MailChimp Boot Camp doesn't mean you can get all weak on us. Stay sharp out there with our free resources.</h4>
+                                                <br>
+                                                <br>
+                                                <h3 style="display: block;font-family: Helvetica;font-weight: bold;line-height: 100%;font-size: 17px;letter-spacing: -.5px;margin-top: 0;margin-right: 0;margin-bottom: 0;margin-left: 0;text-align: left;color: #202020 !important;">Email Marketing Guides</h3>
+                                                <br>
+                                                <a href="http://mailchimp.com/resources/" target="_blank" style="color: #E95C41;font-weight: bold;text-decoration: none;"><img src="http://gallery.mailchimp.com/27aac8a65e64c994c4416d6b8/images/no10_guides.jpg" height="200" width="560" style="display: block;border: 0;height: auto;line-height: 100%;outline: none;text-decoration: none;"></a>
+                                                <br>
+                                                There are hundreds of pages of exhaustive info within our free guides. You can <a href="http://mailchimp.com/resources/" target="_blank" style="color: #E95C41;font-weight: bold;text-decoration: none;">download guides</a> on topics like Common Rookie Mistakes, MailChimp for Musicians, Understanding Reports and How to Use Merge Tags.
+                                                <br>
+                                                <br>
+                                                <br>
+                                                <h3 style="display: block;font-family: Helvetica;font-weight: bold;line-height: 100%;font-size: 17px;letter-spacing: -.5px;margin-top: 0;margin-right: 0;margin-bottom: 0;margin-left: 0;text-align: left;color: #202020 !important;">MailChimp Blog</h3>
+                                                <br>
+                                                <a href="http://blog.mailchimp.com/" target="_blank" style="color: #E95C41;font-weight: bold;text-decoration: none;"><img src="http://gallery.mailchimp.com/27aac8a65e64c994c4416d6b8/images/no10_blog.jpg" height="200" width="560" style="display: block;border: 0;height: auto;line-height: 100%;outline: none;text-decoration: none;"></a>
+                                                <br>
+                                                The <a href="http://blog.mailchimp.com/" target="_blank" style="color: #E95C41;font-weight: bold;text-decoration: none;">MailChimp blog</a> is regularly updated with industry info and insight into what's going on at MailChimp HQ and you can educate yourself through <a href="http://www.mailchimp.com/resources/academy/" target="_blank" style="color: #E95C41;font-weight: bold;text-decoration: none;">MailChimp Academy</a>, which contains videos that cover various features and aspects of email marketing.
+                                                <br>
+                                                <br>
+                                                <br>
+                                                <h3 style="display: block;font-family: Helvetica;font-weight: bold;line-height: 100%;font-size: 17px;letter-spacing: -.5px;margin-top: 0;margin-right: 0;margin-bottom: 0;margin-left: 0;text-align: left;color: #202020 !important;">Free Online Training</h3>
+                                                <br>
+                                                <a href="http://www.mailchimp.com/support/online-training/" target="_blank" style="color: #E95C41;font-weight: bold;text-decoration: none;"><img src="http://gallery.mailchimp.com/27aac8a65e64c994c4416d6b8/images/no10_webinar.jpg" height="200" width="560" style="display: block;border: 0;height: auto;line-height: 100%;outline: none;text-decoration: none;"></a>
+                                                <br>
+                                                Brush up on your basic skills by attending a live <a href="http://www.mailchimp.com/support/online-training/" target="_blank" style="color: #E95C41;font-weight: bold;text-decoration: none;">MailChimp Webinar</a>, where you can sit in on Getting Started classes, or learn a new skill in one of the Special Topics sessions. And if you need to bring in a special team for a tricky mission, we have <a href="http://mailchimp.com/resources/experts/" target="_blank" style="color: #E95C41;font-weight: bold;text-decoration: none;">a list of Experts</a> who are proficient in all things MailChimp.
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                        	<td align="center" valign="top" style="padding-top: 0;border-collapse: collapse;">
+                                                <span style="color:#3F3F38; font-family:Helvetica; font-size:17px; font-weight:bold;">That's it, soldier! You made it through boot camp, and you're a stronger email marketer for it. Congratulations!</span><br><br><br><span style="color:#808080; font-family:Helvetica; font-size:11px; font-weight:bold;">Missed an issue of Boot Camp? You can find it in the <a href="http://campaigns.mailchimp.com/" target="_blank" style="color:#E95B40; text-decoration:none;">MailChimp Email Archives</a>.</span>
+                                                <br>
+                                                <br>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </td>
+                                <!-- END BODY // -->                            	
+                            </tr>
+                            <tr>
+                                <!-- // BEGIN FOOTER -->
+                                <td align="center" valign="top" width="600" style="padding-bottom: 40px;border-collapse: collapse;">
+                                	<table border="0" cellpadding="20" cellspacing="0" width="100%" id="templateFooter" style="background-color: #303030;">
+                                    	<tr>
+                                        	<td valign="top" class="footerContent" style="border-collapse: collapse;color: #EEEEEE;font-family: Helvetica;font-size: 11px;letter-spacing: -.5px;line-height: 125%;">
+                                                &copy; 2011 MailChimp. All Rights Reserved. <em style="color:#DDDDDD;">Love what you do.</em>
+                                                <br>
+                                                <strong>Mailing address:</strong> 512 Means St. &bull; Suite 404 &bull; Atlanta, GA 30318 USA
+                                                <br>
+                                                <a href="http://www.mailchimp.com/page/terms/" target="_blank" style="color: #AAAAAA;text-decoration: none;"><span style="color:#AAA;">terms of use</span></a> | <a href="http://www.mailchimp.com/page/privacy/" target="_blank" style="color: #AAA;text-decoration: none;"><span style="color:#AAA;">privacy policy</span></a> | <a href="https://login.mailchimp.com/" target="_blank" style="color: #AAA;text-decoration: none;"><span style="color:#AAA;">login to MailChimp</span></a>
+                                            </td>
+                                            <td align="center" valign="middle" style="border-collapse: collapse;">
+                                            	<table border="0" cellpadding="0" cellspacing="0" id="unsubscribeButton" style="background-color: #808080;border-top: 1px solid #AAAAAA;border-right: 1px solid #404040;border-bottom: 1px solid #404040;border-left: 1px solid #AAAAAA;border-radius: 5px;">
+                                                	<tr>
+                                                    	<td align="center" valign="middle" id="unsubscribeButtonContent" style="padding-top: 10px;padding-right: 15px;padding-bottom: 10px;padding-left: 15px;border-collapse: collapse;color: #FFFFFF;font-family: Helvetica;font-size: 13px;font-weight: bold;text-decoration: none;">
+                                                        	<a href="http://mailchimp.us2.list-manage.com/unsubscribe?u=ea39d4a37ae3343c217eaadde&id=4753c69b32&e=[UNIQID]&c=05650577aa" target="_blank" style="color: #FFFFFF;font-family: Helvetica;font-size: 13px;font-weight: bold;text-decoration: none;"><span style="color:#FFFFFF;">unsubscribe</span></a>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </td>
+                                <!-- END FOOTER // -->                            	
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+            </table>
+        </center>
+    </body>
+</html><script type="text/javascript">
+        var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+        document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+        </script>
+        <script type="text/javascript">
+        try {
+            var pageTracker = _gat._getTracker("UA-329148-12");
+            pageTracker._trackPageview();
+        } catch(err) {}</script>
+              <script type="text/javascript">
+    $(document).ready(function() {
+        $('a[rel=socialproxy]').each(function(i) {
+            var href = $(this).attr('href');
+            var newHref = decodeURIComponent(href.match(/socialproxy=(.*)/)[1]);
+            $(this).attr('href', newHref);
+            $(this).fancyZoom({"zoom_id": "social-proxy","width":450, "height":200, "iframe_height": 200});
+        });
+    });
+</script>";s:7:"preview";s:67598:"
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns:fb="http://www.facebook.com/2008/fbml" xmlns:og="http://opengraph.org/schema/" xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <meta property="og:title" content="MailChimp Boot Camp - no.10"><meta property="fb:page_id" content="43929265776"><title>MailChimp Boot Camp - no.10</title>
+		
+    
+ 
+
+
+
+
+
+<style type="text/css">
+		#outlook a{
+			padding:0;
+		}
+		body{
+			width:100% !important;
+		}
+		.ReadMsgBody{
+			width:100%;
+		}
+		.ExternalClass{
+			width:100%;
+		}
+		body{
+			-webkit-text-size-adjust:none;
+		}
+		body{
+			margin:0;
+			padding:0;
+		}
+		img{
+			border:0;
+			height:auto;
+			line-height:100%;
+			outline:none;
+			text-decoration:none;
+		}
+		table td{
+			border-collapse:collapse;
+		}
+		#backgroundTable{
+			height:100% !important;
+			margin:0;
+			padding:0;
+			width:100% !important;
+		}
+		body,#backgroundTable{
+			background-color:#AAAAAA;
+		}
+		h1,h2,h3,h4{
+			display:block;
+			font-family:Helvetica;
+			font-weight:bold;
+			line-height:100%;
+		}
+		h1{
+			color:#3F3F38 !important;
+			font-size:50px;
+			font-weight:bold;
+			letter-spacing:-3px;
+			margin-top:0;
+			margin-right:0;
+			margin-bottom:10px;
+			margin-left:0;
+			text-align:left;
+		}
+		h2{
+			color:#FFFFFF !important;
+			font-size:25px;
+			font-weight:bold;
+			letter-spacing:normal;
+			margin-top:0;
+			margin-right:0;
+			margin-bottom:0;
+			margin-left:0;
+			text-align:center;
+		}
+		h3{
+			color:#202020 !important;
+			font-size:17px;
+			font-weight:bold;
+			letter-spacing:-.5px;
+			margin-top:0;
+			margin-right:0;
+			margin-bottom:0;
+			margin-left:0;
+			text-align:left;
+		}
+		h4{
+			color:#303030 !important;
+			font-size:15px;
+			font-weight:bold;
+			letter-spacing:normal;
+			margin-top:0;
+			margin-right:0;
+			margin-bottom:0;
+			margin-left:0;
+			text-align:left;
+		}
+		.preheaderContent{
+			color:#303030;
+			font-family:Helvetica;
+			font-size:11px;
+			line-height:125%;
+		}
+		.preheaderContent a:link,.preheaderContent a:visited{
+			color:#303030;
+		}
+		#templateHeader{
+			background-color:#EFEFEF;
+			background-image:url('http://cdn-images.mailchimp.com/template_images/bootcamp_bg_camo.jpg');
+			background-position:left bottom;
+			background-repeat:repeat;
+		}
+		.headerContent{
+			color:#202020;
+			font-family:Helvetica;
+			font-size:15px;
+			letter-spacing:-.7px;
+			line-height:125%;
+		}
+		#issueRibbon{
+			background-color:#3F3F38;
+		}
+		#titleBar{
+			background:rgba(0, 0, 0, 0.1);
+			border-top:1px solid #909090;
+			border-bottom:1px solid #909090;
+		}
+		#templateBody{
+			background-color:#FFFFFF;
+		}
+		.bodyContent{
+			color:#707070;
+			font-family:Helvetica;
+			font-size:15px;
+			letter-spacing:-.5px;
+			line-height:125%;
+		}
+		.bodyContent a:link,.bodyContent a:visited{
+			color:#E95C41;
+			font-weight:bold;
+			text-decoration:none;
+		}
+		#muscleUpBlock{
+			background-color:#EEEEEE;
+			border:1px solid #CCCCCC;
+		}
+		.muscleUpContent{
+			color:#505050;
+			font-family:Helvetica;
+			font-size:13px;
+			letter-spacing:-.5px;
+			line-height:125%;
+		}
+		.muscleUpContent a:link,.muscleUpContent a:visited{
+			color:#E95C41;
+			font-weight:bold;
+			text-decoration:none;
+		}
+		#templateFooter{
+			background-color:#303030;
+		}
+		.footerContent{
+			color:#EEEEEE;
+			font-family:Helvetica;
+			font-size:11px;
+			letter-spacing:-.5px;
+			line-height:125%;
+		}
+		.footerContent a:link,.footerContent a:visited{
+			color:#FFFFFF;
+			text-decoration:none;
+		}
+		#unsubscribeButton{
+			background-color:#808080;
+			border-top:1px solid #AAAAAA;
+			border-right:1px solid #404040;
+			border-bottom:1px solid #404040;
+			border-left:1px solid #AAAAAA;
+			border-radius:5px;
+		}
+		#unsubscribeButtonContent,#unsubscribeButtonContent a:link,#unsubscribeButtonContent a:visited{
+			color:#FFFFFF;
+			font-family:Helvetica;
+			font-size:13px;
+			font-weight:bold;
+			text-decoration:none;
+		}
+		#fblike{
+			min-width:450px;
+			max-width:450px;
+			margin:-10px -10px 10px -10px;
+			padding:10px;
+			border-top:20px solid #3B5998;
+			font-family:Helvetica,arial,sans-serif;
+			text-align:center;
+		}
+		#fbsend{
+			min-width:500px;
+			max-width:500px;
+			margin:-10px -10px 10px -10px;
+			padding:10px;
+			border-top:20px solid #3B5998;
+			font-family:Helvetica,arial,sans-serif;
+			text-align:center;
+		}
+		#fbcomment{
+			min-width:620px;
+			max-width:620px;
+			margin:-10px -10px 10px -10px;
+			padding:10px;
+			border-top:20px solid #3B5998;
+			font-family:Helvetica,arial,sans-serif;
+			text-align:center;
+		}
+		#fblike h2,#fbsend h2{
+			margin:15px 0;
+			color:#3B5998;
+		}
+		.fb_edge_widget_with_comment{
+			margin:10px 0 10px 10%;
+		}
+		.widget_button_count_left{
+			background:transparent url(http://cdn-images.mailchimp.com/fb/comment_start.png) no-repeat 0px 0px;
+			float:left;
+			height:15px;
+			left:2px;
+			position:relative;
+			top:3px;
+			width:5px;
+			z-index:2;
+		}
+		.widget_button_count{
+			color:#333;
+			background-color:#FEFEFE;
+			border-color:#C1C1C1;
+			border-style:solid;
+			border-width:1px;
+			float:left;
+			font-weight:bold;
+			height:15px;
+			margin-left:1px;
+			padding:1px 3px;
+			border-spacing:0px 0px;
+			border-collapse:collapse;
+			font-size:11px;
+			text-align:left;
+			font-family:'lucida grande', tahoma, verdana, arial, sans-serif;
+		}
+		#fb-comments-notes,#fb-send-notes{
+			padding:10px;
+			text-align:left;
+		}
+		#awesomebar img{
+			margin:0;
+			padding:0;
+		}
+		.hover-link:hover{
+			color:#666 !important;
+		}
+		body{
+			margin:0 !important;
+			padding:0 !important;
+		}
+</style></head>
+    <body leftmargin="0" marginwidth="0" topmargin="0" marginheight="0" offset="0" style="-webkit-text-size-adjust: none;margin: 0 !important;padding: 0 !important;background-color: #AAAAAA;width: 100% !important;"><div id="awesomebar" style="padding-bottom:60px; position:relative; z-index:999999;" class="notranslate"><div style="position:absolute; top:0; left:0;"><table width="100%" style="position:fixed; min-width:850px; clear:both; margin:0 !important; padding:0px !important; background:url(http://gallery.mailchimp.com/e709a491029b04e745834d34d/images/awesomebar_bg.png) !important; -moz-box-shadow:0 1px 10px #333; box-shadow:0 1px 10px #333; -webkit-box-shadow:0 1px 10px #333; -op-box-shadow:0 3px 3px #666;" cellpadding="8" cellspacing="0"><tr>
+    <td width="310" align="left" style="margin: 0px !important;color: #111 !important;border: none !important;font-family: Helvetica,Arial,Sans !important;font-size: 11px !important;font-weight: normal !important;font-style: normal !important;text-decoration: none !important;vertical-align: bottom !important;text-align: left !important;padding: 15px 10px 17px 25px !important;width: 310px !important;min-width: 310px;border-collapse: collapse;">
+        <a class="hover-btn-dark" href="http://eepurl.com/fE45w" style="position:relative !important; padding:8px !important; -webkit-border-radius:4px !important; -moz-border-radius:4px !important; -o-border-radius:4px !important; border-radius:4px !important; text-decoration:none !important; font-family:helvetica, arial, sans-serif !important; font-size:12px !important; font-weight: bold !important; margin-right: 10px !important; background: #333 url(http://gallery.mailchimp.com/ac97c9129c6d84654f83eb4bc/images/dark_btn_tile.png) repeat-x !important;border:1px solid #000 !important;color:#eee !important;text-shadow:1px 1px 1px #333 !important;">Subscribe to List</a>
+	     <a href="http://us2.campaign-archive2.com/home/?u=ea39d4a37ae3343c217eaadde&id=4753c69b32" style="position:relative !important; padding:8px !important; -webkit-border-radius:4px !important; -moz-border-radius:4px !important; -o-border-radius:4px !important; border-radius:4px !important; text-decoration:none !important; font-family:helvetica, arial, sans-serif !important; font-size:12px !important; font-weight: bold !important; background:#fff url(http://gallery.mailchimp.com/ac97c9129c6d84654f83eb4bc/images/light_btn_tile.png) repeat-x !important;border:1px solid #c6c5c2 !important;color:#333 !important;text-shadow:1px 1px 1px #ddd !important;margin-right:-5px !important;-webkit-border-radius:4px 0 0 4px !important; -moz-border-radius:4px 0 0 4px !important; -o-border-radius:4px 0 0 4px !important; border-radius:4px 0 0 4px !important;">View Past Issues</a><a href="http://us2.campaign-archive1.com/feed?u=ea39d4a37ae3343c217eaadde&id=4753c69b32" style="position:relative !important; padding:8px !important; -webkit-border-radius:4px !important; -moz-border-radius:4px !important; -o-border-radius:4px !important; border-radius:4px !important; text-decoration:none !important; font-family:helvetica, arial, sans-serif !important; font-size:12px !important; font-weight: bold !important; background: #fff url(http://gallery.mailchimp.com/ac97c9129c6d84654f83eb4bc/images/light_btn_tile.png) repeat-x !important;border: 1px solid #c6c5c2;color: #333 !important;text-shadow: 1px 1px 1px #ddd !important; background-color:#fff !important; background-image: url(http://gallery.mailchimp.com/ac97c9129c6d84654f83eb4bc/images/rss.png), url(http://gallery.mailchimp.com/ac97c9129c6d84654f83eb4bc/images/light_btn_tile.png) !important;background-position: 8px 6px, left center !important;background-repeat: no-repeat, repeat-x !important;padding-left: 28px !important;-webkit-border-radius:0 4px 4px 0 !important; -moz-border-radius:0 4px 4px 0 !important; -o-border-radius:0 4px 4px 0 !important; border-radius:0 4px 4px 0 !important;" title="subscribe to the email archive feed">RSS</a>
+    </td> 
+	<td width="100" align="left" style="margin: 0px !important;color: #111 !important;border: none !important;font-family: Helvetica,Arial,Sans !important;font-size: 11px !important;font-weight: normal !important;font-style: normal !important;text-decoration: none !important;vertical-align: bottom !important;text-align: left !important;width: 100px !important;min-width: 100px;position: relative !important;padding: 25px 10px 17px 0 !important;border-collapse: collapse;">
+    	<a href="#" style="position:relative !important; padding:8px !important; -webkit-border-radius:4px !important; -moz-border-radius:4px !important; -o-border-radius:4px !important; border-radius:4px !important; text-decoration:none !important; font-family:helvetica, arial, sans-serif !important; font-size:12px !important; font-weight: bold !important; background-color:#fff !important; background-image: url(http://gallery.mailchimp.com/ac97c9129c6d84654f83eb4bc/images/Navigation_down_16x16.png), url(http://gallery.mailchimp.com/ac97c9129c6d84654f83eb4bc/images/light_btn_tile.png) !important;background-position: 8px 6px, left center !important;background-repeat: no-repeat, repeat-x !important;padding-left: 28px !important;border: 1px solid #c6c5c2 !important;color: #333;text-shadow: 1px 1px 1px #ddd !important;">translate</a>
+    <div id="mc_translate_links" style="display: none;position:absolute !important;background-color:#fff !important; border:1px solid #ccc !important; padding:10px !important;max-height:700px;overflow-y:scroll;"><a class="hover-link" style="color:#333; line-height:18px; position:relative !important; padding:8px !important; -webkit-border-radius:4px !important; -moz-border-radius:4px !important; -o-border-radius:4px !important; border-radius:4px !important; text-decoration:none !important; font-family:helvetica, arial, sans-serif !important; font-size:12px !important; font-weight: bold !important;" rel="nofollow" title="English" href="http://translate.google.com/translate?hl=auto&langpair=auto|en&u=http%3A%2F%2Feepurl.com%2FgkCPX">English</a><br><a class="hover-link" style="color:#333; line-height:18px; position:relative !important; padding:8px !important; -webkit-border-radius:4px !important; -moz-border-radius:4px !important; -o-border-radius:4px !important; border-radius:4px !important; text-decoration:none !important; font-family:helvetica, arial, sans-serif !important; font-size:12px !important; font-weight: bold !important;" rel="nofollow" title="العربية" href="http://translate.google.com/translate?hl=auto&langpair=auto|ar&u=http%3A%2F%2Feepurl.com%2FgkCPX">العربية</a><br><a class="hover-link" style="color:#333; line-height:18px; position:relative !important; padding:8px !important; -webkit-border-radius:4px !important; -moz-border-radius:4px !important; -o-border-radius:4px !important; border-radius:4px !important; text-decoration:none !important; font-family:helvetica, arial, sans-serif !important; font-size:12px !important; font-weight: bold !important;" rel="nofollow" title="Afrikaans" href="http://translate.google.com/translate?hl=auto&langpair=auto|af&u=http%3A%2F%2Feepurl.com%2FgkCPX">Afrikaans</a><br><a class="hover-link" style="color:#333; line-height:18px; position:relative !important; padding:8px !important; -webkit-border-radius:4px !important; -moz-border-radius:4px !important; -o-border-radius:4px !important; border-radius:4px !important; text-decoration:none !important; font-family:helvetica, arial, sans-serif !important; font-size:12px !important; font-weight: bold !important;" rel="nofollow" title="беларуская мова" href="http://translate.google.com/translate?hl=auto&langpair=auto|be&u=http%3A%2F%2Feepurl.com%2FgkCPX">беларуская мова</a><br><a class="hover-link" style="color:#333; line-height:18px; position:relative !important; padding:8px !important; -webkit-border-radius:4px !important; -moz-border-radius:4px !important; -o-border-radius:4px !important; border-radius:4px !important; text-decoration:none !important; font-family:helvetica, arial, sans-serif !important; font-size:12px !important; font-weight: bold !important;" rel="nofollow" title="български" href="http://translate.google.com/translate?hl=auto&langpair=auto|bg&u=http%3A%2F%2Feepurl.com%2FgkCPX">български</a><br><a class="hover-link" style="color:#333; line-height:18px; position:relative !important; padding:8px !important; -webkit-border-radius:4px !important; -moz-border-radius:4px !important; -o-border-radius:4px !important; border-radius:4px !important; text-decoration:none !important; font-family:helvetica, arial, sans-serif !important; font-size:12px !important; font-weight: bold !important;" rel="nofollow" title="català" href="http://translate.google.com/translate?hl=auto&langpair=auto|ca&u=http%3A%2F%2Feepurl.com%2FgkCPX">català</a><br><a class="hover-link" style="color:#333; line-height:18px; position:relative !important; padding:8px !important; -webkit-border-radius:4px !important; -moz-border-radius:4px !important; -o-border-radius:4px !important; border-radius:4px !important; text-decoration:none !important; font-family:helvetica, arial, sans-serif !important; font-size:12px !important; font-weight: bold !important;" rel="nofollow" title="中文（简体）" href="http://translate.google.com/translate?hl=auto&langpair=auto|zh-CN&u=http%3A%2F%2Feepurl.com%2FgkCPX">中文（简体）</a><br><a class="hover-link" style="color:#333; line-height:18px; position:relative !important; padding:8px !important; -webkit-border-radius:4px !important; -moz-border-radius:4px !important; -o-border-radius:4px !important; border-radius:4px !important; text-decoration:none !important; font-family:helvetica, arial, sans-serif !important; font-size:12px !important; font-weight: bold !important;" rel="nofollow" title="中文（繁體）" href="http://translate.google.com/translate?hl=auto&langpair=auto|zh-TW&u=http%3A%2F%2Feepurl.com%2FgkCPX">中文（繁體）</a><br><a class="hover-link" style="color:#333; line-height:18px; position:relative !important; padding:8px !important; -webkit-border-radius:4px !important; -moz-border-radius:4px !important; -o-border-radius:4px !important; border-radius:4px !important; text-decoration:none !important; font-family:helvetica, arial, sans-serif !important; font-size:12px !important; font-weight: bold !important;" rel="nofollow" title="Hrvatski" href="http://translate.google.com/translate?hl=auto&langpair=auto|hr&u=http%3A%2F%2Feepurl.com%2FgkCPX">Hrvatski</a><br><a class="hover-link" style="color:#333; line-height:18px; position:relative !important; padding:8px !important; -webkit-border-radius:4px !important; -moz-border-radius:4px !important; -o-border-radius:4px !important; border-radius:4px !important; text-decoration:none !important; font-family:helvetica, arial, sans-serif !important; font-size:12px !important; font-weight: bold !important;" rel="nofollow" title="Česky" href="http://translate.google.com/translate?hl=auto&langpair=auto|cs&u=http%3A%2F%2Feepurl.com%2FgkCPX">Česky</a><br><a class="hover-link" style="color:#333; line-height:18px; position:relative !important; padding:8px !important; -webkit-border-radius:4px !important; -moz-border-radius:4px !important; -o-border-radius:4px !important; border-radius:4px !important; text-decoration:none !important; font-family:helvetica, arial, sans-serif !important; font-size:12px !important; font-weight: bold !important;" rel="nofollow" title="Dansk" href="http://translate.google.com/translate?hl=auto&langpair=auto|da&u=http%3A%2F%2Feepurl.com%2FgkCPX">Dansk</a><br><a class="hover-link" style="color:#333; line-height:18px; position:relative !important; padding:8px !important; -webkit-border-radius:4px !important; -moz-border-radius:4px !important; -o-border-radius:4px !important; border-radius:4px !important; text-decoration:none !important; font-family:helvetica, arial, sans-serif !important; font-size:12px !important; font-weight: bold !important;" rel="nofollow" title="eesti&nbsp;keel" href="http://translate.google.com/translate?hl=auto&langpair=auto|et&u=http%3A%2F%2Feepurl.com%2FgkCPX">eesti&nbsp;keel</a><br><a class="hover-link" style="color:#333; line-height:18px; position:relative !important; padding:8px !important; -webkit-border-radius:4px !important; -moz-border-radius:4px !important; -o-border-radius:4px !important; border-radius:4px !important; text-decoration:none !important; font-family:helvetica, arial, sans-serif !important; font-size:12px !important; font-weight: bold !important;" rel="nofollow" title="Nederlands" href="http://translate.google.com/translate?hl=auto&langpair=auto|nl&u=http%3A%2F%2Feepurl.com%2FgkCPX">Nederlands</a><br><a class="hover-link" style="color:#333; line-height:18px; position:relative !important; padding:8px !important; -webkit-border-radius:4px !important; -moz-border-radius:4px !important; -o-border-radius:4px !important; border-radius:4px !important; text-decoration:none !important; font-family:helvetica, arial, sans-serif !important; font-size:12px !important; font-weight: bold !important;" rel="nofollow" title="Suomi" href="http://translate.google.com/translate?hl=auto&langpair=auto|fi&u=http%3A%2F%2Feepurl.com%2FgkCPX">Suomi</a><br><a class="hover-link" style="color:#333; line-height:18px; position:relative !important; padding:8px !important; -webkit-border-radius:4px !important; -moz-border-radius:4px !important; -o-border-radius:4px !important; border-radius:4px !important; text-decoration:none !important; font-family:helvetica, arial, sans-serif !important; font-size:12px !important; font-weight: bold !important;" rel="nofollow" title="Fran&ccedil;ais" href="http://translate.google.com/translate?hl=auto&langpair=auto|fr&u=http%3A%2F%2Feepurl.com%2FgkCPX">Fran&ccedil;ais</a><br><a class="hover-link" style="color:#333; line-height:18px; position:relative !important; padding:8px !important; -webkit-border-radius:4px !important; -moz-border-radius:4px !important; -o-border-radius:4px !important; border-radius:4px !important; text-decoration:none !important; font-family:helvetica, arial, sans-serif !important; font-size:12px !important; font-weight: bold !important;" rel="nofollow" title="Deutsch" href="http://translate.google.com/translate?hl=auto&langpair=auto|de&u=http%3A%2F%2Feepurl.com%2FgkCPX">Deutsch</a><br><a class="hover-link" style="color:#333; line-height:18px; position:relative !important; padding:8px !important; -webkit-border-radius:4px !important; -moz-border-radius:4px !important; -o-border-radius:4px !important; border-radius:4px !important; text-decoration:none !important; font-family:helvetica, arial, sans-serif !important; font-size:12px !important; font-weight: bold !important;" rel="nofollow" title="&Epsilon;&lambda;&lambda;&eta;&nu;&iota;&kappa;ή" href="http://translate.google.com/translate?hl=auto&langpair=auto|el&u=http%3A%2F%2Feepurl.com%2FgkCPX">&Epsilon;&lambda;&lambda;&eta;&nu;&iota;&kappa;ή</a><br><a class="hover-link" style="color:#333; line-height:18px; position:relative !important; padding:8px !important; -webkit-border-radius:4px !important; -moz-border-radius:4px !important; -o-border-radius:4px !important; border-radius:4px !important; text-decoration:none !important; font-family:helvetica, arial, sans-serif !important; font-size:12px !important; font-weight: bold !important;" rel="nofollow" title="हिन्दी" href="http://translate.google.com/translate?hl=auto&langpair=auto|hi&u=http%3A%2F%2Feepurl.com%2FgkCPX">हिन्दी</a><br><a class="hover-link" style="color:#333; line-height:18px; position:relative !important; padding:8px !important; -webkit-border-radius:4px !important; -moz-border-radius:4px !important; -o-border-radius:4px !important; border-radius:4px !important; text-decoration:none !important; font-family:helvetica, arial, sans-serif !important; font-size:12px !important; font-weight: bold !important;" rel="nofollow" title="Magyar" href="http://translate.google.com/translate?hl=auto&langpair=auto|hu&u=http%3A%2F%2Feepurl.com%2FgkCPX">Magyar</a><br><a class="hover-link" style="color:#333; line-height:18px; position:relative !important; padding:8px !important; -webkit-border-radius:4px !important; -moz-border-radius:4px !important; -o-border-radius:4px !important; border-radius:4px !important; text-decoration:none !important; font-family:helvetica, arial, sans-serif !important; font-size:12px !important; font-weight: bold !important;" rel="nofollow" title="Gaeilge" href="http://translate.google.com/translate?hl=auto&langpair=auto|ga&u=http%3A%2F%2Feepurl.com%2FgkCPX">Gaeilge</a><br><a class="hover-link" style="color:#333; line-height:18px; position:relative !important; padding:8px !important; -webkit-border-radius:4px !important; -moz-border-radius:4px !important; -o-border-radius:4px !important; border-radius:4px !important; text-decoration:none !important; font-family:helvetica, arial, sans-serif !important; font-size:12px !important; font-weight: bold !important;" rel="nofollow" title="Indonesia" href="http://translate.google.com/translate?hl=auto&langpair=auto|id&u=http%3A%2F%2Feepurl.com%2FgkCPX">Indonesia</a><br><a class="hover-link" style="color:#333; line-height:18px; position:relative !important; padding:8px !important; -webkit-border-radius:4px !important; -moz-border-radius:4px !important; -o-border-radius:4px !important; border-radius:4px !important; text-decoration:none !important; font-family:helvetica, arial, sans-serif !important; font-size:12px !important; font-weight: bold !important;" rel="nofollow" title="íslenska" href="http://translate.google.com/translate?hl=auto&langpair=auto|is&u=http%3A%2F%2Feepurl.com%2FgkCPX">íslenska</a><br><a class="hover-link" style="color:#333; line-height:18px; position:relative !important; padding:8px !important; -webkit-border-radius:4px !important; -moz-border-radius:4px !important; -o-border-radius:4px !important; border-radius:4px !important; text-decoration:none !important; font-family:helvetica, arial, sans-serif !important; font-size:12px !important; font-weight: bold !important;" rel="nofollow" title="Italiano" href="http://translate.google.com/translate?hl=auto&langpair=auto|it&u=http%3A%2F%2Feepurl.com%2FgkCPX">Italiano</a><br><a class="hover-link" style="color:#333; line-height:18px; position:relative !important; padding:8px !important; -webkit-border-radius:4px !important; -moz-border-radius:4px !important; -o-border-radius:4px !important; border-radius:4px !important; text-decoration:none !important; font-family:helvetica, arial, sans-serif !important; font-size:12px !important; font-weight: bold !important;" rel="nofollow" title="日本語" href="http://translate.google.com/translate?hl=auto&langpair=auto|ja&u=http%3A%2F%2Feepurl.com%2FgkCPX">日本語</a><br><a class="hover-link" style="color:#333; line-height:18px; position:relative !important; padding:8px !important; -webkit-border-radius:4px !important; -moz-border-radius:4px !important; -o-border-radius:4px !important; border-radius:4px !important; text-decoration:none !important; font-family:helvetica, arial, sans-serif !important; font-size:12px !important; font-weight: bold !important;" rel="nofollow" title="한국어" href="http://translate.google.com/translate?hl=auto&langpair=auto|ko&u=http%3A%2F%2Feepurl.com%2FgkCPX">한국어</a><br><a class="hover-link" style="color:#333; line-height:18px; position:relative !important; padding:8px !important; -webkit-border-radius:4px !important; -moz-border-radius:4px !important; -o-border-radius:4px !important; border-radius:4px !important; text-decoration:none !important; font-family:helvetica, arial, sans-serif !important; font-size:12px !important; font-weight: bold !important;" rel="nofollow" title="македонски&nbsp;јазик" href="http://translate.google.com/translate?hl=auto&langpair=auto|mk&u=http%3A%2F%2Feepurl.com%2FgkCPX">македонски&nbsp;јазик</a><br><a class="hover-link" style="color:#333; line-height:18px; position:relative !important; padding:8px !important; -webkit-border-radius:4px !important; -moz-border-radius:4px !important; -o-border-radius:4px !important; border-radius:4px !important; text-decoration:none !important; font-family:helvetica, arial, sans-serif !important; font-size:12px !important; font-weight: bold !important;" rel="nofollow" title="بهاس ملايو" href="http://translate.google.com/translate?hl=auto&langpair=auto|ms&u=http%3A%2F%2Feepurl.com%2FgkCPX">بهاس ملايو</a><br><a class="hover-link" style="color:#333; line-height:18px; position:relative !important; padding:8px !important; -webkit-border-radius:4px !important; -moz-border-radius:4px !important; -o-border-radius:4px !important; border-radius:4px !important; text-decoration:none !important; font-family:helvetica, arial, sans-serif !important; font-size:12px !important; font-weight: bold !important;" rel="nofollow" title="Malti" href="http://translate.google.com/translate?hl=auto&langpair=auto|mt&u=http%3A%2F%2Feepurl.com%2FgkCPX">Malti</a><br><a class="hover-link" style="color:#333; line-height:18px; position:relative !important; padding:8px !important; -webkit-border-radius:4px !important; -moz-border-radius:4px !important; -o-border-radius:4px !important; border-radius:4px !important; text-decoration:none !important; font-family:helvetica, arial, sans-serif !important; font-size:12px !important; font-weight: bold !important;" rel="nofollow" title="Norsk" href="http://translate.google.com/translate?hl=auto&langpair=auto|no&u=http%3A%2F%2Feepurl.com%2FgkCPX">Norsk</a><br><a class="hover-link" style="color:#333; line-height:18px; position:relative !important; padding:8px !important; -webkit-border-radius:4px !important; -moz-border-radius:4px !important; -o-border-radius:4px !important; border-radius:4px !important; text-decoration:none !important; font-family:helvetica, arial, sans-serif !important; font-size:12px !important; font-weight: bold !important;" rel="nofollow" title="Polski" href="http://translate.google.com/translate?hl=auto&langpair=auto|pl&u=http%3A%2F%2Feepurl.com%2FgkCPX">Polski</a><br><a class="hover-link" style="color:#333; line-height:18px; position:relative !important; padding:8px !important; -webkit-border-radius:4px !important; -moz-border-radius:4px !important; -o-border-radius:4px !important; border-radius:4px !important; text-decoration:none !important; font-family:helvetica, arial, sans-serif !important; font-size:12px !important; font-weight: bold !important;" rel="nofollow" title="Portugu&ecirc;s" href="http://translate.google.com/translate?hl=auto&langpair=auto|pt&u=http%3A%2F%2Feepurl.com%2FgkCPX">Portugu&ecirc;s</a><br><a class="hover-link" style="color:#333; line-height:18px; position:relative !important; padding:8px !important; -webkit-border-radius:4px !important; -moz-border-radius:4px !important; -o-border-radius:4px !important; border-radius:4px !important; text-decoration:none !important; font-family:helvetica, arial, sans-serif !important; font-size:12px !important; font-weight: bold !important;" rel="nofollow" title="Portugu&ecirc;s&nbsp;-&nbsp;Portugal" href="http://translate.google.com/translate?hl=auto&langpair=auto|pt-PT&u=http%3A%2F%2Feepurl.com%2FgkCPX">Portugu&ecirc;s&nbsp;-&nbsp;Portugal</a><br><a class="hover-link" style="color:#333; line-height:18px; position:relative !important; padding:8px !important; -webkit-border-radius:4px !important; -moz-border-radius:4px !important; -o-border-radius:4px !important; border-radius:4px !important; text-decoration:none !important; font-family:helvetica, arial, sans-serif !important; font-size:12px !important; font-weight: bold !important;" rel="nofollow" title="Rom&acirc;nă" href="http://translate.google.com/translate?hl=auto&langpair=auto|ro&u=http%3A%2F%2Feepurl.com%2FgkCPX">Rom&acirc;nă</a><br><a class="hover-link" style="color:#333; line-height:18px; position:relative !important; padding:8px !important; -webkit-border-radius:4px !important; -moz-border-radius:4px !important; -o-border-radius:4px !important; border-radius:4px !important; text-decoration:none !important; font-family:helvetica, arial, sans-serif !important; font-size:12px !important; font-weight: bold !important;" rel="nofollow" title="Русский" href="http://translate.google.com/translate?hl=auto&langpair=auto|ru&u=http%3A%2F%2Feepurl.com%2FgkCPX">Русский</a><br><a class="hover-link" style="color:#333; line-height:18px; position:relative !important; padding:8px !important; -webkit-border-radius:4px !important; -moz-border-radius:4px !important; -o-border-radius:4px !important; border-radius:4px !important; text-decoration:none !important; font-family:helvetica, arial, sans-serif !important; font-size:12px !important; font-weight: bold !important;" rel="nofollow" title="Espa&ntilde;ol" href="http://translate.google.com/translate?hl=auto&langpair=auto|es&u=http%3A%2F%2Feepurl.com%2FgkCPX">Espa&ntilde;ol</a><br><a class="hover-link" style="color:#333; line-height:18px; position:relative !important; padding:8px !important; -webkit-border-radius:4px !important; -moz-border-radius:4px !important; -o-border-radius:4px !important; border-radius:4px !important; text-decoration:none !important; font-family:helvetica, arial, sans-serif !important; font-size:12px !important; font-weight: bold !important;" rel="nofollow" title="Kiswahili" href="http://translate.google.com/translate?hl=auto&langpair=auto|sw&u=http%3A%2F%2Feepurl.com%2FgkCPX">Kiswahili</a><br><a class="hover-link" style="color:#333; line-height:18px; position:relative !important; padding:8px !important; -webkit-border-radius:4px !important; -moz-border-radius:4px !important; -o-border-radius:4px !important; border-radius:4px !important; text-decoration:none !important; font-family:helvetica, arial, sans-serif !important; font-size:12px !important; font-weight: bold !important;" rel="nofollow" title="Svenska" href="http://translate.google.com/translate?hl=auto&langpair=auto|sv&u=http%3A%2F%2Feepurl.com%2FgkCPX">Svenska</a><br><a class="hover-link" style="color:#333; line-height:18px; position:relative !important; padding:8px !important; -webkit-border-radius:4px !important; -moz-border-radius:4px !important; -o-border-radius:4px !important; border-radius:4px !important; text-decoration:none !important; font-family:helvetica, arial, sans-serif !important; font-size:12px !important; font-weight: bold !important;" rel="nofollow" title="עברית" href="http://translate.google.com/translate?hl=auto&langpair=auto|iw&u=http%3A%2F%2Feepurl.com%2FgkCPX">עברית</a><br><a class="hover-link" style="color:#333; line-height:18px; position:relative !important; padding:8px !important; -webkit-border-radius:4px !important; -moz-border-radius:4px !important; -o-border-radius:4px !important; border-radius:4px !important; text-decoration:none !important; font-family:helvetica, arial, sans-serif !important; font-size:12px !important; font-weight: bold !important;" rel="nofollow" title="Lietuvių" href="http://translate.google.com/translate?hl=auto&langpair=auto|lt&u=http%3A%2F%2Feepurl.com%2FgkCPX">Lietuvių</a><br><a class="hover-link" style="color:#333; line-height:18px; position:relative !important; padding:8px !important; -webkit-border-radius:4px !important; -moz-border-radius:4px !important; -o-border-radius:4px !important; border-radius:4px !important; text-decoration:none !important; font-family:helvetica, arial, sans-serif !important; font-size:12px !important; font-weight: bold !important;" rel="nofollow" title="latviešu" href="http://translate.google.com/translate?hl=auto&langpair=auto|lv&u=http%3A%2F%2Feepurl.com%2FgkCPX">latviešu</a><br><a class="hover-link" style="color:#333; line-height:18px; position:relative !important; padding:8px !important; -webkit-border-radius:4px !important; -moz-border-radius:4px !important; -o-border-radius:4px !important; border-radius:4px !important; text-decoration:none !important; font-family:helvetica, arial, sans-serif !important; font-size:12px !important; font-weight: bold !important;" rel="nofollow" title="slovenčina" href="http://translate.google.com/translate?hl=auto&langpair=auto|sk&u=http%3A%2F%2Feepurl.com%2FgkCPX">slovenčina</a><br><a class="hover-link" style="color:#333; line-height:18px; position:relative !important; padding:8px !important; -webkit-border-radius:4px !important; -moz-border-radius:4px !important; -o-border-radius:4px !important; border-radius:4px !important; text-decoration:none !important; font-family:helvetica, arial, sans-serif !important; font-size:12px !important; font-weight: bold !important;" rel="nofollow" title="slovenščina" href="http://translate.google.com/translate?hl=auto&langpair=auto|sl&u=http%3A%2F%2Feepurl.com%2FgkCPX">slovenščina</a><br><a class="hover-link" style="color:#333; line-height:18px; position:relative !important; padding:8px !important; -webkit-border-radius:4px !important; -moz-border-radius:4px !important; -o-border-radius:4px !important; border-radius:4px !important; text-decoration:none !important; font-family:helvetica, arial, sans-serif !important; font-size:12px !important; font-weight: bold !important;" rel="nofollow" title="српски" href="http://translate.google.com/translate?hl=auto&langpair=auto|sr&u=http%3A%2F%2Feepurl.com%2FgkCPX">српски</a><br><a class="hover-link" style="color:#333; line-height:18px; position:relative !important; padding:8px !important; -webkit-border-radius:4px !important; -moz-border-radius:4px !important; -o-border-radius:4px !important; border-radius:4px !important; text-decoration:none !important; font-family:helvetica, arial, sans-serif !important; font-size:12px !important; font-weight: bold !important;" rel="nofollow" title="ภาษาไทย" href="http://translate.google.com/translate?hl=auto&langpair=auto|th&u=http%3A%2F%2Feepurl.com%2FgkCPX">ภาษาไทย</a><br><a class="hover-link" style="color:#333; line-height:18px; position:relative !important; padding:8px !important; -webkit-border-radius:4px !important; -moz-border-radius:4px !important; -o-border-radius:4px !important; border-radius:4px !important; text-decoration:none !important; font-family:helvetica, arial, sans-serif !important; font-size:12px !important; font-weight: bold !important;" rel="nofollow" title="Türkçe" href="http://translate.google.com/translate?hl=auto&langpair=auto|tr&u=http%3A%2F%2Feepurl.com%2FgkCPX">Türkçe</a><br><a class="hover-link" style="color:#333; line-height:18px; position:relative !important; padding:8px !important; -webkit-border-radius:4px !important; -moz-border-radius:4px !important; -o-border-radius:4px !important; border-radius:4px !important; text-decoration:none !important; font-family:helvetica, arial, sans-serif !important; font-size:12px !important; font-weight: bold !important;" rel="nofollow" title="Filipino" href="http://translate.google.com/translate?hl=auto&langpair=auto|tl&u=http%3A%2F%2Feepurl.com%2FgkCPX">Filipino</a><br><a class="hover-link" style="color:#333; line-height:18px; position:relative !important; padding:8px !important; -webkit-border-radius:4px !important; -moz-border-radius:4px !important; -o-border-radius:4px !important; border-radius:4px !important; text-decoration:none !important; font-family:helvetica, arial, sans-serif !important; font-size:12px !important; font-weight: bold !important;" rel="nofollow" title="slovenčina" href="http://translate.google.com/translate?hl=auto&langpair=auto|uk&u=http%3A%2F%2Feepurl.com%2FgkCPX">slovenčina</a><br><a class="hover-link" style="color:#333; line-height:18px; position:relative !important; padding:8px !important; -webkit-border-radius:4px !important; -moz-border-radius:4px !important; -o-border-radius:4px !important; border-radius:4px !important; text-decoration:none !important; font-family:helvetica, arial, sans-serif !important; font-size:12px !important; font-weight: bold !important;" rel="nofollow" title="Tiếng&nbsp;Việt" href="http://translate.google.com/translate?hl=auto&langpair=auto|vi&u=http%3A%2F%2Feepurl.com%2FgkCPX">Tiếng&nbsp;Việt</a></div>
+    </td>
+	<td style="margin: 0px !important;color: #111 !important;border: none !important;font-family: Helvetica,Arial,Sans !important;font-size: 11px !important;font-weight: normal !important;font-style: normal !important;text-decoration: none !important;vertical-align: bottom !important;text-align: left !important;border-collapse: collapse;">&nbsp;</td>
+    <td width="80" align="left" style="margin: 0px !important;color: #111 !important;border: none !important;font-family: Helvetica,Arial,Sans !important;font-size: 11px !important;font-weight: normal !important;font-style: normal !important;text-decoration: none !important;vertical-align: bottom !important;text-align: left !important;width: 80px !important;min-width: 80px;padding: 15px 10px 8px 10px !important;border-collapse: collapse;">
+		<img src="http://cdn-images.mailchimp.com/googleicon.png" alt="facebook" style="float: left;margin: 3px 5px 0 0;padding: 0;border: 0;height: auto;line-height: 100%;outline: none;text-decoration: none;">
+        <a href="http://us2.campaign-archive1.com/?u=ea39d4a37ae3343c217eaadde&id=05650577aa&socialproxy=http%3A%2F%2Fus2.campaign-archive2.com%2Fsocial-proxy%2Fgoogle-plus-one%3Fu%3Dea39d4a37ae3343c217eaadde%26id%3D05650577aa%26url%3Dhttp%253A%252F%252Fus2.campaign-archive2.com%252F%253Fu%253Dea39d4a37ae3343c217eaadde%2526id%253D05650577aa%26title%3DMailChimp%2520Boot%2520Camp%2520-%2520no.10" class="twitter-share-button" rel="socialproxy" style="position: relative; display:block; float:left; padding: 8px 15px 8px 8px;-webkit-border-radius: 4px;-moz-border-radius: 4px;-o-border-radius: 4px;border-radius: 4px;text-decoration: none;font-family: helvetica, arial, sans-serif;font-size: 12px;font-weight: bold; background: #fff url(http://gallery.mailchimp.com/ac97c9129c6d84654f83eb4bc/images/light_btn_tile.png) repeat-x; border: 1px solid #c6c5c2;color: #333;text-shadow: 1px 1px 1px #ddd;margin-right: -5px;">+1 </a>
+    </td>
+    <td width="160" align="left" style="margin: 0px !important;color: #111 !important;border: none !important;font-family: Helvetica,Arial,Sans !important;font-size: 11px !important;font-weight: normal !important;font-style: normal !important;text-decoration: none !important;vertical-align: bottom !important;text-align: left !important;width: 160px !important;min-width: 160px;padding: 15px 10px 8px 10px !important;border-collapse: collapse;">
+		<img src="http://gallery.mailchimp.com/ac97c9129c6d84654f83eb4bc/images/facebook.png" alt="facebook" style="float: left;margin: 3px 5px 0 0;padding: 0;border: 0;height: auto;line-height: 100%;outline: none;text-decoration: none;">
+    	<a rel="fblikebtn" href="#fbshare-campaign" title="Like MailChimp Boot Camp - no.10 on Facebook" style="position: relative; display:block; float:left; padding: 8px 15px 8px 8px; -webkit-border-radius: 4px 0 0 4px;-moz-border-radius: 4px 0 0 4px;-o-border-radius: 4px 0 0 4px;border-radius: 4px 0 0 4px;text-decoration: none;font-family: helvetica, arial, sans-serif;font-size: 12px;font-weight: bold;background: #fff url(http://gallery.mailchimp.com/ac97c9129c6d84654f83eb4bc/images/light_btn_tile.png) repeat-x;border: 1px solid #c6c5c2;color: #333;text-shadow: 1px 1px 1px #ddd;margin-right: -5px;">Like <span class="count" style="position: absolute;top: -13px;right: 2px;z-index: 100;padding: 2px 4px 1px 4px;min-width: 10px;text-align: center;line-height: 14px;background: #767676;color: #fff;border: 2px solid #fff;-moz-box-shadow: 2px 2px 3px #999;-webkit-box-shadow: 2px 2px 3px #999;box-shadow: 2px 2px 3px #999;-webkit-border-radius: 14px;-moz-border-radius: 14px;-o-border-radius: 14px;border-radius: 14px;text-shadow: 1px 1px 1px #666;font-size: 11px;background-clip: padding-box;">1</span></a>    <!--<td width="107" align="left" style="margin:0px !important;color:#111 !important;border:none !important;font-family:Helvetica,Arial,Sans !important;font-size:11px !important;font-weight:normal !important;font-style:normal !important;text-decoration:none !important;vertical-align:bottom !important;text-align:left !important;width:107 px !important;">-->
+    					
+				<a href="#fbcomments" rel="fbcommentbtn" style="position: relative; display:block; float:left; padding: 8px 15px 8px 8px;-webkit-border-radius: 0;-moz-border-radius: 0;-o-border-radius: 0;border-radius: 0;text-decoration: none;font-family: helvetica, arial, sans-serif;font-size: 12px;font-weight: bold;background: #fff url(http://gallery.mailchimp.com/ac97c9129c6d84654f83eb4bc/images/light_btn_tile.png) repeat-x;border: 1px solid #c6c5c2;color: #333;text-shadow: 1px 1px 1px #ddd;margin-right: -5px;">Comment <span class="count" style="position: absolute;top: -13px;right: 2;z-index: 100;padding: 2px 4px 1px 4px;min-width: 10px;text-align: center;line-height: 14px;background: #767676;color: #fff;border: 2px solid #fff;-moz-box-shadow: 2px 2px 3px #999;-webkit-box-shadow: 2px 2px 3px #999;box-shadow: 2px 2px 3px #999;-webkit-border-radius: 14px;-moz-border-radius: 14px;-o-border-radius: 14px;border-radius: 14px;text-shadow: 1px 1px 1px #666;font-size: 11px;background-clip: padding-box;">1</span></a>    </td>
+ 	<td width="85" align="left" style="margin: 0px !important;color: #111 !important;border: none !important;font-family: Helvetica,Arial,Sans !important;font-size: 11px !important;font-weight: normal !important;font-style: normal !important;text-decoration: none !important;vertical-align: bottom !important;text-align: left !important;width: 85px !important;min-width: 85px;padding: 15px 25px 8px 10px !important;border-collapse: collapse;">
+		<img src="http://gallery.mailchimp.com/ac97c9129c6d84654f83eb4bc/images/twitter.png" alt="twitter" style="float: left;margin: 3px 5px 0 0;padding: 0;border: 0;height: auto;line-height: 100%;outline: none;text-decoration: none;">
+    	<a href="http://twitter.com/share?url=http%3A%2F%2Feepurl.com%2FgkCPX" class="twitter-share-button" data-url="http://eepurl.com/gkCPX" data-text="" data-count="" target="_blank" style="position: relative; display:block; float:left; padding: 8px 15px 8px 8px;-webkit-border-radius: 4px;-moz-border-radius: 4px;-o-border-radius: 4px;border-radius: 4px;text-decoration: none;font-family: helvetica, arial, sans-serif;font-size: 12px;font-weight: bold; background: #fff url(http://gallery.mailchimp.com/ac97c9129c6d84654f83eb4bc/images/light_btn_tile.png) repeat-x; border: 1px solid #c6c5c2;color: #333;text-shadow: 1px 1px 1px #ddd;margin-right: -5px;">Tweet <span style="position: absolute;top: -13px;right: -3px;z-index: 100;padding: 2px 4px 1px 4px;min-width: 10px;text-align: center;line-height: 14px;background: #767676;color: #fff;border: 2px solid #fff;-moz-box-shadow: 2px 2px 3px #999;-webkit-box-shadow: 2px 2px 3px #999;box-shadow: 2px 2px 3px #999;-webkit-border-radius: 14px;-moz-border-radius: 14px;-o-border-radius: 14px;border-radius: 14px;text-shadow: 1px 1px 1px #666;font-size: 11px;background-clip: padding-box;">2</span></a>
+    </td>
+</tr></table></div></div><div id="fb-root"></div>
+<!--  like element -->
+<div id="fbshare-campaign" style="display:none;"> <div id="fblike" style="display: block;min-width: 450px;max-width: 450px;margin: -10px -10px 10px -10px;padding: 10px;border-top: 20px solid #3B5998;font-family: Helvetica,arial,sans-serif;text-align: center;"><h2 class="fbshare-header" style="display: block;font-family: Helvetica;font-weight: bold;line-height: 100%;font-size: 25px;letter-spacing: normal;margin-top: 0;margin-right: 0;margin-bottom: 0;margin-left: 0;text-align: center;margin: 15px 0;color: #FFFFFF !important;">Like 'MailChimp Boot Camp - no.10' on Facebook</h2> <div id="fb-loading"><img src="http://cdn-images.mailchimp.com/ajax_loader.gif" border="0" style="border: 0;height: auto;line-height: 100%;outline: none;text-decoration: none;"> Connecting to Facebook</div> <fb:like href="http://us2.campaign-archive2.com/?u=ea39d4a37ae3343c217eaadde&id=05650577aa&eo=beeffb08d4" layout="standard" show_faces="true" width="450" action="like" colorscheme="light"></fb:like> </div> </div>
+
+<!--  comments element -->
+<div id="fbcomments" style="display:none"> <div id="fbcomment" style="display: block;min-width: 620px;max-width: 620px;margin: -10px -10px 10px -10px;padding: 10px;border-top: 20px solid #3B5998;font-family: Helvetica,arial,sans-serif;text-align: center;"> <div id="fb-comments-loading"><img src="http://cdn-images.mailchimp.com/ajax_loader.gif" border="0" style="border: 0;height: auto;line-height: 100%;outline: none;text-decoration: none;"> Connecting to Facebook</div> <div id="fb-comments-notes" style="padding: 10px;text-align: left;"></div> <div id="fb-comments-content"></div> </div> </div>
+<div id="fbsend" style="display: none;min-width: 500px;max-width: 500px;margin: -10px -10px 10px -10px;padding: 10px;border-top: 20px solid #3B5998;font-family: Helvetica,arial,sans-serif;text-align: center;"> <div id="fbsend" style="display: block;min-width: 500px;max-width: 500px;margin: -10px -10px 10px -10px;padding: 10px;border-top: 20px solid #3B5998;font-family: Helvetica,arial,sans-serif;text-align: center;"> <h2 class="fbshare-header" style="display: block;font-family: Helvetica;font-weight: bold;line-height: 100%;font-size: 25px;letter-spacing: normal;margin-top: 0;margin-right: 0;margin-bottom: 0;margin-left: 0;text-align: center;margin: 15px 0;color: #FFFFFF !important;">Share 'MailChimp Boot Camp - no.10' on Facebook</h2> <div id="fb-send-loading"><img src="http://cdn-images.mailchimp.com/ajax_loader.gif" border="0" style="border: 0;height: auto;line-height: 100%;outline: none;text-decoration: none;"> Connecting to Facebook</div> <div id="fb-send-notes" style="padding: 10px;text-align: left;"></div> </div> <div id="fb-send-content"></div> </div>
+
+    	<center>
+        	<table border="0" cellpadding="0" cellspacing="0" height="100%" width="100%" id="backgroundTable" style="margin: 0;padding: 0;background-color: #AAAAAA;height: 100% !important;width: 100% !important;">
+            	<tr>
+                	<td align="center" valign="top" style="border-collapse: collapse;">
+						<table border="0" cellpadding="0" cellspacing="0" width="600">
+                        	<tr>
+                                <!-- // BEGIN PREHEADER -->
+                            	<td align="center" valign="top" width="600" style="padding-top: 10px;padding-bottom: 20px;border-collapse: collapse;">
+                                    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                                        <tr>
+                                            <td align="left" valign="top" class="preheaderContent" style="border-collapse: collapse;color: #303030;font-family: Helvetica;font-size: 11px;line-height: 125%;">
+                                                MailChimp Boot Camp is here to make you a fine-tuned emailing machine.
+                                                <br>
+                                                Day 10: Never forget your survival gear. Use our resources.
+                                            </td>
+                                            <!--  -->
+                                        </tr>
+                                    </table>
+                                </td>
+                                <!-- END PREHEADER // -->
+                            </tr>
+                        	<tr>
+                                <!-- // BEGIN HEADER -->
+                            	<td align="center" valign="top" width="600" style="border-collapse: collapse;">
+                                    <table background="http://cdn-images.mailchimp.com/template_images/bootcamp_bg_camo.jpg" border="0" cellpadding="0" cellspacing="0" width="100%" id="templateHeader" style="background-color: #EFEFEF;background-image: url(http://cdn-images.mailchimp.com/template_images/bootcamp_bg_camo.jpg);background-position: left bottom;background-repeat: repeat;">
+                                        <tr>
+                                        	<td align="left" valign="top" width="500" style="padding-top: 0;padding-right: 0;padding-bottom: 20px;padding-left: 20px;border-collapse: collapse;">
+                                            	<table border="0" cellpadding="0" cellspacing="0" width="100%">
+                                                	<tr>
+                                                        <td align="left" valign="top" style="padding-top: 20px;padding-right: 20px;padding-bottom: 10px;border-collapse: collapse;">
+                                                        	<img src="http://cdn-images.mailchimp.com/template_images/bootcamp_mailchimp_logo.png" height="25" width="96" style="border: 0;height: auto;line-height: 100%;outline: none;text-decoration: none;">
+                                                        	<h1 style="display: block;font-family: Helvetica;font-weight: bold;line-height: 100%;font-size: 50px;letter-spacing: -3px;margin-top: 0;margin-right: 0;margin-bottom: 10px;margin-left: 0;text-align: left;color: #3F3F38 !important;">Boot Camp</h1>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            </td>
+                                            <td align="center" valign="top" width="60" style="padding-top: 0;padding-right: 20px;padding-bottom: 20px;padding-left: 20px;border-collapse: collapse;">
+                                            	<table border="0" cellpadding="0" cellspacing="0" id="issueRibbonContainer">
+                                                	<tr>
+                                                    	<td style="border-collapse: collapse;">
+                                                        	<table border="0" cellpadding="0" cellspacing="0" width="60" id="issueRibbon" style="background-color: #3F3F38;">
+                                                            	<tr>
+                                                                	<td align="center" valign="middle" style="padding-top: 10px;border-collapse: collapse;">
+                                                                    	<img src="http://cdn-images.mailchimp.com/template_images/bootcamp_no.png" height="10" width="16" style="border: 0;height: auto;line-height: 100%;outline: none;text-decoration: none;">
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td align="center" valign="middle" style="padding-top: 10px;border-collapse: collapse;">
+                                                                    	<h2 style="display: block;font-family: Helvetica;font-weight: bold;line-height: 100%;font-size: 25px;letter-spacing: normal;margin-top: 0;margin-right: 0;margin-bottom: 0;margin-left: 0;text-align: center;color: #FFFFFF !important;">10</h2>
+                                                                    </td>
+                                                                </tr>
+                                                            	<tr>
+                                                                	<td align="center" valign="middle" style="padding-top: 10px;border-collapse: collapse;">
+                                                                    	<img src="http://cdn-images.mailchimp.com/template_images/bootcamp_rank10.png" height="45" width="35" style="border: 0;height: auto;line-height: 100%;outline: none;text-decoration: none;">
+                                                                    </td>
+                                                                </tr>
+                                                            </table>
+                                                        </td>
+                                                    </tr>
+                                                	<tr>
+                                                        <td align="center" valign="middle" style="border-collapse: collapse;">
+                                                            <img src="http://cdn-images.mailchimp.com/template_images/bootcamp_ribbonend.png" style="display: block;border: 0;height: auto;line-height: 100%;outline: none;text-decoration: none;" height="12" width="60">
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                        	<td colspan="2" style="border-collapse: collapse;">
+                                            	<table border="0" cellpadding="0" cellspacing="0" width="100%" id="titleBar" style="background: rgba(0, 0, 0, 0.1);border-top: 1px solid #909090;border-bottom: 1px solid #909090;">
+                                                	<tr>
+                                                    	<td align="left" valign="middle" width="120" style="background-color: #3F3F38;border-collapse: collapse;">
+                                                        	<table border="0" cellpadding="0" cellspacing="0" width="120">
+                                                            	<tr>
+                                                                	<td align="center" valign="middle" style="background-color: #3F3F38;padding-top: 15px;padding-right: 10px;padding-left: 20px;padding-bottom: 10px;border-collapse: collapse;">
+			                                                        	<h2 style="display: block;font-family: Helvetica;font-weight: bold;line-height: 100%;font-size: 25px;letter-spacing: normal;margin-top: 0;margin-right: 0;margin-bottom: 0;margin-left: 0;text-align: center;color: #FFFFFF !important;">DAY 10</h2>
+                                                                    </td>
+                                                                </tr>
+                                                            </table>
+                                                        </td>
+                                                        <td align="left" valign="middle" width="12" style="border-collapse: collapse;">
+                                                            <img src="http://cdn-images.mailchimp.com/template_images/bootcamp_ribbonend_ccw.png" height="50" width="12" style="display: block;border: 0;height: auto;line-height: 100%;outline: none;text-decoration: none;">
+                                                        </td>
+                                                        <td align="left" valign="middle" style="padding-left: 20px;border-collapse: collapse;">
+                                                        	<h3 style="display: block;font-family: Helvetica;font-weight: bold;line-height: 100%;font-size: 17px;letter-spacing: -.5px;margin-top: 0;margin-right: 0;margin-bottom: 0;margin-left: 0;text-align: left;color: #202020 !important;">Never Forget Your Survival Gear</h3>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </td>
+                                <!-- END HEADER // -->
+                            </tr>
+                            <tr>
+                                <!-- // BEGIN BODY -->
+                                <td align="center" valign="top" width="600" style="border-collapse: collapse;">
+                                	<table border="0" cellpadding="20" cellspacing="0" width="100%" id="templateBody" style="background-color: #FFFFFF;">
+                                    	<tr>
+                                        	<td valign="top" class="bodyContent" style="padding-top: 40px;padding-bottom: 40px;border-collapse: collapse;color: #707070;font-family: Helvetica;font-size: 15px;letter-spacing: -.5px;line-height: 125%;">
+                                                <h4 style="display: block;font-family: Helvetica;font-weight: bold;line-height: 100%;font-size: 15px;letter-spacing: normal;margin-top: 0;margin-right: 0;margin-bottom: 0;margin-left: 0;text-align: left;color: #303030 !important;">Just because we're wrapping up MailChimp Boot Camp doesn't mean you can get all weak on us. Stay sharp out there with our free resources.</h4>
+                                                <br>
+                                                <br>
+                                                <h3 style="display: block;font-family: Helvetica;font-weight: bold;line-height: 100%;font-size: 17px;letter-spacing: -.5px;margin-top: 0;margin-right: 0;margin-bottom: 0;margin-left: 0;text-align: left;color: #202020 !important;">Email Marketing Guides</h3>
+                                                <br>
+                                                <a href="http://mailchimp.com/resources/" target="_blank" style="color: #E95C41;font-weight: bold;text-decoration: none;"><img src="http://gallery.mailchimp.com/27aac8a65e64c994c4416d6b8/images/no10_guides.jpg" height="200" width="560" style="display: block;border: 0;height: auto;line-height: 100%;outline: none;text-decoration: none;"></a>
+                                                <br>
+                                                There are hundreds of pages of exhaustive info within our free guides. You can <a href="http://mailchimp.com/resources/" target="_blank" style="color: #E95C41;font-weight: bold;text-decoration: none;">download guides</a> on topics like Common Rookie Mistakes, MailChimp for Musicians, Understanding Reports and How to Use Merge Tags.
+                                                <br>
+                                                <br>
+                                                <br>
+                                                <h3 style="display: block;font-family: Helvetica;font-weight: bold;line-height: 100%;font-size: 17px;letter-spacing: -.5px;margin-top: 0;margin-right: 0;margin-bottom: 0;margin-left: 0;text-align: left;color: #202020 !important;">MailChimp Blog</h3>
+                                                <br>
+                                                <a href="http://blog.mailchimp.com/" target="_blank" style="color: #E95C41;font-weight: bold;text-decoration: none;"><img src="http://gallery.mailchimp.com/27aac8a65e64c994c4416d6b8/images/no10_blog.jpg" height="200" width="560" style="display: block;border: 0;height: auto;line-height: 100%;outline: none;text-decoration: none;"></a>
+                                                <br>
+                                                The <a href="http://blog.mailchimp.com/" target="_blank" style="color: #E95C41;font-weight: bold;text-decoration: none;">MailChimp blog</a> is regularly updated with industry info and insight into what's going on at MailChimp HQ and you can educate yourself through <a href="http://www.mailchimp.com/resources/academy/" target="_blank" style="color: #E95C41;font-weight: bold;text-decoration: none;">MailChimp Academy</a>, which contains videos that cover various features and aspects of email marketing.
+                                                <br>
+                                                <br>
+                                                <br>
+                                                <h3 style="display: block;font-family: Helvetica;font-weight: bold;line-height: 100%;font-size: 17px;letter-spacing: -.5px;margin-top: 0;margin-right: 0;margin-bottom: 0;margin-left: 0;text-align: left;color: #202020 !important;">Free Online Training</h3>
+                                                <br>
+                                                <a href="http://www.mailchimp.com/support/online-training/" target="_blank" style="color: #E95C41;font-weight: bold;text-decoration: none;"><img src="http://gallery.mailchimp.com/27aac8a65e64c994c4416d6b8/images/no10_webinar.jpg" height="200" width="560" style="display: block;border: 0;height: auto;line-height: 100%;outline: none;text-decoration: none;"></a>
+                                                <br>
+                                                Brush up on your basic skills by attending a live <a href="http://www.mailchimp.com/support/online-training/" target="_blank" style="color: #E95C41;font-weight: bold;text-decoration: none;">MailChimp Webinar</a>, where you can sit in on Getting Started classes, or learn a new skill in one of the Special Topics sessions. And if you need to bring in a special team for a tricky mission, we have <a href="http://mailchimp.com/resources/experts/" target="_blank" style="color: #E95C41;font-weight: bold;text-decoration: none;">a list of Experts</a> who are proficient in all things MailChimp.
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                        	<td align="center" valign="top" style="padding-top: 0;border-collapse: collapse;">
+                                                <span style="color:#3F3F38; font-family:Helvetica; font-size:17px; font-weight:bold;">That's it, soldier! You made it through boot camp, and you're a stronger email marketer for it. Congratulations!</span><br><br><br><span style="color:#808080; font-family:Helvetica; font-size:11px; font-weight:bold;">Missed an issue of Boot Camp? You can find it in the <a href="http://campaigns.mailchimp.com/" target="_blank" style="color:#E95B40; text-decoration:none;">MailChimp Email Archives</a>.</span>
+                                                <br>
+                                                <br>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </td>
+                                <!-- END BODY // -->                            	
+                            </tr>
+                            <tr>
+                                <!-- // BEGIN FOOTER -->
+                                <td align="center" valign="top" width="600" style="padding-bottom: 40px;border-collapse: collapse;">
+                                	<table border="0" cellpadding="20" cellspacing="0" width="100%" id="templateFooter" style="background-color: #303030;">
+                                    	<tr>
+                                        	<td valign="top" class="footerContent" style="border-collapse: collapse;color: #EEEEEE;font-family: Helvetica;font-size: 11px;letter-spacing: -.5px;line-height: 125%;">
+                                                &copy; 2011 MailChimp. All Rights Reserved. <em style="color:#DDDDDD;">Love what you do.</em>
+                                                <br>
+                                                <strong>Mailing address:</strong> 512 Means St. &bull; Suite 404 &bull; Atlanta, GA 30318 USA
+                                                <br>
+                                                <a href="http://www.mailchimp.com/page/terms/" target="_blank" style="color: #AAAAAA;text-decoration: none;"><span style="color:#AAA;">terms of use</span></a> | <a href="http://www.mailchimp.com/page/privacy/" target="_blank" style="color: #AAA;text-decoration: none;"><span style="color:#AAA;">privacy policy</span></a> | <a href="https://login.mailchimp.com/" target="_blank" style="color: #AAA;text-decoration: none;"><span style="color:#AAA;">login to MailChimp</span></a>
+                                            </td>
+                                            <td align="center" valign="middle" style="border-collapse: collapse;">
+                                            	<table border="0" cellpadding="0" cellspacing="0" id="unsubscribeButton" style="background-color: #808080;border-top: 1px solid #AAAAAA;border-right: 1px solid #404040;border-bottom: 1px solid #404040;border-left: 1px solid #AAAAAA;border-radius: 5px;">
+                                                	<tr>
+                                                    	<td align="center" valign="middle" id="unsubscribeButtonContent" style="padding-top: 10px;padding-right: 15px;padding-bottom: 10px;padding-left: 15px;border-collapse: collapse;color: #FFFFFF;font-family: Helvetica;font-size: 13px;font-weight: bold;text-decoration: none;">
+                                                        	<a href="http://mailchimp.us2.list-manage.com/unsubscribe?u=ea39d4a37ae3343c217eaadde&id=4753c69b32&e=[UNIQID]&c=05650577aa" target="_blank" style="color: #FFFFFF;font-family: Helvetica;font-size: 13px;font-weight: bold;text-decoration: none;"><span style="color:#FFFFFF;">unsubscribe</span></a>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </td>
+                                <!-- END FOOTER // -->                            	
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+            </table>
+        </center>
+    </body>
+</html>
+        
+              ";}

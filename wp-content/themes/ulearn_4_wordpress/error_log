@@ -1,0 +1,4 @@
+[01-Sep-2011 22:57:45] PHP Fatal error:  Call to undefined function  get_header() in /home/dialogmi/public_html/blog/wp-content/themes/ulearn_4_wordpress/index.php on line 2
+[25-Oct-2011 03:17:28] PHP Fatal error:  Call to undefined function  get_header() in /home/dialogmi/public_html/blog/wp-content/themes/ulearn_4_wordpress/index.php on line 2
+[25-Apr-2012 15:14:56] PHP Fatal error:  Call to undefined function  get_header() in /home/dialogmi/public_html/blog/wp-content/themes/ulearn_4_wordpress/index.php on line 2
+[25-Apr-2012 15:15:01] PHP Fatal error:  Call to undefined function  get_header() in /home/dialogmi/public_html/blog/wp-content/themes/ulearn_4_wordpress/index.php on line 2
