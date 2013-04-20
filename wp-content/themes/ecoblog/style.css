@@ -9,7 +9,9 @@ Author URI: http://idesigneco.com
 
 Copyright 2010, idesigneco.com
 */
-
+#comment{
+width: 500px;
+}
 
 /* Base styles and main containers */
 body {

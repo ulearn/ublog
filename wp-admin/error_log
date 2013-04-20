@@ -602,3 +602,37 @@
 [18-Apr-2013 04:58:22 Europe/Dublin] PHP Fatal error:  Cannot redeclare class FlickrPress in /home/ulearn/public_html/blog/wp-content/plugins/wp-flickr-press/FlickrPress.php on line 23
 [18-Apr-2013 04:58:23 Europe/Dublin] PHP Fatal error:  Cannot redeclare class FlickrPress in /home/ulearn/public_html/blog/wp-content/plugins/wp-flickr-press/FlickrPress.php on line 23
 [18-Apr-2013 05:22:11 Europe/Dublin] PHP Warning:  extract() expects parameter 1 to be array, boolean given in /home/ulearn/public_html/blog/wp-content/plugins/flickr-to-wp/flickr-to-wp.php on line 674
+[18-Apr-2013 05:20:01 UTC] PHP Warning:  Invalid argument supplied for foreach() in /home/ulearn/public_html/blog/wp-content/plugins/sync-facebook-events/sync-facebook-events.php on line 271
+[18-Apr-2013 05:23:23 UTC] PHP Warning:  in_array() expects parameter 2 to be array, boolean given in /home/ulearn/public_html/blog/wp-content/plugins/sync-facebook-events/sync-facebook-events.php on line 224
+[18-Apr-2013 05:23:50 UTC] PHP Fatal error:  Uncaught Exception: 602: ULearnDublinEnglishSchool is not a member of the event_member table.
+  thrown in /home/ulearn/public_html/blog/wp-content/plugins/sync-facebook-events/facebook.php on line 515
+[18-Apr-2013 07:48:36 Europe/Dublin] Cannot read exif. exif_read_data not callable.
+[18-Apr-2013 07:48:37 Europe/Dublin] Cannot read exif. exif_read_data not callable.
+[18-Apr-2013 07:49:43 Europe/Dublin] Cannot read exif. exif_read_data not callable.
+[18-Apr-2013 07:49:43 Europe/Dublin] Cannot read exif. exif_read_data not callable.
+[18-Apr-2013 08:39:15 UTC] PHP Warning:  Invalid argument supplied for foreach() in /home/ulearn/public_html/blog/wp-content/plugins/google-analyticator/google-analytics-stats-widget.php on line 105
+[18-Apr-2013 08:39:15 UTC] PHP Warning:  Invalid argument supplied for foreach() in /home/ulearn/public_html/blog/wp-content/plugins/google-analyticator/google-analytics-stats-widget.php on line 105
+[18-Apr-2013 09:09:09 UTC] PHP Warning:  Invalid argument supplied for foreach() in /home/ulearn/public_html/blog/wp-content/plugins/google-analyticator/google-analytics-stats-widget.php on line 105
+[18-Apr-2013 09:09:09 UTC] PHP Warning:  Invalid argument supplied for foreach() in /home/ulearn/public_html/blog/wp-content/plugins/google-analyticator/google-analytics-stats-widget.php on line 105
+[18-Apr-2013 10:13:09 Europe/Dublin] PHP Warning:  Invalid argument supplied for foreach() in /home/ulearn/public_html/blog/wp-content/plugins/google-analyticator/google-analytics-stats-widget.php on line 105
+[18-Apr-2013 10:13:09 Europe/Dublin] PHP Warning:  Invalid argument supplied for foreach() in /home/ulearn/public_html/blog/wp-content/plugins/google-analyticator/google-analytics-stats-widget.php on line 105
+[18-Apr-2013 10:15:30 Europe/Dublin] PHP Warning:  Invalid argument supplied for foreach() in /home/ulearn/public_html/blog/wp-content/plugins/google-analyticator/google-analytics-stats-widget.php on line 105
+[18-Apr-2013 10:15:30 Europe/Dublin] PHP Warning:  Invalid argument supplied for foreach() in /home/ulearn/public_html/blog/wp-content/plugins/google-analyticator/google-analytics-stats-widget.php on line 105
+[18-Apr-2013 14:36:11 Europe/Madrid] PHP Warning:  Invalid argument supplied for foreach() in /home/ulearn/public_html/blog/wp-content/plugins/awesome-flickr-gallery-plugin/index.php on line 162
+[18-Apr-2013 14:36:12 Europe/Madrid] PHP Warning:  Invalid argument supplied for foreach() in /home/ulearn/public_html/blog/wp-content/plugins/awesome-flickr-gallery-plugin/index.php on line 162
+[18-Apr-2013 12:38:59 UTC] PHP Warning:  Invalid argument supplied for foreach() in /home/ulearn/public_html/blog/wp-content/plugins/awesome-flickr-gallery-plugin/edit_galleries.php on line 121
+[18-Apr-2013 12:40:22 UTC] PHP Warning:  Invalid argument supplied for foreach() in /home/ulearn/public_html/blog/wp-content/plugins/awesome-flickr-gallery-plugin/add_gallery.php on line 31
+[18-Apr-2013 12:48:43 UTC] Cannot read exif. exif_read_data not callable.
+[18-Apr-2013 12:48:43 UTC] Cannot read exif. exif_read_data not callable.
+[18-Apr-2013 12:48:52 UTC] Cannot read exif. exif_read_data not callable.
+[18-Apr-2013 12:48:52 UTC] Cannot read exif. exif_read_data not callable.
+[18-Apr-2013 12:49:43 UTC] Cannot read exif. exif_read_data not callable.
+[18-Apr-2013 12:49:43 UTC] Cannot read exif. exif_read_data not callable.
+[18-Apr-2013 12:56:00 UTC] PHP Warning:  Invalid argument supplied for foreach() in /home/ulearn/public_html/blog/wp-content/plugins/google-analyticator/google-analytics-stats-widget.php on line 105
+[18-Apr-2013 12:56:00 UTC] PHP Warning:  Invalid argument supplied for foreach() in /home/ulearn/public_html/blog/wp-content/plugins/google-analyticator/google-analytics-stats-widget.php on line 105
+[19-Apr-2013 04:31:28 Europe/Madrid] WordPress database error Got error 122 from storage engine for query SELECT t.*, tt.* FROM wp_terms AS t INNER JOIN wp_term_taxonomy AS tt ON tt.term_id = t.term_id INNER JOIN wp_term_relationships AS tr ON tr.term_taxonomy_id = tt.term_taxonomy_id WHERE tt.taxonomy IN ('post_tag') AND tr.object_id IN (560) ORDER BY t.name ASC made by wp_dashboard, do_meta_boxes, call_user_func, wp_dashboard_quick_press, get_tags_to_edit, get_terms_to_edit, wp_get_post_terms, wp_get_object_terms
+[19-Apr-2013 04:43:03 Europe/Madrid] WordPress database error Got error 122 from storage engine for query SELECT t.*, tt.* FROM wp_terms AS t INNER JOIN wp_term_taxonomy AS tt ON t.term_id = tt.term_id WHERE tt.taxonomy IN ('category') ORDER BY t.name ASC  made by include('wp-admin/edit-form-advanced.php'), do_meta_boxes, call_user_func, post_categories_meta_box, wp_terms_checklist, get_terms
+[19-Apr-2013 04:43:03 Europe/Madrid] WordPress database error Got error 122 from storage engine for query SELECT t.*, tt.* FROM wp_terms AS t INNER JOIN wp_term_taxonomy AS tt ON t.term_id = tt.term_id WHERE tt.taxonomy IN ('category') ORDER BY t.name ASC  made by include('wp-admin/edit-form-advanced.php'), do_meta_boxes, call_user_func, post_categories_meta_box, wp_dropdown_categories, get_terms
+[19-Apr-2013 04:43:03 Europe/Madrid] WordPress database error Got error 122 from storage engine for query SELECT t.*, tt.* FROM wp_terms AS t INNER JOIN wp_term_taxonomy AS tt ON tt.term_id = t.term_id INNER JOIN wp_term_relationships AS tr ON tr.term_taxonomy_id = tt.term_taxonomy_id WHERE tt.taxonomy IN ('post_tag') AND tr.object_id IN (677) ORDER BY t.name ASC made by include('wp-admin/edit-form-advanced.php'), do_meta_boxes, call_user_func, post_tags_meta_box, get_terms_to_edit, wp_get_post_terms, wp_get_object_terms
+[19-Apr-2013 04:43:57 Europe/Madrid] WordPress database error Got error 122 from storage engine for query SELECT t.*, tt.* FROM wp_terms AS t INNER JOIN wp_term_taxonomy AS tt ON tt.term_id = t.term_id INNER JOIN wp_term_relationships AS tr ON tr.term_taxonomy_id = tt.term_taxonomy_id WHERE tt.taxonomy IN ('category') AND tr.object_id IN (677) ORDER BY t.name ASC made by edit_post, wp_update_post, get_post, WP_Post->to_array, WP_Post->__get, get_the_terms, wp_get_object_terms
+[19-Apr-2013 04:43:57 Europe/Madrid] WordPress database error Got error 122 from storage engine for query SELECT t.*, tt.* FROM wp_terms AS t INNER JOIN wp_term_taxonomy AS tt ON tt.term_id = t.term_id INNER JOIN wp_term_relationships AS tr ON tr.term_taxonomy_id = tt.term_taxonomy_id WHERE tt.taxonomy IN ('post_tag') AND tr.object_id IN (677) ORDER BY t.name ASC made by e

@@ -9,7 +9,27 @@ Author URI: http://idesigneco.com
 
 Copyright 2010, idesigneco.com
 */
+.popover.ai1ec-popup .ai1ec-event-avatar.img {
+width: 100%;
+}
 
+.ai1ec-event-avatar.img {
+height: auto;
+display: block;
+min-height: 90px;
+width: auto;
+}
+
+.popover.ai1ec-popup .ai1ec-event-avatar {
+width: 100%;
+}
+
+.ai1ec-event-avatar {
+height: auto;
+display: block;
+min-height: 90px;
+width: auto;
+}
 
 /* Base styles and main containers */
 body {
