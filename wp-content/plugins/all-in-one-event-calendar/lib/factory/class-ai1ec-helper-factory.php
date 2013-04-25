@@ -23,6 +23,14 @@ class Ai1ec_Helper_Factory {
 	}
 
 	/**
+	 * @param string $modal_body
+	 * @return Ai1ec_Bootstrap_Modal
+	 */
+	public static function create_bootstrap_modal_instance( $modal_body ) {
+		return new Ai1ec_Bootstrap_Modal( $modal_body );
+	}
+
+	/**
 	 * @return Ai1ec_View_Helper
 	 */
 	public static function create_view_helper_instance() {

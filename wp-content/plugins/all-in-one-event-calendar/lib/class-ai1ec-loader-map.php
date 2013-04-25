@@ -15,6 +15,14 @@
       1 => AI1EC_PATH . DIRECTORY_SEPARATOR . 'lib' . DIRECTORY_SEPARATOR . 'plugin' . DIRECTORY_SEPARATOR . 'Ai1ecFacebookConnectorPlugin.php',
     ),
   ),
+  'Ai1ecFileUploadPlugin' => 
+  array (
+    0 => 
+    array (
+      0 => '0',
+      1 => AI1EC_PATH . DIRECTORY_SEPARATOR . 'lib' . DIRECTORY_SEPARATOR . 'plugin' . DIRECTORY_SEPARATOR . 'Ai1ecFileUploadPlugin.php',
+    ),
+  ),
   'Ai1ecIcsConnectorPlugin' => 
   array (
     0 => 
@@ -575,6 +583,14 @@
       1 => AI1EC_PATH . DIRECTORY_SEPARATOR . 'lib' . DIRECTORY_SEPARATOR . 'utility' . DIRECTORY_SEPARATOR . 'class-ai1ec-html-utility.php',
     ),
   ),
+  'Ai1ec_Http_Utility' => 
+  array (
+    0 => 
+    array (
+      0 => '0',
+      1 => AI1EC_PATH . DIRECTORY_SEPARATOR . 'lib' . DIRECTORY_SEPARATOR . 'utility' . DIRECTORY_SEPARATOR . 'class-ai1ec-http-utility.php',
+    ),
+  ),
   'Ai1ec_Importer' => 
   array (
     0 => 
@@ -1109,6 +1125,14 @@
     array (
       0 => '0',
       1 => AI1EC_PATH . DIRECTORY_SEPARATOR . 'lib' . DIRECTORY_SEPARATOR . 'plugin' . DIRECTORY_SEPARATOR . 'inc' . DIRECTORY_SEPARATOR . 'facebook' . DIRECTORY_SEPARATOR . 'interfaces' . DIRECTORY_SEPARATOR . 'class-query-events-strategy-interface.php',
+    ),
+  ),
+  'ReCaptchaResponse' => 
+  array (
+    0 => 
+    array (
+      0 => '0',
+      1 => AI1EC_PATH . DIRECTORY_SEPARATOR . 'lib' . DIRECTORY_SEPARATOR . 'recaptcha' . DIRECTORY_SEPARATOR . 'recaptchalib.php',
     ),
   ),
   'SG_iCal' => 

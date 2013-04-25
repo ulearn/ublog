@@ -52,7 +52,7 @@ class Ai1ec_Importer_Helper {
 	 * Return int: UNIX timestamp in GMT
 	 *
 	 * @param array  $time         iCalcreator time property array (*full* format expected)
-	 * @param string $def_timezone Default time zone in case not defined in $t
+	 * @param string $def_timezone Default time zone in case not defined in $time
 	 *
 	 * @return int UNIX timestamp
 	 **/
@@ -103,7 +103,7 @@ class Ai1ec_Importer_Helper {
 	 *
 	 * @return int Number of events imported
 	 */
-	public function parse_ics_feed( $feed, $content = false ) {
+	public function parse_ics_feed( &$feed, $content = false ) {
 		global $ai1ec_events_helper;
 
 		$count = 0;
@@ -197,13 +197,11 @@ class Ai1ec_Importer_Helper {
 
 		// Fetch default timezone in case individual properties don't define it
 		$timezone = $v->getProperty( 'X-WR-TIMEZONE' );
-		$timezone = $timezone[1];
-
+		$timezone = (string)$timezone[1];
 		// go over each event
 		while ( $e = $v->getComponent( 'vevent' ) ) {
 			// Event data array.
 			$data = array();
-
 			// =====================
 			// = Start & end times =
 			// =====================
@@ -249,7 +247,6 @@ class Ai1ec_Importer_Helper {
 				$allday = true;
 			}
 
-			// convert times to GMT UNIX timestamps
 			$start = $this->time_array_to_timestamp( $start, $timezone );
 			$end   = $this->time_array_to_timestamp( $end,   $timezone );
 

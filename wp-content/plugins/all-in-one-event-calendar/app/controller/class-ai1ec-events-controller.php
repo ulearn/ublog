@@ -443,7 +443,10 @@ class Ai1ec_Events_Controller {
 
 		// Strip slashes if ridiculous PHP setting magic_quotes_gpc is enabled.
 		foreach ( $_POST as $param_name => $param ) {
-			if ( 'ai1ec' === substr( $param_name, 0, 5 ) ) {
+			if (
+				'ai1ec' === substr( $param_name, 0, 5 ) &&
+				is_scalar( $param )
+			) {
 				$_POST[$param_name] = stripslashes( $param );
 			}
 		}

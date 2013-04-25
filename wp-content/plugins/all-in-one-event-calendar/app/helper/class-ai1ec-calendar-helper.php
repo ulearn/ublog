@@ -1357,7 +1357,7 @@ class Ai1ec_Calendar_Helper {
 			$values = array();
 			$options = $view_args;
 			if( $ai1ec_settings->$view_enabled ) {
-				if( $key === 'posterboard' || $key === 'agenda' ) {
+				if( $key === 'posterboard' || $key === 'agenda' || $key === 'stream' ) {
 					if( isset( $options['exact_date'] ) && ! isset( $options['time_limit'] ) ) {
 						$options['time_limit'] = $options['exact_date'];
 					}
@@ -1512,5 +1512,73 @@ class Ai1ec_Calendar_Helper {
 		);
 	}
 
+	/**
+	 * Returns HTML for front-end contribution buttons, including modal skeleton
+	 * for front-end forms if requested.
+	 *
+	 * @return string  HTML markup
+	 */
+	public function get_html_for_contribution_buttons() {
+		global $ai1ec_settings,
+		       $ai1ec_view_helper,
+		       $ai1ec_events_helper;
+
+		$modals = $create_event_url = '';
+
+		// ===================
+		// = Post Your Event =
+		// ===================
+		$show_post_your_event =
+			$ai1ec_settings->show_create_event_button &&
+			( current_user_can( 'edit_ai1ec_events' ) ||
+				$ai1ec_settings->allow_anonymous_submissions );
+		$show_front_end_create_form = $ai1ec_settings->show_front_end_create_form;
+
+		if ( $show_post_your_event ) {
+			// Show front-end creation button & modal skeleton.
+			if ( $show_front_end_create_form ) {
+				$modals .=
+					$ai1ec_view_helper->get_theme_view( 'create-event-modal.php' );
+			}
+			// Show button link to traditional back-end form.
+			else {
+				$create_event_url = esc_attr(
+					admin_url( 'post-new.php?post_type=' . AI1EC_POST_TYPE )
+				);
+			}
+		}
+
+		// ==========================
+		// = Add Your Calendar Feed =
+		// ==========================
+		$show_add_your_calendar = $ai1ec_settings->show_add_calendar_button;
+
+		if ( $show_add_your_calendar ) {
+			if ( ! is_user_logged_in() &&
+				$ai1ec_settings->recaptcha_key !== '' ) {
+				$recaptcha_key = $ai1ec_settings->recaptcha_public_key;
+			} else {
+				$recaptcha_key = false;
+			}
+			$modal_args = array(
+				"categories"    => $ai1ec_events_helper->get_html_for_category_selector(),
+				"recaptcha_key" => $recaptcha_key
+			);
+			$modals .= $ai1ec_view_helper->get_theme_view(
+				'submit-ics-modal.php', $modal_args
+			);
+		}
+
+		$args = array(
+			'show_post_your_event'       => $show_post_your_event,
+			'show_add_your_calendar'     => $show_add_your_calendar,
+			'show_front_end_create_form' => $show_front_end_create_form,
+			'modals'                     => $modals,
+			'create_event_url'           => $create_event_url,
+		);
+
+		return
+			$ai1ec_view_helper->get_theme_view( 'contribution-buttons.php', $args );
+	}
 }
 // END class

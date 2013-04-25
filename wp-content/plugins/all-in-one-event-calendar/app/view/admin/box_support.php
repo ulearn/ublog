@@ -1,5 +1,14 @@
+<h2 class="timely-logo"><a href="http://time.ly/" title="<?php esc_attr_e( 'Timely', AI1EC_PLUGIN_NAME ); ?>" target="_blank"></a></h2>
+
+<div class="timely-intro">
+	<h2>
+		<?php _e( 'Timely’s All-in-One Event Calendar is a<br />revolutionary new way to find and share events.', AI1EC_PLUGIN_NAME ); ?>
+	</h2>
+</div>
+
 <div class="ai1ec-support-placeholder"><span class="ai1ec-loader-icon-small"></span></div>
-<script src="<?php echo $support_box_js ?>"></script>
+<script src="<?php echo $license_status_url; ?>"></script>
+
 <div class="ai1ec-news">
 	<h2><?php _e( 'Timely News', AI1EC_PLUGIN_NAME ); ?> <small><a href="http://time.ly/blog" target="_blank"><?php _e( 'view all news', AI1EC_PLUGIN_NAME ); ?> <i class="icon-arrow-right"></i></a></small></h2>
 	<div>

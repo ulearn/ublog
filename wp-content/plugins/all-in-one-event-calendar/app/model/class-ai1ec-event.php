@@ -523,7 +523,7 @@ class Ai1ec_Event {
 	public function get_timespan_html( $start_date_display = 'long' ) {
 		global $ai1ec_events_helper;
 
-		// Makes no sense to hide start date for all-day events, so fix argument.
+		// Makes no sense to hide start date for all-day events, so fix argument
 		if ( 'hidden' === $start_date_display && $this->allday ) {
 			$start_date_display = 'short';
 		}
@@ -532,8 +532,8 @@ class Ai1ec_Event {
 		$start      = $ai1ec_events_helper->gmt_to_local( $this->start );
 		$end        = $ai1ec_events_helper->gmt_to_local( $this->end );
 
-		// All-day events need to have their end time shifted by 1 second less to
-		// land on the correct day.
+		// All-day events need to have their end time shifted by 1 second less
+		// to land on the correct day.
 		$end_offset = 0;
 		if ( $this->allday ) {
 			$end_offset = -1;
@@ -575,7 +575,7 @@ class Ai1ec_Event {
 
 		// Output start time for non-all-day events.
 		if ( ! $this->allday ) {
-			if ( $start_date_display !== 'hidden' ) {
+			if ( 'hidden' !== $start_date_display ) {
 				$output .= apply_filters(
 					'ai1ec_get_timespan_html_time_separator',
 					_x( ' @ ', 'Event time separator', AI1EC_PLUGIN_NAME )
@@ -586,8 +586,14 @@ class Ai1ec_Event {
 
 		$instant = $this->instant_event || $this->start == $this->end;
 
+		// Find out if we need to output the end time/date. Do not output it for
 		// instantaneous events and all-day events lasting only one day.
-		if ( ! ( $instant || ( $this->allday && $date_start === $date_end ) ) ) {
+		if (
+			! (
+				$instant ||
+				( $this->allday && $date_start === $date_end )
+			)
+		) {
 			$output .= apply_filters(
 				'ai1ec_get_timespan_html_date_separator',
 				_x( ' – ', 'Event start/end separator', AI1EC_PLUGIN_NAME )
@@ -595,8 +601,8 @@ class Ai1ec_Event {
 
 			// If event ends on a different day, output end date.
 			if ( $date_start !== $date_end ) {
-				// for short date, use short display, see AIOEC-987 in jira
-				if( 'short' === $start_date_display ) {
+				// for short date, use short display type
+				if ( 'short' === $start_date_display ) {
 					$output .= $this->get_short_end_date();
 				} else {
 					$output .= $this->get_long_end_date( $end_offset );
@@ -721,12 +727,8 @@ class Ai1ec_Event {
 
 	/**
 	 * Subtract 1 second so that all-day events' end date still
-	 * falls within the logical duration of days (since the end date
+	 * falls within the logical duration of days' (since the end date
 	 * is always midnight of the following day)
-	 *
-	 * @param int $adjust Time adjustment to apply on rendered date
-	 *
-	 * @return string Rendered date
 	 */
 	public function get_long_end_date( $adjust = 0 ) {
 		global $ai1ec_events_helper;
@@ -1477,7 +1479,8 @@ HTML;
 		// ===========================
 		// = Insert events meta data =
 		// ===========================
-		// Set facebook user and eid to 0 if they are not set, otherwise they will be set to '' since we use %s for big ints
+		// Set facebook user and eid to 0 if they are not set, otherwise they
+		// will be set to '' since we use %s for big ints
 		$facebook_eid  = isset( $this->facebook_eid ) ? $this->facebook_eid : 0;
 		$facebook_user = isset( $this->facebook_user ) ? $this->facebook_user : 0;
 		$columns = array(

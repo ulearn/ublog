@@ -19,32 +19,57 @@ class Ai1ec_Updater extends WP_Upgrader {
 		$this->strings['process_failed'] = __('Plugin update failed.');
 		$this->strings['process_success'] = __('Plugin updated successfully.');
 	}
-	function upgrade( $plugin, $url ) {
+
+	public function upgrade( $plugin, $url ) {
 
 		$this->init();
 		$this->upgrade_strings();
 
-		add_filter('upgrader_pre_install', array(&$this, 'deactivate_plugin_before_upgrade'), 10, 2);
-		add_filter('upgrader_clear_destination', array(&$this, 'delete_old_plugin'), 10, 4);
+		add_filter(
+			'upgrader_pre_install',
+			array( &$this, 'deactivate_plugin_before_upgrade' ),
+			10,
+			2
+		);
+		add_filter(
+			'upgrader_clear_destination',
+			array( &$this, 'delete_old_plugin' ),
+			10,
+			4
+		);
 
-		$this->run( 
+		// inject our certificate, in case we are on machine w/o CA
+		add_action(
+			'http_api_curl',
+			array( Ai1ec_Http_Utility::instance(), 'curl_inject_certificate' )
+		);
+
+		$this->run(
 			array(
 				'package'           => $url,
 				'destination'       => WP_PLUGIN_DIR,
 				'clear_destination' => true,
 				'clear_working'     => true,
 				'hook_extra'        => array(
-					'plugin' => $plugin
-				)
+					'plugin' => $plugin,
+				),
 			)
 		);
 
-		// Cleanup our hooks, in case something else does a upgrade on this connection.
-		remove_filter( 'upgrader_pre_install', array( &$this, 'deactivate_plugin_before_upgrade' ) );
-		remove_filter( 'upgrader_clear_destination', array( &$this, 'delete_old_plugin') );
+		// Cleanup our hooks, in case something else does an upgrade on
+		// this connection.
+		remove_filter(
+			'upgrader_pre_install',
+			array( &$this, 'deactivate_plugin_before_upgrade' )
+		);
+		remove_filter(
+			'upgrader_clear_destination',
+			array( &$this, 'delete_old_plugin')
+		);
 
-		if( ! $this->result || is_wp_error( $this->result ) )
+		if ( ! $this->result || is_wp_error( $this->result ) ) {
 			return $this->result;
+		}
 
 		// Force refresh of plugin update information
 		delete_site_transient( 'update_plugins' );
@@ -54,6 +79,8 @@ class Ai1ec_Updater extends WP_Upgrader {
 		activate_plugin( $plugin );
 		echo '<p>Plugin activated.</p>';
 		echo '<a href="' . admin_url( 'index.php' ) . '">Continue Here</a>';
+
+		return true;
 	}
 
 	//Hooked to pre_install

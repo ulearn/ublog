@@ -25,6 +25,15 @@ abstract class Ai1ec_Html_Element implements Ai1ec_Renderable {
 	public function __construct() {
 		$this->template_adapter = Ai1ec_Adapters_Factory::create_template_adapter_instance();
 	}
+
+	/**
+	 * MAgic method that renders the object as html
+	 *
+	 * @return string
+	 */
+	public function __toString() {
+		return $this->render_as_html();
+	}
 	/**
 	 *
 	 * @param $id string
@@ -73,5 +82,16 @@ abstract class Ai1ec_Html_Element implements Ai1ec_Renderable {
 		}
 		$attribute_value = $this->template_adapter->escape_attribute( $attribute_value );
 		return "$attribute_name='$attribute_value'";
+	}
+
+	/**
+	 * Return the content as html instead of echoing it.
+	 *
+	 * @return string
+	 */
+	public function render_as_html() {
+		ob_start();
+		$this->render();
+		return ob_get_clean();
 	}
 }

@@ -54,7 +54,7 @@ class Ai1ec_Lessphp_Controller {
 			Ai1ec_Db_Adapter $db_adapter
 		) {
 		$this->lessc = $lessc;
-		$this->default_theme_url = $default_theme_url;
+		$this->default_theme_url = self::sanitize_default_theme_url( $default_theme_url );
 		$this->db_adapter = $db_adapter;
 		$this->parsed_css = '';
 	}
@@ -272,5 +272,24 @@ class Ai1ec_Lessphp_Controller {
 			}
 		}
 		return $variables;
+	}
+
+	/**
+	 * Tries to fix the double url as of AIOEC-882
+	 *
+	 * @param string $url
+	 * @return string
+	 */
+	public static function sanitize_default_theme_url( $url ) {
+		$pos_http = strrpos( $url, 'http://');
+		$pos_https = strrpos( $url, 'https://');
+		// if there are two http
+		if( 0 !== $pos_http ) {
+			// cut of the first one
+			$url = substr( $url, $pos_http );
+		} else if ( 0 !== $pos_https ) {
+			$url = substr( $url, $pos_https );
+		}
+		return $url;
 	}
 }

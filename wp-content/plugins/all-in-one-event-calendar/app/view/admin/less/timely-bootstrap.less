@@ -20,13 +20,15 @@
 // ==========================
 // = Unnamespaced includes =
 // ==========================
-// These remain unnamespaced so that modals and body-level colorpickers are
-// styled properly.
+// These remain unnamespaced so that modals, tooltips and body-level
+// colorpickers are styled properly.
 @import "bootstrap/modals.less";
 @import "bootstrap/dropdowns.less";
 @import "bootstrap/popovers.less";
 @import "bootstrap/tooltip.less";
 @import "bootstrap/component-animations.less";
+@import "bootstrap/tooltip.less";
+
 
 // ==========================
 // = Unnamespaced overrides =
@@ -138,6 +140,16 @@
 		margin: 14px 0;
 	}
 
+	// Labels
+	.label {
+		vertical-align: bottom;
+	}
+
+	// Buttons
+	.btn-group > .btn-primary {
+		z-index: 3;
+	}
+
 	// Forms
 	.help-block,
 	.help-inline {
@@ -170,6 +182,11 @@
 	// Tabs
 	.nav-tabs {
 		margin-bottom: 0;
+	}
+
+	// Modals
+	.modal {
+		text-align: left;
 	}
 
 	// Collapse & accordions
@@ -241,7 +258,6 @@
 		}
 	}
 }
-
 .ai1ec-loader-icon {
 	background: url('../img/ajax-loader.gif') no-repeat center center;
 	display: inline-block;
@@ -261,6 +277,19 @@
 	cursor: help;
 	border-bottom: 1px dotted @grayLight;
 }
+
+// =======================================================================
+// = Modal open status tracking (adapted from earlier ver. of Bootstrap) =
+// =======================================================================
+// Recalculate z-index where appropriate
+.ai1ec-modal-open {
+	overflow: hidden;
+	.dropdown-menu {  z-index: @zindexDropdown + @zindexModal !important; }
+	.dropdown.open { *z-index: @zindexDropdown + @zindexModal !important; }
+	.popover       {  z-index: @zindexPopover  + @zindexModal !important; }
+	.tooltip       {  z-index: @zindexTooltip  + @zindexModal !important; }
+}
+
 
 // =============================================================================
 // = Gmaps Autocomplete results (should be synced with vortex/less/style.less) =
@@ -291,7 +320,7 @@
 			}
 		}
 	}
-}
-.modal-open .ai1ec-geo-ac-results {
-	z-index: @zindexDropdown + @zindexModal;
+	.ai1ec-modal-open & {
+		z-index: @zindexDropdown + @zindexModal;
+	}
 }

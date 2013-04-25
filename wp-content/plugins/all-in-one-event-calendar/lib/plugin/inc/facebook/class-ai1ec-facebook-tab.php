@@ -100,11 +100,11 @@ class Ai1ec_Facebook_Tab {
 	</div>
 </div>
 HTML;
-		$twitter_bootstrap_modal = new Ai1ec_Bootstrap_Modal( $modal_body );
+		$twitter_bootstrap_modal = Ai1ec_Helper_Factory::create_bootstrap_modal_instance( $modal_body );
 		$twitter_bootstrap_modal->set_keep_button_text( esc_html__( "Save", AI1EC_PLUGIN_NAME ) );
 		$twitter_bootstrap_modal->set_header_text( esc_html__( "Facebook Configuration", AI1EC_PLUGIN_NAME ) );
 		$twitter_bootstrap_modal->set_id( "ai1ec_facebook_connect_modal" );
-		return $twitter_bootstrap_modal->render_modal_and_return_html();
+		return $twitter_bootstrap_modal->render_as_html();
 	}
 	/**
 	 * Gets the data to populate the multiselect
@@ -549,7 +549,7 @@ HTML;
 		$removing = __( "Removing the following subscription: ", AI1EC_PLUGIN_NAME );
 		$header_text = $removing . '<span id="ai1ec-facebook-user-modal"></span>';
 		// Attach the modal for when you unsubscribe.
-		$twitter_bootstrap_modal = new Ai1ec_Bootstrap_Modal( $body );
+		$twitter_bootstrap_modal = Ai1ec_Helper_Factory::create_bootstrap_modal_instance( $body );
 		$twitter_bootstrap_modal->set_id( 'ai1ec-facebook-modal' );
 		$twitter_bootstrap_modal->set_delete_button_text( $remove_events );
 		$twitter_bootstrap_modal->set_keep_button_text( $keep_events );
@@ -569,7 +569,7 @@ HTML;
 	</div>
 </div>
 HTML;
-		$html .= $twitter_bootstrap_modal->render_modal_and_return_html();
+		$html .= $twitter_bootstrap_modal->render_as_html();
 		return $html;
 	}
 	/**

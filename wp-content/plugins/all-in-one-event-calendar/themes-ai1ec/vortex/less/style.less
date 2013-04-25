@@ -25,14 +25,73 @@
 @import "tooltip.less";
 @import "popovers.less";
 
+// Select2 is well-namespaced already, and will be difficult to style if styles
+// are forced inside .timely namespace.
+@import "select2.less";
+
 // =====================================
 // = Unnamespaced includes - overrides =
 // =====================================
-body.modal-open {
-	overflow: hidden;
-}
 .modal-backdrop {
 	background-color: @bodyBackground;
+}
+.select2-container {
+	margin-bottom: 9px;
+}
+.select2-container-multi {
+	.select2-choices {
+		background-color: @inputBackground;
+		background-image: none;
+		border-color: @inputBorder;
+		.select2-search-field input {
+			color: @inputText;
+			&.select2-default {
+				color: @placeholderText !important;
+			}
+		}
+	}
+}
+.select2-drop-mask {
+	z-index: @zindexDropdown - 1;
+	.ai1ec-modal-open & {
+		z-index: @zindexDropdown + @zindexModal - 1;
+	}
+}
+.select2-drop {
+	background-color: @bodyBackground;
+	border-color: @inputBorderFocus;
+	color: @textColor;
+	font-family: @baseFontFamily;
+	font-size: @baseFontSize;
+	line-height: @baseLineHeight;
+	z-index: @zindexDropdown;
+	.ai1ec-modal-open & {
+		z-index: @zindexDropdown + @zindexModal;
+	}
+}
+.select2-results {
+	margin: 4px 0;
+	padding: 0;
+	.select2-highlighted {
+		color: @dropdownLinkColor;
+		background-color: @dropdownLinkBackgroundHover;
+	}
+	.select2-no-results,
+	.select2-searching,
+	.select2-selection-limit {
+		background-color: mix( @textColor, @bodyBackground, 10% );
+	}
+}
+.select2-search-choice-close {
+	top: 3px;
+}
+.select2-container,
+.select2-drop {
+	.ai1ec-category-color,
+	.ai1ec-category-color-empty {
+		width: 7px;
+		height: 7px;
+	}
 }
 
 // Fight FOUT by hiding .timely container(s) while loading fonts.
@@ -543,6 +602,18 @@ body.modal-open {
 	}
 }
 
+// =======================================================================
+// = Modal open status tracking (adapted from earlier ver. of Bootstrap) =
+// =======================================================================
+// Recalculate z-index where appropriate
+.ai1ec-modal-open {
+	overflow: hidden;
+	.dropdown-menu {  z-index: @zindexDropdown + @zindexModal !important; }
+	.dropdown.open { *z-index: @zindexDropdown + @zindexModal !important; }
+	.popover       {  z-index: @zindexPopover  + @zindexModal !important; }
+	.tooltip       {  z-index: @zindexTooltip  + @zindexModal !important; }
+}
+
 // ==============================
 // = AI1EC General declarations =
 // ==============================
@@ -558,13 +629,13 @@ body.modal-open {
 	background: url('@{imgdir}/ajax-loader.gif') no-repeat center center;
 	background-color: fade( @bodyBackground, 50% );
 	display: none;
-}
-#ai1ec-calendar-view-container .ai1ec-loading {
-	background-color: transparent;
-	background-position: center 150px;
-}
-.modal > .ai1ec-loading {
-	.border-radius( 5px );
+	#ai1ec-calendar-view-container & {
+		background-color: transparent;
+		background-position: center 150px;
+	}
+	.modal > & {
+		.border-radius( 5px );
+	}
 }
 
 // Label styling.
@@ -913,6 +984,80 @@ body.modal-open {
 	margin-top: 2px;
 }
 
+// ===============================
+// = Front-end create event form =
+// ===============================
+
+.ai1ec-create-event-form,
+.ai1ec-submit-ics-form {
+	.ai1ec-checkbox-label {
+		margin: 5px 0 9px;
+		vertical-align: top;
+		span {
+			vertical-align: top;
+		}
+		input[type="checkbox"] {
+			margin: 0 0 3px;
+		}
+	}
+	.ai1ec-categories-selector,
+	.ai1ec-tags-selector,
+	.select2-container {
+		width: 100%;
+	}
+	.fileupload .thumbnail {
+		width: 27px;
+		height: 27px;
+		margin-bottom: 0;
+	}
+	.ai1ec-recaptcha {
+		background: #f5f5f5;
+		border: 1px solid @fadedModalBorder;
+		.box-shadow( @modalFooterShadow );
+		#recaptcha_image img {
+			.box-shadow( 0 0 1px rgba(0,0,0,0.5) );
+		}
+		#recaptcha_area {
+			margin: 0 auto;
+		}
+		.ai1ec-initializing-message {
+			display: none;
+			text-align: center;
+		}
+		&.ai1ec-initializing {
+			background: url('@{imgdir}/ajax-loader.gif') no-repeat center 10px;
+			.ai1ec-initializing-message {
+				color: @muted;
+				margin: 50px 0 10px;
+				display: block;
+			}
+		}
+	}
+}
+
+.ai1ec-create-event-form {
+	.ai1ec-with-time {
+		display: none;
+	}
+	#ai1ec-end-time-wrap .span6:last-child {
+		margin-left: 4%;
+		width: 47%;
+	}
+	#ai1ec_map_canvas {
+		height: 100px;
+		margin-bottom: 9px;
+	}
+	#ai1ec-description {
+		max-width: 100%;
+	}
+}
+
+.ai1ec-submit-ics-form {
+	.ai1ec-recaptcha {
+		margin-bottom: 9px;
+	}
+}
+
 // ============================================================================
 // = Gmaps Autocomplete results (should be synced with timely-bootstrap.less) =
 // ============================================================================
@@ -942,9 +1087,9 @@ body.modal-open {
 			}
 		}
 	}
-}
-.modal-open .ai1ec-geo-ac-results {
-	z-index: @zindexDropdown + @zindexModal;
+	.ai1ec-modal-open & {
+		z-index: @zindexDropdown + @zindexModal;
+	}
 }
 
 // ===========================
@@ -975,18 +1120,20 @@ body.modal-open {
 
 // Devices that are too narrow to display modals properly.
 @media (max-width: 500px ) {
-	.modal {
-		position: fixed;
-		top: 3%;
-		right: 3%;
-		left: 3%;
-		width: auto;
-		margin: 0;
-	}
-	.modal.fade.in {
-		top: 3%;
-	}
-	.modal-body {
-		max-height: 222px;
+	.timely {
+		.modal {
+			position: fixed;
+			top: 3%;
+			right: 3%;
+			left: 3%;
+			width: auto;
+			margin: 0;
+		}
+		.modal.fade.in {
+			top: 3%;
+		}
+		.modal-body {
+			max-height: 222px;
+		}
 	}
 }

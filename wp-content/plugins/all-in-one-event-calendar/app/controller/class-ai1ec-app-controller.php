@@ -238,6 +238,8 @@ class Ai1ec_App_Controller {
 		add_action( 'admin_enqueue_scripts',                    array( &$ai1ec_app_helper, 'admin_enqueue_scripts' ) );
 		// Widgets
 		add_action( 'widgets_init', create_function( '', "return register_widget( 'Ai1ec_Agenda_Widget' );" ) );
+		// Modify WP admin bar
+		add_action( 'admin_bar_menu',                           array( &$ai1ec_app_helper, 'modify_admin_bar' ) );
 
 		// ===========
 		// = FILTERS =
@@ -296,6 +298,21 @@ class Ai1ec_App_Controller {
 		// Disable notifications
 		add_action( 'wp_ajax_ai1ec_disable_notification', array( &$ai1ec_settings_controller, 'disable_notification' ) );
 		add_action( 'wp_ajax_ai1ec_disable_intro_video', array( &$ai1ec_settings_controller, 'disable_intro_video' ) );
+
+		// Front-end event creation
+		add_action( 'wp_ajax_ai1ec_front_end_create_event_form',
+			array( &$ai1ec_events_helper, 'get_front_end_create_event_form' ) );
+		add_action( 'wp_ajax_ai1ec_front_end_submit_event',
+			array( &$ai1ec_events_helper, 'submit_front_end_create_event_form' ) );
+		if ( $ai1ec_settings->allow_anonymous_submissions ) {
+			add_action( 'wp_ajax_nopriv_ai1ec_front_end_create_event_form',
+				array( &$ai1ec_events_helper, 'get_front_end_create_event_form' ) );
+			add_action( 'wp_ajax_nopriv_ai1ec_front_end_submit_event',
+				array( &$ai1ec_events_helper, 'submit_front_end_create_event_form' ) );
+		}
+
+		// Invalid license status warning.
+		add_action( 'wp_ajax_ai1ec_set_license_warning', array( &$ai1ec_settings_controller, 'set_license_warning' ) );
 
 		// ==============
 		// = Shortcodes =
@@ -659,28 +676,13 @@ class Ai1ec_App_Controller {
 		if ( Ai1ec_Meta::instance( 'Option' )->is_visible_update() ) {
 			add_submenu_page(
 				'plugins.php',
-				__( 'Upgrade', AI1EC_PLUGIN_NAME ),
-				__( 'Upgrade', AI1EC_PLUGIN_NAME ),
+				__( 'Upgrade Calendar', AI1EC_PLUGIN_NAME ),
+				__( 'Upgrade Calendar', AI1EC_PLUGIN_NAME ),
 				'update_plugins',
 				AI1EC_PLUGIN_NAME . '-upgrade',
 				array( $this, 'upgrade' )
 			);
 		}
-
-		// ================================
-		// = Calendar Upgrade to Pro Page =
-		// ================================
-		if ( isset( $_REQUEST['ai1ec_license_key'] ) ) {
-			add_submenu_page(
-				'plugins.php',
-				__( 'Upgrade Calendar to Pro', AI1EC_PLUGIN_NAME ),
-				__( 'Upgrade Calendar to Pro', AI1EC_PLUGIN_NAME ),
-				'update_plugins',
-				AI1EC_PLUGIN_NAME . '-upgrade-to-pro',
-				array( $this, 'upgrade_to_pro' )
-			);
-		}
-
 	}
 
 	/**
@@ -726,6 +728,23 @@ class Ai1ec_App_Controller {
 		global $ai1ec_router, $ai1ec_localization_helper;
 		$page_base = '';
 		$clang     = '';
+
+		$calendar_url       = get_page_link( $ai1ec_settings->calendar_page_id );
+		$requested_page_url = Ai1ec_Wp_Uri_Helper::get_current_url();
+
+		// if we are requesting the calendar page and we have a saved cookie
+		// redirect the user. Do not redirect if the user saved the home page
+		// otherwise we enter a loop
+		if (
+			$calendar_url === $requested_page_url &&
+			isset( $_COOKIE['ai1ec_saved_filter'] ) &&
+			$_COOKIE['ai1ec_saved_filter'] !== $calendar_url
+		) {
+			$location = $_COOKIE['ai1ec_saved_filter'];
+			// wp_redirect sanitizes the url which strips out the |
+			header( 'Location: ' . $location, true, '302' );
+			exit( 0 );
+		}
 
 		if ( $ai1ec_localization_helper->is_wpml_active() ) {
 			$trans = $ai1ec_localization_helper
@@ -886,16 +905,21 @@ class Ai1ec_App_Controller {
 	 **/
 	function upgrade() {
 		// continue only if user can update plugins
-		if ( ! current_user_can( 'update_plugins' ) )
-			wp_die( __( 'You do not have sufficient permissions to update plugins for this site.' ) );
+		if ( ! current_user_can( 'update_plugins' ) ) {
+			wp_die( __(
+					'You do not have sufficient permissions to update plugins for this site.'
+			) );
+		}
 
 		$package_url = Ai1ec_Meta::get_option( 'ai1ec_package_url' );
 		$plugin_name = Ai1ec_Meta::get_option( 'ai1ec_plugin_name' );
-		if(
+		if (
 			empty( $package_url ) ||
 			empty( $plugin_name )
 		) {
-			wp_die( __( 'Download package is needed and was not supplied. Visit <a href="http://time.ly/" target="_blank">time.ly</a> to download the newest version of the plugin.' ) );
+			wp_die( __(
+					'Download package is needed and was not supplied. Visit <a href="http://time.ly/" target="_blank">time.ly</a> to download the newest version of the plugin.'
+			) );
 		}
 
 		// use our custom class
@@ -903,84 +927,12 @@ class Ai1ec_App_Controller {
 		// update the plugin
 		$upgrader->upgrade( $plugin_name, $package_url );
 		// clear update notification
-		update_option( 'ai1ec_update_available', 0 );
-		update_option( 'ai1ec_update_message', '' );
-		update_option( 'ai1ec_package_url', '' );
-		update_option( 'ai1ec_plugin_name', '' );
-	}
+		update_option( 'ai1ec_update_available', 0  );
+		update_option( 'ai1ec_update_message',   '' );
+		update_option( 'ai1ec_package_url',      '' );
+		update_option( 'ai1ec_plugin_name',      '' );
 
-	/**
-	 * http_api_curl function
-	 *
-	 * @return void
-	 **/
-	function http_api_curl( $h ) {
-		// verify that the passed argument
-		// is resource of type 'curl'
-		if (
-			is_resource( $h ) &&
-			get_resource_type( $h ) == 'curl'
-		) {
-			// set CURLOPT_CAINFO to AI1EC_CA_ROOT_PEM
-			curl_setopt( $h, CURLOPT_CAINFO, AI1EC_CA_ROOT_PEM );
-		}
-	}
-
-	/**
-	 * upgrade-to-pro function
-	 *
-	 * @return void
-	 **/
-	function upgrade_to_pro() {
-		// continue only if user can update plugins
-		if ( ! current_user_can( 'update_plugins' ) ) {
-			wp_die( __( 'You do not have sufficient permissions to update plugins for this site.' ) );
-		}
-
-		// include our CA Root certificate
-		// in curl requests to the api
-		add_action( 'http_api_curl', array( &$this, 'http_api_curl') );
-
-		$response = wp_remote_get(
-			sprintf(
-				AI1EC_API_VERIFY_LICENSE_KEY,
-				$_REQUEST['ai1ec_license_key'],
-				AI1EC_VERSION
-			)
-		);
-		if (
-			! is_wp_error( $response )             &&
-			isset( $response['response'] )         &&
-			isset( $response['response']['code'] ) &&
-			$response['response']['code'] == 200   &&
-			isset( $response['body'] )             &&
-			! empty( $response['body'] )
-		) {
-			// continue only if there is a result
-			$resp = json_decode( $response['body'] );
-			if ( (bool) $resp->valid === TRUE ) {
-				// use our custom class
-				$upgrader = new Ai1ec_Updater();
-				// update the plugin
-				$upgrader->upgrade( $resp->plugin_name, $resp->package_url );
-			} else {
-				$errmsg = __( 'The license key you entered is not valid. Please try again.', AI1EC_PLUGIN_NAME );
-			}
-		} else {
-			$errmsg = __( 'A system error has occurred. Please try again.', AI1EC_PLUGIN_NAME );
-		}
-
-		if ( ! empty( $errmsg ) ) {
-			global $ai1ec_view_helper;
-			wp_die(
-					$ai1ec_view_helper->get_admin_view( 'admin_notices.php', array(
-						'label' => __( 'All-in-One Event Calendar: Error processing license key', AI1EC_PLUGIN_NAME ),
-						'msg' => '<p>' . $errmsg . '</p>',
-					) ),
-				'',
-				array( 'back_link' => true )
-			);
-		}
+		unset( $upgrader );
 	}
 
 	/**

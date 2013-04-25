@@ -5,7 +5,7 @@
  * @author time.ly
  *
  */
-class Ai1ec_Bootstrap_Modal {
+class Ai1ec_Bootstrap_Modal extends Ai1ec_Html_Element {
 	/**
 	 * @var string
 	 */
@@ -22,16 +22,7 @@ class Ai1ec_Bootstrap_Modal {
 	 * @var string
 	 */
 	private $header_text;
-	/**
-	 * @var string
-	 */
-	private $id;
-	/**
-	 * @param string $id
-	 */
-	public function set_id( $id ) {
-		$this->id = $id;
-	}
+
 	/**
 	 * @param string $modal_text
 	 */
@@ -77,7 +68,9 @@ class Ai1ec_Bootstrap_Modal {
 	 * @return string
 	 */
 	private function render_header_if_present() {
-		return isset( $this->header_text ) ? "<h1><small>{$this->header_text}</small></h1>" : '';
+		return isset( $this->header_text ) ? 
+			'<h4><small>' . $this->header_text . '</small></h4>'
+			: '';
 	}
 	/**
 	 * @return string
@@ -94,7 +87,7 @@ class Ai1ec_Bootstrap_Modal {
 	/**
 	 * @return string
 	 */
-	public function render_modal_and_return_html() {
+	public function render() {
 		$header              = $this->render_header_if_present();
 		$id                  = $this->render_id_if_present();
 		$remove_event_button = $this->render_remove_button_if_present();
@@ -115,6 +108,6 @@ class Ai1ec_Bootstrap_Modal {
 	</div>
 </div>
 HTML;
-		return $html;
+		echo $html;
 	}
 }

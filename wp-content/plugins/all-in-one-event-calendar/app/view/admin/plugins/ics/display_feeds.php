@@ -45,19 +45,9 @@
 	<input type="button" id="ai1ec_add_new_ics" class="button" value="<?php _e( '+ Add new subscription', AI1EC_PLUGIN_NAME ) ?>" />
 </div>
 
-<?php echo $feed_rows; ?>
-<div class="modal hide" id="ai1ec-ics-modal">
-	<div class="modal-header">
-		<button class="close" data-dismiss="modal">×</button>
-		<h3><?php echo esc_html__( "Removing ICS Feed", AI1EC_PLUGIN_NAME )?></h3>
-	</div>
-	<div class="modal-body">
-		<p><?php echo esc_html__( "Do you want to keep the events imported from the calendar or remove them?", AI1EC_PLUGIN_NAME );?></p>
-	</div>
-	<div class="modal-footer">
-		<a href="#" class="btn remove btn-danger"><?php echo esc_html__( "Remove Events", AI1EC_PLUGIN_NAME );?></a>
-		<a href="#" class="btn keep btn-primary"><?php echo esc_html__( "Keep Events", AI1EC_PLUGIN_NAME );?></a>
-	</div>
-</div>
-<br class="clear" />
+<?php 
+echo $feed_rows;
+echo $modal->render();
+?>
+
 <?php submit_button( esc_attr__( 'Update Settings', AI1EC_PLUGIN_NAME ), 'primary', 'ai1ec_save_settings' ); ?>

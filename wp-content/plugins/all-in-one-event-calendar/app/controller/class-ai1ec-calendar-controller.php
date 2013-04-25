@@ -100,21 +100,17 @@ class Ai1ec_Calendar_Controller {
 			);
 
 		} else {
-			if ( $ai1ec_settings->show_create_event_button &&
-			     current_user_can( 'edit_ai1ec_events' ) ) {
-				$create_event_url = admin_url(
-					'post-new.php?post_type=' . AI1EC_POST_TYPE );
-			} else {
-				$create_event_url = false;
-			}
+			// Determine whether to display "Post your event" button on front-end.
+			$contribution_buttons =
+				$ai1ec_calendar_helper->get_html_for_contribution_buttons();
 
 			// Define new arguments for overall calendar view
 			$page_args = array(
 				'current_view'            => $action,
 				'views_dropdown'          => $views_dropdown,
 				'view'                    => $view,
+				'contribution_buttons'    => $contribution_buttons,
 				'categories'              => $categories,
-				'create_event_url'        => $create_event_url,
 				'tags'                    => $tags,
 				'subscribe_buttons'       => $subscribe_buttons,
 				'data_type'               => $view_args['data_type'],
@@ -169,6 +165,7 @@ class Ai1ec_Calendar_Controller {
 		$view_args['action'] = $action;
 		switch( $action ) {
 			case 'posterboard':
+			case 'stream':
 			case 'agenda':
 				$view_args += $request->get_dict( array(
 				'page_offset',
@@ -261,10 +258,10 @@ class Ai1ec_Calendar_Controller {
 	}
 
 	/**
-	 * Return an agenda-like view of the calendar, one of 'posterboard',
+	 * Return an agenda-like view of the calendar, one of 'posterboard', 'stream',
 	 * or 'agenda', optionally filtered by event categories and tags.
 	 *
-	 * @param string $type    Type of view: 'posterboard', or 'agenda'
+	 * @param string $type    Type of view: 'posterboard', 'stream', or 'agenda'
 	 * @param array $args     associative array with any of these elements:
 	 *   int page_offset   => specifies which page to display relative to today's page
 	 *   int time_limit    => specifies upper/lower (depending on direction) time limit
@@ -389,6 +386,25 @@ class Ai1ec_Calendar_Controller {
 	}
 
 	/**
+	 * Return the embedded stream view of the calendar, optionally filtered by
+	 * event categories and tags.
+	 *
+	 * @param array $args     associative array with any of these elements:
+	 *   int page_offset   => specifies which page to display relative to today's page
+	 *   array categories  => restrict events returned to the given set of
+	 *                        event category slugs
+	 *   array tags        => restrict events returned to the given set of
+	 *                        event tag names
+	 *
+	 * @return string	        returns string of view output
+	 */
+	function get_stream_view( $args ) {
+		return $this->get_agenda_like_view( 'stream', $args );
+	}
+
+	/**
+	 * get_month_view function
+	 *
 	 * Return the embedded month view of the calendar, optionally filtered by
 	 * event categories and tags.
 	 *

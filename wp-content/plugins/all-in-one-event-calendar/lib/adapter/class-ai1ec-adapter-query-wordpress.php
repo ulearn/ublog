@@ -110,6 +110,8 @@ class Ai1ec_Adapter_Query_Wordpress implements Ai1ec_Adapter_Query_Interface
 	}
 
 	/**
+	 * register_rule method
+	 *
 	 * Register rewrite rule with framework
 	 *
 	 * @param string $regexp   Expression to register

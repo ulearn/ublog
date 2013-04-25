@@ -34,43 +34,43 @@ function ai1ec_initiate_constants() {
 	// = Plugin Version =
 	// ==================
 	if ( ! defined( 'AI1EC_VERSION' ) ) {
-		define( 'AI1EC_VERSION',            '1.9.6-standard' );
+		define( 'AI1EC_VERSION',            '1.9.8-pro' );
 	}
 
 	// ====================
 	// = Database Version =
 	// ====================
 	if ( ! defined( 'AI1EC_DB_VERSION' ) ) {
-		define( 'AI1EC_DB_VERSION',         120 );
+		define( 'AI1EC_DB_VERSION',         221 );
 	}
 
 	// ====================================
 	// = Bundled themes version & edition =
 	// ====================================
 	if ( ! defined( 'AI1EC_THEMES_VERSION' ) ) {
-		define( 'AI1EC_THEMES_VERSION',     '24-standard' );
+		define( 'AI1EC_THEMES_VERSION',     '27-pro' );
 	}
 
 	// ================
 	// = Cron Version =
 	// ================
 	if ( ! defined( 'AI1EC_CRON_VERSION' ) ) {
-		define( 'AI1EC_CRON_VERSION',       107 );
+		define( 'AI1EC_CRON_VERSION',       111 );
 	}
 	if ( ! defined( 'AI1EC_N_CRON_VERSION' ) ) {
-		define( 'AI1EC_N_CRON_VERSION',     105 );
+		define( 'AI1EC_N_CRON_VERSION',     109 );
 	}
 	if ( ! defined( 'AI1EC_N_CRON_FREQ' ) ) {
 		define( 'AI1EC_N_CRON_FREQ',        'daily' );
 	}
 	if ( ! defined( 'AI1EC_U_CRON_VERSION' ) ) {
-		define( 'AI1EC_U_CRON_VERSION',     110 );
+		define( 'AI1EC_U_CRON_VERSION',     113 );
 	}
 	if ( ! defined( 'AI1EC_U_CRON_FREQ' ) ) {
 		define( 'AI1EC_U_CRON_FREQ',        'hourly' );
 	}
 	if ( ! defined( 'AI1EC_UPDATES_URL' ) ) {
-		define( 'AI1EC_UPDATES_URL',        'http://time.ly/latest-version.json' );
+		define( 'AI1EC_UPDATES_URL',        'http://api.time.ly/plugin/pro/latest' );
 	}
 
 	// ===============
@@ -301,14 +301,7 @@ function ai1ec_initiate_constants() {
 	// = UPDATE PLUGIN BASE URL                            =
 	// =====================================================
 	if ( ! defined( 'AI1EC_UPGRADE_PLUGIN_BASE_URL' ) ) {
-		define( 'AI1EC_UPGRADE_PLUGIN_BASE_URL', 'plugins.php?page=' . AI1EC_PLUGIN_NAME . '-upgrade' );
-	}
-
-	// ==============================
-	// = AI1EC_UPGRADE_PRO_BASE_URL =
-	// ==============================
-	if ( ! defined( 'AI1EC_UPGRADE_PRO_BASE_URL' ) ) {
-		define( 'AI1EC_UPGRADE_PRO_BASE_URL', 'plugins.php?page=' . AI1EC_PLUGIN_NAME . '-upgrade-to-pro' );
+		define( 'AI1EC_UPGRADE_PLUGIN_BASE_URL', 'plugins.php?&amp;page=' . AI1EC_PLUGIN_NAME . '-upgrade' );
 	}
 
 	// =====================================================
@@ -431,29 +424,46 @@ function ai1ec_initiate_constants() {
 		define( 'AI1EC_LOCATIONS_API', 'http://api.time.ly:32000' );
 	}
 
-	// =================
+	// =============
 	// = STATS API =
-	// =================
+	// =============
 	if ( ! defined( 'AI1EC_STATS_API' ) ) {
 		define( 'AI1EC_STATS_API', 'http://api.time.ly:31000' );
 	}
 
-	// ===================
-	// = SUPPORT BOX API =
-	// ===================
-	if ( ! defined( 'AI1EC_SUPPORTBOX_JS' ) ) {
-		define( 'AI1EC_SUPPORTBOX_JS', 'https://api.time.ly/get_support_box.js?version=%s&lang=%s' );
+	// The real id is added later, but i need to define this otherwise i have a notice
+	if ( ! defined( 'AI1EC_TIMELY_SUBSCRIPTION' ) ) {
+		define( 'AI1EC_TIMELY_SUBSCRIPTION', 'I-JU87YW1VBLUT' );
 	}
 
-	// ==========================
-	// = API VERIFY LICENSE KEY =
-	// ==========================
-	if ( ! defined( 'AI1EC_API_VERIFY_LICENSE_KEY' ) ) {
-		define( 'AI1EC_API_VERIFY_LICENSE_KEY', 'https://api.time.ly/verify_license_key.json?license=%s&version=%s' );
+	// ======================
+	// = LICENSE STATUS API =
+	// ======================
+	if ( ! defined( 'AI1EC_LICENSE_STATUS_JS' ) ) {
+		// separate version with product (191-pro)
+		$tmp = explode( '-', AI1EC_VERSION );
+		// assign version to $tmp (191)
+		$tmp = $tmp[0];
+		define(
+			'AI1EC_LICENSE_STATUS_JS',
+			'https://api.time.ly/check_license_status.js?version='. $tmp .
+			'&license='
+		);
+	}
+
+	// ==================
+	// = TIMELY ACCOUNT =
+	// ==================
+	if ( ! defined( 'AI1EC_TIMELY_ACCOUNT_URL' ) ) {
+		define( 'AI1EC_TIMELY_ACCOUNT_URL', 'https://my.time.ly/account' );
 	}
 
 	if ( ! defined( 'AI1EC_CA_ROOT_PEM' ) ) {
-		define( 'AI1EC_CA_ROOT_PEM', AI1EC_PATH . DIRECTORY_SEPARATOR . 'ca_cert' . DIRECTORY_SEPARATOR . 'ca_cert.pem' );
+		define(
+			'AI1EC_CA_ROOT_PEM',
+			AI1EC_PATH . DIRECTORY_SEPARATOR . 'ca_cert' .
+				DIRECTORY_SEPARATOR . 'ca_cert.pem'
+		);
 	}
 
 	// ====================
@@ -479,7 +489,7 @@ function ai1ec_initiate_constants() {
 	// you know what you are doing, because you will waste valuable
 	// resources - save the Earth, at least.
 	if ( ! defined( 'AI1EC_DEBUG' ) ) {
-		define( 'AI1EC_DEBUG', FALSE );
+		define( 'AI1EC_DEBUG', false );
 	}
 
 }

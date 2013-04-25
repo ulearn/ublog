@@ -765,6 +765,21 @@ class Ai1ec_App_Helper {
 		       $ai1ec_themes_controller,
 		       $ai1ec_importer_plugin_helper;
 
+		if ( 'invalid' == $ai1ec_settings->license_warning ) {
+			$args = array(
+				'label'  => __( 'All-in-One Event Calendar Warning', AI1EC_PLUGIN_NAME ),
+				'msg'    =>
+					sprintf(
+						__( '<p><strong>Our records indicate that your license for the Pro Calendar is missing or expired.</strong></p><p>Please visit <a href="%s">Calendar Settings</a> page, and verify that your license key is correct. You can find your license key on <a href="%s" target="_blank">My Timely</a>.</p>', AI1EC_PLUGIN_NAME ),
+						admin_url( AI1EC_SETTINGS_BASE_URL ),
+						AI1EC_TIMELY_ACCOUNT_URL
+					),
+				'message_type' => 'error',
+			);
+			$ai1ec_view_helper->display_admin( 'admin_notices.php', $args );
+			setcookie( 'ai1ec_general_settings_active_tab', '#ai1ec-license-key' );
+		}
+
 		// Display introductory video notice if not disabled.
 		if( $ai1ec_settings->show_intro_video ) {
 			$args = array(
@@ -1047,11 +1062,27 @@ class Ai1ec_App_Helper {
 	public function view_names() {
 		return array(
 			'posterboard' => __( 'Posterboard', AI1EC_PLUGIN_NAME ),
+			'stream' => __( 'Stream', AI1EC_PLUGIN_NAME ),
 			'month' => __( 'Month', AI1EC_PLUGIN_NAME ),
 			'week' => __( 'Week', AI1EC_PLUGIN_NAME ),
 			'oneday' => __( 'Day', AI1EC_PLUGIN_NAME ),
 			'agenda' => __( 'Agenda', AI1EC_PLUGIN_NAME ),
 		);
+	}
+
+	public function modify_admin_bar() {
+		if ( current_user_can( 'manage_ai1ec_options' ) ) {
+			global $wp_admin_bar;
+			$wp_admin_bar->add_node( array(
+				'id'       =>'timely-account',
+				'title'    => __( 'View my Timely Account', AI1EC_PLUGIN_NAME ),
+				'href'     => AI1EC_TIMELY_ACCOUNT_URL,
+				'parent'   => 'my-account',
+				'meta'     => array(
+					'target' => '_blank',
+				),
+			) );
+		}
 	}
 }
 // END class

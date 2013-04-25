@@ -71,6 +71,7 @@ class Ai1ec_Less_Variables_Editing_Page extends Ai1ec_Page {
 			'forms'       => __( 'Forms', AI1EC_PLUGIN_NAME ),
 			'calendar'    => __( 'Calendar general', AI1EC_PLUGIN_NAME ),
 			'posterboard' => __( 'Posterboard view', AI1EC_PLUGIN_NAME ),
+			'stream'      => __( 'Stream view', AI1EC_PLUGIN_NAME ),
 			'month'       => __( 'Month/week/day view', AI1EC_PLUGIN_NAME ),
 			'agenda'      => __( 'Agenda view', AI1EC_PLUGIN_NAME ),
 		);

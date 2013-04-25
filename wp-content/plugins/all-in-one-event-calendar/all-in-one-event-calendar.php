@@ -2,10 +2,10 @@
 /**
  * Plugin Name: All-in-One Event Calendar by Timely
  * Plugin URI: http://time.ly/
- * Description: A calendar system with posterboard, month, week, day, agenda views, upcoming events widget, color-coded categories, recurrence, and import/export of .ics feeds.
+ * Description: A calendar system with posterboard, stream, month, week, day, agenda views, upcoming events widget, color-coded categories, recurrence, and import/export of .ics feeds.
  * Author: Timely Network Inc
  * Author URI: http://time.ly/
- * Version: 1.9.6-standard
+ * Version: 1.9.8-pro
  */
 
 @set_time_limit( 0 );
@@ -176,6 +176,12 @@ $ai1ec_requirejs_controller->set_settings( $ai1ec_settings );
 $ai1ec_requirejs_controller->set_events_helper( $ai1ec_events_helper );
 // Se the themes controller
 $ai1ec_requirejs_controller->set_ai1ec_themes_controller( $ai1ec_themes_controller );
+// ==================================
+// = Add the hook to render the js  =
+// ==================================
+if( isset( $_GET[Ai1ec_Requirejs_Controller::WEB_WIDGET_GET_PARAMETER] ) ) {
+	add_action( 'template_redirect' , array( $ai1ec_requirejs_controller, 'render_web_widget' ), 20 );
+}
 
 /**
  * Configure your meta box

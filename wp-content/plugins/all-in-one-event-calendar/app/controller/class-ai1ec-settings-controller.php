@@ -52,13 +52,8 @@ class Ai1ec_Settings_Controller {
 		global $ai1ec_view_helper,
 		       $ai1ec_settings;
 
-		// save settings
 		if( isset( $_REQUEST['ai1ec_save_settings'] ) ) {
 			$this->save( 'settings' );
-		}
-		// upgrade using the submitted license
-		if( isset( $_REQUEST['ai1ec_upgrade_to_pro'] ) ) {
-			wp_redirect( admin_url( AI1EC_UPGRADE_PRO_BASE_URL ) . '&ai1ec_license_key=' . $_REQUEST['ai1ec_license_key'] );
 		}
 		$args = array(
 			'title'             => __( 'All-in-One Event Calendar: Settings', AI1EC_PLUGIN_NAME ),
@@ -122,7 +117,7 @@ class Ai1ec_Settings_Controller {
 	 * Disable data notification (AJAX callback).
 	 *
 	 * @return void
-	 **/
+	 */
 	function disable_notification() {
 		global $ai1ec_view_helper, $ai1ec_settings;
 
@@ -139,11 +134,28 @@ class Ai1ec_Settings_Controller {
 	 * Disable intro video (AJAX callback).
 	 *
 	 * @return void
-	 **/
+	 */
 	function disable_intro_video() {
 		global $ai1ec_view_helper, $ai1ec_settings;
 
 		$ai1ec_settings->update_intro_video( false );
+		$output = array(
+			'error' 	=> false,
+			'message'	=> 'Request successful.'
+		);
+
+		$ai1ec_view_helper->json_response( $output );
+	}
+
+	/**
+	 * Update license warning status (AJAX callback).
+	 *
+	 * @return void
+	 */
+	function set_license_warning() {
+		global $ai1ec_view_helper, $ai1ec_settings;
+
+		$ai1ec_settings->update_license_warning( $_REQUEST['value'] );
 		$output = array(
 			'error' 	=> false,
 			'message'	=> 'Request successful.'
@@ -263,21 +275,23 @@ class Ai1ec_Settings_Controller {
 		update_option( 'ai1ec_update_message', '' );
 		update_option( 'ai1ec_package_url', '' );
 		// get current version
-		$response = wp_remote_get( AI1EC_UPDATES_URL );
-		if( ! is_wp_error( $response )             &&
-		    isset( $response['response'] )         &&
-		    isset( $response['response']['code'] ) &&
-		    $response['response']['code'] == 200   &&
-		    isset( $response['body'] )             &&
-		    ! empty( $response['body'] ) ) {
+		$response = wp_remote_get( AI1EC_UPDATES_URL . '?license_key=' . AI1EC_TIMELY_SUBSCRIPTION );
+		if (
+			! is_wp_error( $response )             &&
+			isset( $response['response'] )         &&
+			isset( $response['response']['code'] ) &&
+			$response['response']['code'] == 200   &&
+			isset( $response['body'] )             &&
+			! empty( $response['body'] )
+		) {
 
 			// continue only if there is a result
 			$updater = json_decode( $response['body'] );
 			$new = isset( $updater->version ) ? $updater->version : AI1EC_VERSION;
-			$new = trim( str_replace( '-STANDARD', '', strtoupper( $new ) ) );
-			$old = str_replace( '-STANDARD', '', strtoupper( AI1EC_VERSION ) );
-			$old = str_replace( ' STANDARD', '', $old );
-			$old = trim( str_replace( 'STANDARD', '', $old ) );
+			$new = trim( str_replace( '-PRO', '', strtoupper( $new ) ) );
+			$old = str_replace( '-PRO', '', strtoupper( AI1EC_VERSION ) );
+			$old = str_replace( ' PRO', '', $old );
+			$old = trim( str_replace( 'PRO', '', $old ) );
 			if( ( version_compare( $old, $new ) == -1 ) ) {
 				update_option( 'ai1ec_update_available', 1 );
 				update_option( 'ai1ec_update_message', $updater->message );

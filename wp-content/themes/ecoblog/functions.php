@@ -219,8 +219,4 @@
 	
 	automatic_feed_links();
 	
-function modified_excerpt_length($length) {
-return 40;
-}
-add_filter('excerpt_length', 'modified_excerpt_length');
 ?>

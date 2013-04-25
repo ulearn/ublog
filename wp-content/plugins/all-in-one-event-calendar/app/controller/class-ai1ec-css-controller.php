@@ -140,7 +140,7 @@ class Ai1ec_Css_Controller {
 			$preview = "&preview=1&nocache={$now}&ai1ec_stylesheet=" . $_GET['ai1ec_stylesheet'];
 		}
 		$url = $this->get_css_url() . $preview;
-		$this->template_adapter->enqueue_script( 'ai1ec_stytle', $url );
+		$this->template_adapter->enqueue_script( 'ai1ec_style', $url );
 	}
 
 	/**

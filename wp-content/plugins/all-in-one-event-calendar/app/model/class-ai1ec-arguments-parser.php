@@ -24,6 +24,7 @@ class Ai1ec_Arguments_Parser extends Ai1ec_Abstract_Query {
 		parent::__construct( $argv );
 		$action_list = array(
 			'posterboard',
+			'stream',
 			'month',
 			'oneday',
 			'week',

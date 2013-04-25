@@ -285,8 +285,22 @@ class Ai1ec_Settings_Helper {
 		$sql = 'SELECT COUNT(*) FROM ' . $wpdb->prefix .
 		       'ai1ec_events WHERE ical_feed_url = %s';
 		foreach ( $rows as $row ) {
-			$feed_category = get_term( $row->feed_category, 'events_categories' );
-			$events        = $wpdb->get_var( $wpdb->prepare( $sql, $row->feed_url ) );
+			$events          = $wpdb->get_var(
+				$wpdb->prepare( $sql, $row->feed_url )
+			);
+			$feed_categories = explode( ',', $row->feed_category );
+			$categories      = array();
+
+			foreach ( $feed_categories as $cat_id ) {
+				$feed_category = get_term(
+					$cat_id,
+					'events_categories'
+				);
+				if ( $feed_category && ! is_wp_error( $feed_category ) ) {
+					$categories[] = $feed_category->name;
+				}
+			}
+
 			$args          = array(
 				'feed_url'            => $row->feed_url,
 				'event_category'      => $feed_category->name,
@@ -353,6 +367,7 @@ class Ai1ec_Settings_Helper {
 		$exact_date                     = $ai1ec_settings->exact_date;
 		$posterboard_events_per_page    = $ai1ec_settings->posterboard_events_per_page;
 		$posterboard_tile_min_width     = $ai1ec_settings->posterboard_tile_min_width;
+		$stream_events_per_page         = $ai1ec_settings->stream_events_per_page;
 		$agenda_events_per_page         = $ai1ec_settings->agenda_events_per_page;
 		$agenda_include_entire_last_day = $ai1ec_settings->agenda_include_entire_last_day
 			? 'checked="checked"'
@@ -371,7 +386,13 @@ class Ai1ec_Settings_Helper {
 		$hide_maps_until_clicked        = $ai1ec_settings->hide_maps_until_clicked ? 'checked="checked"' : '';
 		$agenda_events_expanded         = $ai1ec_settings->agenda_events_expanded ? 'checked="checked"' : '';
 		$turn_off_subscription_buttons  = $ai1ec_settings->turn_off_subscription_buttons ? 'checked="checked"' : '';
-		$show_create_event_button       = $ai1ec_settings->show_create_event_button ? 'checked=checked' : '';
+		$show_create_event_button       = $ai1ec_settings->show_create_event_button ? 'checked="checked"' : '';
+		$show_front_end_create_form     = $ai1ec_settings->show_front_end_create_form ? 'checked="checked"' : '';
+		$allow_anonymous_submissions    = $ai1ec_settings->allow_anonymous_submissions ? 'checked="checked"' : '';
+		$allow_anonymous_uploads        = $ai1ec_settings->allow_anonymous_uploads ? 'checked="checked"' : '';
+		$show_add_calendar_button       = $ai1ec_settings->show_add_calendar_button ? 'checked="checked"' : '';
+		$recaptcha_public_key           = $ai1ec_settings->recaptcha_public_key;
+		$recaptcha_private_key          = $ai1ec_settings->recaptcha_private_key;
 		$inject_categories              = $ai1ec_settings->inject_categories ? 'checked="checked"' : '';
 		$geo_region_biasing             = $ai1ec_settings->geo_region_biasing ? 'checked="checked"' : '';
 		$input_date_format              = $this->get_date_format_dropdown( $ai1ec_settings->input_date_format );
@@ -400,6 +421,7 @@ class Ai1ec_Settings_Helper {
 		);
 
 		$skip_in_the_loop_check         = $ai1ec_settings->skip_in_the_loop_check ? 'checked="checked"' : '';
+		$ajaxify_events_in_web_widget   = $ai1ec_settings->ajaxify_events_in_web_widget ? 'checked="checked"' : '';
 		$event_platform                 = $ai1ec_settings->event_platform_active ? 'checked="checked"' : '';
 		$event_platform_disabled        = AI1EC_EVENT_PLATFORM ? 'disabled="disabled"' : '';
 		$event_platform_strict          = $ai1ec_settings->event_platform_strict ? 'checked="checked"' : '';
@@ -414,14 +436,21 @@ class Ai1ec_Settings_Helper {
 			'exact_date'                     => $exact_date,
 			'posterboard_events_per_page'    => $posterboard_events_per_page,
 			'posterboard_tile_min_width'     => $posterboard_tile_min_width,
+			'stream_events_per_page'         => $stream_events_per_page,
 			'agenda_events_per_page'         => $agenda_events_per_page,
 			'agenda_include_entire_last_day' => $agenda_include_entire_last_day,
 			'exclude_from_search'            => $exclude_from_search,
 			'show_publish_button'            => $show_publish_button,
-			'show_create_event_button'       => $show_create_event_button,
 			'hide_maps_until_clicked'        => $hide_maps_until_clicked,
 			'agenda_events_expanded'         => $agenda_events_expanded,
 			'turn_off_subscription_buttons'  => $turn_off_subscription_buttons,
+			'show_create_event_button'       => $show_create_event_button,
+			'show_front_end_create_form'     => $show_front_end_create_form,
+			'allow_anonymous_submissions'    => $allow_anonymous_submissions,
+			'allow_anonymous_uploads'        => $allow_anonymous_uploads,
+			'show_add_calendar_button'       => $show_add_calendar_button,
+			'recaptcha_public_key'           => $recaptcha_public_key,
+			'recaptcha_private_key'          => $recaptcha_private_key,
 			'inject_categories'              => $inject_categories,
 			'input_date_format'              => $input_date_format,
 			'input_24h_time'                 => $input_24h_time,
@@ -434,10 +463,16 @@ class Ai1ec_Settings_Helper {
 			'date_format_pattern'            => $date_format_pattern,
 			'calendar_css_selector'          => $ai1ec_settings->calendar_css_selector,
 			'skip_in_the_loop_check'         => $skip_in_the_loop_check,
+			'ajaxify_events_in_web_widget'   => $ajaxify_events_in_web_widget,
 			'event_platform'                 => $event_platform,
 			'event_platform_disabled'        => $event_platform_disabled,
 			'event_platform_strict'          => $event_platform_strict,
 			'display_event_platform'         => is_super_admin(),
+			'user_mail_subject'              => $ai1ec_settings->user_mail_subject,
+			'user_mail_body'                 => $ai1ec_settings->user_mail_body,
+			'admin_mail_subject'             => $ai1ec_settings->admin_mail_subject,
+			'admin_mail_body'                => $ai1ec_settings->admin_mail_body,
+			'license_key'                    => $ai1ec_settings->license_key,
 		);
 		$ai1ec_view_helper->display_admin( 'box_general_settings.php', $args );
 	}
@@ -526,23 +561,17 @@ class Ai1ec_Settings_Helper {
 	 * @return void
 	 */
 	function support_meta_box( $object, $box ) {
-		global $ai1ec_view_helper,
-		       $ai1ec_events_helper;
+		global $ai1ec_view_helper, $ai1ec_settings;
 		include_once( ABSPATH . WPINC . '/feed.php' );
 		// Initialize new feed
 		$newsItems = array();
 		$feed      = fetch_feed( AI1EC_RSS_FEED );
 		$newsItems = is_wp_error( $feed ) ? array() : $feed->get_items( 0, 5 );
-		$support_box_js = sprintf(
-			AI1EC_SUPPORTBOX_JS,
-			AI1EC_VERSION,
-			$ai1ec_events_helper->get_lang()
-		);
 		$ai1ec_view_helper->display_admin(
 			'box_support.php',
 			array(
-				'news'           => $newsItems,
-				'support_box_js' => $support_box_js
+				'news'               => $newsItems,
+				'license_status_url' => AI1EC_LICENSE_STATUS_JS . $ai1ec_settings->license_key,
 			)
 		);
 	}

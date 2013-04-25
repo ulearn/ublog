@@ -283,6 +283,30 @@ $less_user_variables = array(
 		"tab" => "posterboard",
 		"type" => "color",
 	),
+	"streamEventBorder" => array(
+		"value"  => "#2c2c2c",
+		"description" => __( "Stream view event border", AI1EC_PLUGIN_NAME ),
+		"tab" => "stream",
+		"type" => "color",
+	),
+	"streamEventBackground" => array(
+		"value"  => "#000000",
+		"description" => __( "Stream view event background", AI1EC_PLUGIN_NAME ),
+		"tab" => "stream",
+		"type" => "color",
+	),
+	"streamDateTitleText" => array(
+		"value"  => "#777777",
+		"description" => __( "Stream view date divider text", AI1EC_PLUGIN_NAME ),
+		"tab" => "stream",
+		"type" => "color",
+	),
+	"streamDateTitleBackground" => array(
+		"value"  => "#222222",
+		"description" => __( "Stream view date divider background", AI1EC_PLUGIN_NAME ),
+		"tab" => "stream",
+		"type" => "color",
+	),
 	"eventDefaultColor" => array(
 		"value"  => "#5e8cba",
 		"description" => __( "Event default color", AI1EC_PLUGIN_NAME ),

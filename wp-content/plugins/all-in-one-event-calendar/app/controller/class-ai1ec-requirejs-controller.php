@@ -10,6 +10,9 @@ class Ai1ec_Requirejs_Controller {
 	// Th js handle used when enqueueing
 	const JS_HANDLE = 'ai1ec_requirejs';
 
+	// The parameter that triggers loading of the web widget
+	const WEB_WIDGET_GET_PARAMETER = 'ai1ec_super_widget';
+
 	// The namespace for require.js functions
 	const REQUIRE_NAMESPACE = 'timely';
 
@@ -180,14 +183,16 @@ class Ai1ec_Requirejs_Controller {
 		// This is to avoid loading the common scripts twice when loading the widget
 		// on a wordpress site with our plugin active because the widget already
 		// loads them.
-		// Load common frontend scripts
-		$this->ai1ec_scripts->enqueue_admin_script(
-			'ai1ec_common_frontend',
-			'pages/common_frontend.js',
-			array( 'ai1ec_requirejs' ),
-			true
-		);
-		$this->load_frontend_js_translations( 'ai1ec_common_frontend' );
+		if( ! isset( $_GET[self::WEB_WIDGET_GET_PARAMETER] ) ) {
+			// Load common frontend scripts
+			$this->ai1ec_scripts->enqueue_admin_script(
+				'ai1ec_common_frontend',
+				'pages/common_frontend.js',
+				array( 'ai1ec_requirejs' ),
+				true
+			);
+			$this->load_frontend_js_translations( 'ai1ec_common_frontend' );
+		}
 
 		// ======
 		// = JS =
@@ -230,6 +235,73 @@ class Ai1ec_Requirejs_Controller {
 			}
 			$this->load_frontend_js_translations( 'ai1ec_calendar_requirejs' );
 		}
+	}
+
+	/**
+	 * Renders everything that's needed for the web widget
+	 *
+	 */
+	public function render_web_widget() {
+		header( 'Content-Type: application/javascript' );
+		// Aggressive caching to save future requests from the same client.
+		$etag = '"' . md5( __FILE__ . AI1EC_VERSION ) . '"';
+		header( 'ETag: ' . $etag );
+		header( 'Expires: ' . gmdate( 'D, d M Y H:i:s', time() + 31536000 ) . ' GMT' );
+		header( 'Cache-Control: public, max-age=31536000' );
+		if ( empty( $_SERVER['HTTP_IF_NONE_MATCH'] ) || $etag !== stripslashes( $_SERVER['HTTP_IF_NONE_MATCH'] ) ) {
+			$ccs_controller = Ai1ec_Less_Factory::create_css_controller_instance();
+			$require_main = AI1EC_ADMIN_THEME_JS_URL . '/require.js';
+			$data_main = AI1EC_ADMIN_THEME_JS_URL . '/main_widget.js';
+			$translation = $this->get_frontend_translation_data();
+			$permalink = get_permalink( $this->settings->calendar_page_id );
+			$css_url = $ccs_controller->get_css_url();
+			$translation['calendar_url'] = $permalink;
+			$tranlsation_module = $this->create_require_js_module( self::FRONTEND_CONFIG_MODULE, $translation );
+			$config = $this->create_require_js_module(
+				'ai1ec_config',
+				$this->get_translation_data()
+			);
+			echo <<<JS
+			/******** Called once Require.js has loaded ******/
+			// This needs to be global
+			function timely_scriptLoadHandler() {
+				// Load translations modules
+				$tranlsation_module
+				$config
+			}
+			(function() {
+				if( typeof timely === 'undefined' ) {
+					var timely_script_tag = document.createElement( 'script' );
+					timely_script_tag.setAttribute( "type","text/javascript" );
+					timely_script_tag.setAttribute( "src", "$require_main" );
+					timely_script_tag.setAttribute( "data-main", "$data_main" );
+					timely_script_tag.async = true;
+					if ( timely_script_tag.readyState ) {
+						timely_script_tag.onreadystatechange = function () { // For old versions of IE
+							if ( this.readyState == 'complete' || this.readyState == 'loaded' ) {
+								timely_scriptLoadHandler();
+							}
+						};
+					} else { // Other browsers
+						timely_script_tag.onload = timely_scriptLoadHandler;
+					}
+					( document.getElementsByTagName( "head" )[0] || document.documentElement ).appendChild( timely_script_tag );
+				} else {
+					timely.require( ['main_widget'] );
+					timely_scriptLoadHandler();
+				}
+				var timely_css = document.createElement( 'link' );
+				timely_css.setAttribute( "type", "text/css" );
+				timely_css.setAttribute( "rel", "stylesheet" );
+				timely_css.setAttribute( "href", "$css_url" );
+				( document.getElementsByTagName( "head" )[0] || document.documentElement ).appendChild( timely_css );
+			})(); // We call our anonymous function immediately
+JS;
+		} else {
+			// Not modified!
+			status_header( 304 );
+		}
+		exit;
 	}
 
 	/**
@@ -378,8 +450,6 @@ class Ai1ec_Requirejs_Controller {
 	private function get_translation_data() {
 		global $ai1ec_importer_plugin_helper;
 
-		$lang = $this->events_helper->get_lang();
-
 		$force_ssl_admin = force_ssl_admin();
 		if ( $force_ssl_admin && ! is_ssl() ) {
 			force_ssl_admin( false );
@@ -415,7 +485,7 @@ class Ai1ec_Requirejs_Controller {
 			'error_message_not_valid_long'   => __( 'Please enter a valid longitude. A valid longitude is comprised between +180 and -180.', AI1EC_PLUGIN_NAME ),
 			'error_message_not_entered_lat'  => __( 'When the "Input coordinates" checkbox is checked, "Latitude" is a required field.', AI1EC_PLUGIN_NAME ),
 			'error_message_not_entered_long' => __( 'When the "Input coordinates" checkbox is checked, "Longitude" is a required field.', AI1EC_PLUGIN_NAME ),
-			'language'                       => $lang,
+			'language'                       => $this->events_helper->get_lang(),
 			// This function will be set later if needed
 			'page'                           => '',
 			'page_on_front_description'      => __( 'This setting cannot be changed in Event Platform mode.', AI1EC_PLUGIN_NAME ),
@@ -424,10 +494,13 @@ class Ai1ec_Requirejs_Controller {
 			'platform_active'                => $this->settings->event_platform_active,
 			'facebook_logged_in'             => $ai1ec_importer_plugin_helper->check_if_we_have_a_valid_facebook_access_token(),
 			'app_id_and_secret_are_required' => __( "You must specify both an app ID and app secret to connect to Facebook.", AI1EC_PLUGIN_NAME ),
+			'file_upload_required'           => __( "You must specify a valid file to upload or paste your data into the text field.", AI1EC_PLUGIN_NAME ),
+			'file_upload_not_permitted'      => __( "Only .ics and .csv files are supported.", AI1EC_PLUGIN_NAME ),
 			'ajax_url'                       => $ajax_url,
 			'url_not_valid'                  => __( "The URL you have entered seems to be invalid. Please remember that URLs must start with either 'http://' or 'https://'.", AI1EC_PLUGIN_NAME ),
 			'mail_url_required'              => __( "Both the <em>calendar URL</em> and <em>e-mail address</em> fields are required.", AI1EC_PLUGIN_NAME ),
-			'confirm_reset_theme'            => __( "Are you sure you want to reset your theme options to their default values?", AI1EC_PLUGIN_NAME )
+			'confirm_reset_theme'            => __( "Are you sure you want to reset your theme options to their default values?", AI1EC_PLUGIN_NAME ),
+			'license_key'                    => AI1EC_TIMELY_SUBSCRIPTION,
 		);
 		return $data;
 	}

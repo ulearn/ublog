@@ -1138,12 +1138,17 @@ class Ai1ecFacebookConnectorPlugin extends Ai1ec_Connector_Plugin {
 			$link_label = __( "Linked Facebook event", AI1EC_PLUGIN_NAME );
 			$link = "<div id='ai1ec-facebook-linked-event'><a href='https://www.facebook.com/events/{$event->facebook_eid}'>$link_label</a></div>";
 			// We include the modal only when the event has been exported to facebook
-			$twitter_bootstrap_modal = new Ai1ec_Bootstrap_Modal( __( "Would you like to delete the linked Facebook event or keep it? If you choose to keep it and later you export this event again, a new one will be created.", AI1EC_PLUGIN_NAME ) );
+			$twitter_bootstrap_modal = Ai1ec_Helper_Factory::create_bootstrap_modal_instance(
+				 __(
+				 	 "Would you like to delete the linked Facebook event or keep it? If you choose to keep it and later you export this event again, a new one will be created.",
+				 	AI1EC_PLUGIN_NAME
+				)
+			);
 			$twitter_bootstrap_modal->set_header_text( __( "Unpublish Facebook event?", AI1EC_PLUGIN_NAME ) );
 			$twitter_bootstrap_modal->set_id( "ai1ec-facebook-export-modal" );
 			$twitter_bootstrap_modal->set_delete_button_text( __( "Delete event", AI1EC_PLUGIN_NAME ) );
 			$twitter_bootstrap_modal->set_keep_button_text( __( "Keep event", AI1EC_PLUGIN_NAME ) );
-			$modal_html = $twitter_bootstrap_modal->render_modal_and_return_html();
+			$modal_html = $twitter_bootstrap_modal->render_as_html();
 		}
 		$label     = __( 'Export event to Facebook?', AI1EC_PLUGIN_NAME );
 		$name      = self::FB_EXPORT_CHKBX_NAME;

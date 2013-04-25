@@ -26,12 +26,111 @@ class Ai1ecIcsConnectorPlugin extends Ai1ec_Connector_Plugin {
 		add_action( 'wp_ajax_ai1ec_delete_ics', array( $this, 'delete_feeds_and_events' ) );
 		// Update iCalendar feed
 		add_action( 'wp_ajax_ai1ec_update_ics', array( $this, 'update_ics_feed' ) );
+		// Add iCalendar feed frontend handling
+		add_action( 'wp_ajax_nopriv_ai1ec_add_ics_frontend', array( $this, 'add_ics_feed_frontend' ) );
+		add_action( 'wp_ajax_ai1ec_add_ics_frontend', array( $this, 'add_ics_feed_frontend' ) );
 		// Cron job hook
 		add_action( 'ai1ec_cron'              , array( $this, 'cron' ) );
 		// Handle schema changes.
 		$this->install_schema();
 		// Install the CRON
 		$this->install_cron();
+	}
+
+	/**
+	 * Validates the add new feed url form
+	 *
+	 * @return array
+	 */
+	private function validate_form() {
+		global $ai1ec_settings, $ai1ec_events_helper;
+		$response = array( 'success' => true );
+		// Check nonce.
+		if ( isset( $_POST[AI1EC_POST_TYPE] ) &&
+			! wp_verify_nonce( $_POST[AI1EC_POST_TYPE], 'ai1ec_submit_ics_form' ) ) {
+			$response['message'] = __( 'Access denied.', AI1EC_PLUGIN_NAME );
+			$response['success'] = false;
+			return $response;
+		}
+
+		// Check CAPTCHA.
+		if ( ! is_user_logged_in() &&
+			! empty( $ai1ec_settings->recaptcha_public_key ) ) {
+
+			$check = $ai1ec_events_helper->check_captcha();
+			if( false === $check['success'] ) {
+				$response['success'] = false;
+				$response['message'] = $check['message'];
+				return $response;
+			}
+		}
+		$response['message'] = __( 'Your suggestion was submitted to a site administrator for review.', AI1EC_PLUGIN_NAME );
+		return $response;
+	}
+
+	/**
+	 * Send an e-mail to the admin and another to the user if form passes
+	 * validation.
+	 */
+	public function add_ics_feed_frontend() {
+		global $wpdb, $ai1ec_settings;
+
+		$table_name = $wpdb->prefix . 'ai1ec_event_feeds';
+		$check = $this->validate_form();
+
+		$check['nonce'] = wp_nonce_field(
+			'ai1ec_submit_ics_form',
+			AI1EC_POST_TYPE,
+			true,
+			false
+		);
+
+		if ( true === $check['success'] ) {
+			// Strip slashes if ridiculous PHP setting magic_quotes_gpc is enabled.
+			if ( get_magic_quotes_gpc() ) {
+				foreach ( $_POST as &$param ) {
+					$param = stripslashes( $param );
+				}
+			}
+
+			// Send admin e-mail.
+			$admin_email = get_option( 'admin_email' );
+			$admin_mail_subject = $this->parse_mail( $ai1ec_settings->admin_mail_subject );
+			$admin_mail_body = $this->parse_mail( $ai1ec_settings->admin_mail_body );
+			wp_mail( $admin_email, $admin_mail_subject, $admin_mail_body );
+
+			// Send user e-mail.
+			$user_email = $_POST['ai1ec_submitter_email'];
+			$user_mail_subject = $this->parse_mail( $ai1ec_settings->user_mail_subject );
+			$user_mail_body = $this->parse_mail( $ai1ec_settings->user_mail_body );
+			wp_mail( $user_email, $user_mail_subject, $user_mail_body );
+		}
+
+		echo json_encode( $check );
+		exit();
+	}
+
+	/**
+	 * Parses the string, substituting the [...] tokens with values.
+	 *
+	 * @param string $text
+	 * @return string
+	 */
+	private function parse_mail( $text ) {
+		$categories = isset( $_POST['ai1ec_categories'] ) ? $_POST['ai1ec_categories'] : array();
+		foreach ( $categories as &$cat ) {
+			$term = get_term( $cat, 'events_categories' );
+			$cat = $term->name;
+		}
+		$translations = array(
+			'[feed_url]'   => $_POST['ai1ec_calendar_url'],
+			'[categories]' => implode( ', ' , $categories ),
+			'[user_email]' => $_POST['ai1ec_submitter_email'],
+			'[site_title]' => get_bloginfo( 'name' ),
+			'[site_url]'   => site_url(),
+			'[feeds_url]'  => admin_url( AI1EC_FEED_SETTINGS_BASE_URL . '#ics' ),
+		);
+		return strtr( $text, $translations );
 	}
 
 	/**
@@ -151,11 +250,23 @@ class Ai1ecIcsConnectorPlugin extends Ai1ec_Connector_Plugin {
 		       $ai1ec_settings_helper,
 		       $ai1ec_settings;
 
+		$modal = Ai1ec_Helper_Factory::create_bootstrap_modal_instance( 
+			esc_html__(
+				"Do you want to keep the events imported from the calendar or remove them?",
+				AI1EC_PLUGIN_NAME
+			)
+		);
+		$modal->set_header_text( esc_html__( "Removing ICS Feed", AI1EC_PLUGIN_NAME ) );
+		$modal->set_keep_button_text( esc_html__( "Keep Events", AI1EC_PLUGIN_NAME ) );
+		$modal->set_delete_button_text( esc_html__( "Remove Events", AI1EC_PLUGIN_NAME ) );
+		$modal->set_id( 'ai1ec-ics-modal' );
 		$args = array(
 				'cron_freq'          => $ai1ec_settings_helper->get_cron_freq_dropdown( $ai1ec_settings->cron_freq ),
 				'event_categories'   => $ai1ec_settings_helper->get_event_categories_select(),
-				'feed_rows'          => $ai1ec_settings_helper->get_feed_rows()
+				'feed_rows'          => $ai1ec_settings_helper->get_feed_rows(),
+				'modal'              => $modal,
 		);
+		
 		$ai1ec_view_helper->display_admin( 'plugins/ics/display_feeds.php', $args );
 		$this->render_closing_div_of_tab();
 	}
@@ -342,14 +453,14 @@ class Ai1ecIcsConnectorPlugin extends Ai1ec_Connector_Plugin {
 			// reimport the feed
 			$response = wp_remote_get( $feed->feed_url, array( 'sslverify' => false, 'timeout' => 120 ) );
 			if (
-				! is_wp_error( $response )             &&
-				isset( $response['response'] )         &&
-				isset( $response['response']['code'] ) &&
-				$response['response']['code'] == 200   &&
-				isset( $response['body'] )             &&
-				! empty( $response['body'] )
+			! is_wp_error( $response )             &&
+			isset( $response['response'] )         &&
+			isset( $response['response']['code'] ) &&
+			$response['response']['code'] == 200   &&
+			isset( $response['body'] )             &&
+			! empty( $response['body'] )
 			) {
-				$count = @$ai1ec_importer_helper->parse_ics_feed( $feed,  $response['body'] );
+				$count = @$ai1ec_importer_helper->parse_ics_feed( $feed,  $response['body']);
 			} else {
 				$message = __( 
 					"We couldn't find a valid transport to fetch the calendar data.

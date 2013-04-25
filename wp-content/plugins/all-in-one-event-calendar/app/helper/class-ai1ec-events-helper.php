@@ -1512,30 +1512,35 @@ class Ai1ec_Events_Helper {
 	 *
 	 * @return string      The excerpt.
 	 **/
-	function trim_excerpt( $text )
-	{
-		$raw_excerpt = $text;
+	public function trim_excerpt( $text ) {
+		$raw_excerpt    = $text;
 
-		$text = preg_replace(
+		$text           = preg_replace(
 			'#<\s*script[^>]*>.+<\s*/\s*script\s*>#x',
 			'',
 			$text
 		);
-		$text = strip_shortcodes( $text );
+		$text           = strip_shortcodes( $text );
 
-		$text = str_replace(']]>', ']]&gt;', $text);
-		$text = strip_tags($text);
-		$excerpt_length = apply_filters('excerpt_length', 55);
-		$excerpt_more = apply_filters('excerpt_more', ' ' . '[...]');
-		$words = preg_split("/[\n\r\t ]+/", $text, $excerpt_length + 1, PREG_SPLIT_NO_EMPTY);
-		if ( count($words) > $excerpt_length ) {
-			array_pop($words);
-			$text = implode(' ', $words);
+		$text           = str_replace( ']]>', ']]&gt;', $text );
+		$text           = strip_tags( $text );
+
+		$excerpt_length = apply_filters( 'excerpt_length', 55 );
+		$excerpt_more   = apply_filters( 'excerpt_more', ' [...]' );
+		$words          = preg_split(
+			"/[\n\r\t ]+/",
+			$text,
+			$excerpt_length + 1,
+			PREG_SPLIT_NO_EMPTY
+		);
+		if ( count( $words ) > $excerpt_length ) {
+			array_pop( $words );
+			$text = implode( ' ', $words );
 			$text = $text . $excerpt_more;
 		} else {
-			$text = implode(' ', $words);
+			$text = implode( ' ', $words );
 		}
-		return apply_filters('wp_trim_excerpt', $text, $raw_excerpt);
+		return apply_filters( 'wp_trim_excerpt', $text, $raw_excerpt );
 	}
 
 	/**
@@ -2470,6 +2475,380 @@ class Ai1ec_Events_Helper {
 		do_action( 'ai1ec_load_frontend_js', true );
 
 		return $page_content;
+	}
+
+	/**
+	 * Handle AJAX request to display front-end create event form content.
+	 *
+	 * @return null
+	 */
+	public function get_front_end_create_event_form() {
+		global $ai1ec_view_helper,
+		       $ai1ec_settings;
+
+		$date_format_pattern = Ai1ec_Time_Utility::get_date_pattern_by_key(
+			$ai1ec_settings->input_date_format
+		);
+		$week_start_day      = get_option( 'start_of_week' );
+		$input_24h_time      = $ai1ec_settings->input_24h_time;
+		$cat_select          = $this->get_html_for_category_selector();
+		$tag_select          = $this->get_html_for_tag_selector();
+		$form_action         = admin_url(
+			'admin-ajax.php?action=ai1ec_front_end_submit_event'
+		);
+		$default_image       = $ai1ec_view_helper->get_theme_img_url(
+			'default-event-avatar.png'
+		);
+
+		if (
+			! is_user_logged_in() &&
+			$ai1ec_settings->allow_anonymous_submissions &&
+			$ai1ec_settings->recaptcha_key !== ''
+		) {
+			$recaptcha_key = $ai1ec_settings->recaptcha_public_key;
+		} else {
+			$recaptcha_key = false;
+		}
+
+		$allow_uploads = is_user_logged_in() ||
+			$ai1ec_settings->allow_anonymous_submissions &&
+			$ai1ec_settings->allow_anonymous_uploads;
+
+		$args = array(
+			'date_format_pattern' => $date_format_pattern,
+			'week_start_day'      => $week_start_day,
+			'input_24h_time'      => $input_24h_time,
+			'cat_select'          => $cat_select,
+			'tag_select'          => $tag_select,
+			'form_action'         => $form_action,
+			'interactive_gmaps'   => ! $ai1ec_settings->disable_autocompletion,
+			'default_image'       => $default_image,
+			'recaptcha_key'       => $recaptcha_key,
+			'allow_uploads'       => $allow_uploads,
+		);
+
+		$ai1ec_view_helper->display_theme( 'create-event-form.php', $args );
+		exit( 0 );
+	}
+
+	/**
+	 * Generates the HTML for a category selector.
+	 *
+	 * @param array $selected_cat_ids Preselected category IDs
+	 *
+	 * @return string                 Markup for categories selector
+	 */
+	public function get_html_for_category_selector( $selected_cat_ids = array() ) {
+		global $ai1ec_view_helper;
+
+		// Get categories. Add category color info to available categories.
+		$categories = get_terms(
+			'events_categories',
+			array(
+				'orderby' => 'name',
+				'hide_empty' => 0,
+			)
+		);
+		if ( empty( $categories ) ) {
+			return '';
+		}
+		foreach ( $categories as &$cat ) {
+			$cat->color = $this->get_category_color( $cat->term_id );
+		}
+
+		$args = array(
+			'categories'       => $categories,
+			'selected_cat_ids' => $selected_cat_ids,
+			'id'               => 'ai1ec_categories',
+			'name'             => 'ai1ec_categories[]',
+		);
+		return $ai1ec_view_helper->get_theme_view( 'categories-select.php', $args );
+	}
+
+	/**
+	 * Generates the HTML for a tag selector.
+	 *
+	 * @param array $selected_tag_ids Preselected tag IDs
+	 *
+	 * @return string                 Markup for tag selector
+	 */
+	private function get_html_for_tag_selector( $selected_tag_ids = array() ) {
+		global $ai1ec_view_helper;
+
+		// Get tags.
+		$tags = get_terms(
+			'events_tags',
+			array(
+				'orderby' => 'name',
+				'hide_empty' => 0,
+			)
+		);
+		if ( empty( $tags ) ) {
+			return '';
+		}
+
+		// Build tags array to pass as JSON.
+		$tags_json = array();
+		foreach ( $tags as $term ) {
+			$tag_obj = new Stdclass();
+			$tag_obj->id   = $term->name;
+			$tag_obj->text = $term->name;
+			$tags_json[]   = $tag_obj;
+		}
+		$tags_json = json_encode( $tags_json );
+		$tags_json = _wp_specialchars( $tags_json, 'single', 'UTF-8' );
+
+		$args = array(
+			'tags_json'        => $tags_json,
+			'selected_tag_ids' => implode( ', ', $selected_tag_ids ),
+			'id'               => 'ai1ec_tags',
+			'name'             => 'ai1ec_tags',
+		);
+		return $ai1ec_view_helper->get_theme_view( 'tags-select.php', $args );
+	}
+
+	/**
+	 * Handle AJAX request for submission of front-end create event form.
+	 *
+	 * @return null
+	 */
+	public function submit_front_end_create_event_form() {
+		global $ai1ec_view_helper,
+					 $ai1ec_calendar_helper,
+					 $ai1ec_settings,
+					 $ai1ec_events_helper;
+
+		$error             = false;
+		$html              = '';
+		$default_error_msg =
+			__( 'There was an error creating your event.', AI1EC_PLUGIN_NAME ) . ' ' .
+			__( 'Please try again or contact the site administrator for help.', AI1EC_PLUGIN_NAME );
+
+		$valid = $this->validate_front_end_create_event_form( $message );
+
+		// If valid submission, proceed with event creation.
+		if ( $valid ) {
+			// Determine post publish status.
+			if ( current_user_can( 'publish_ai1ec_events' ) ) {
+				$post_status = 'publish';
+			} else if ( current_user_can( 'edit_ai1ec_events' ) ) {
+				$post_status = 'pending';
+			} else if ( $ai1ec_settings->allow_anonymous_submissions ) {
+				$post_status = 'pending';
+			}
+
+			// Strip slashes if ridiculous PHP setting magic_quotes_gpc is enabled.
+			foreach ( $_POST as $param_name => $param ) {
+				if (
+					'ai1ec' === substr( $param_name, 0, 5 ) &&
+					is_scalar( $param )
+				) {
+					$_POST[$param_name] = stripslashes( $param );
+				}
+			}
+
+			// Build post array from submitted data.
+			$post = array(
+				'post_type'    => AI1EC_POST_TYPE,
+				'post_author'  => get_current_user_id(),
+				'post_title'   => $_POST['post_title'],
+				'post_content' => $_POST['post_content'],
+				'post_status'  => $post_status,
+			);
+
+			// Copy posted event data to new empty event object.
+			$event = new Ai1ec_Event();
+			$event->post          = $post;
+			$event->categories    = isset( $_POST['ai1ec_categories'] )    ? implode( ',', $_POST['ai1ec_categories'] ) : '';
+			$event->tags          = isset( $_POST['ai1ec_tags'] )          ? $_POST['ai1ec_tags']                       : '';
+			$event->allday        = isset( $_POST['ai1ec_all_day_event'] ) ? (bool) $_POST['ai1ec_all_day_event']       : 0;
+			$event->instant_event = isset( $_POST['ai1ec_instant_event'] ) ? (bool) $_POST['ai1ec_instant_event']       : 0;
+			$event->start         = isset( $_POST['ai1ec_start_time'] )    ? $_POST['ai1ec_start_time']                 : '';
+			if( $event->instant_event ) {
+				$event->end         = $event->start + 1800;
+			} else {
+				$event->end         = isset( $_POST['ai1ec_end_time'] )      ? $_POST['ai1ec_end_time']                   : '';
+			}
+			$event->address       = isset( $_POST['ai1ec_address'] )       ? $_POST['ai1ec_address']                    : '';
+			$event->show_map      = isset( $_POST['ai1ec_google_map'] )    ? (bool) $_POST['ai1ec_google_map']          : 0;
+
+			$scalar_field_list = array(
+				'ai1ec_venue'         => FILTER_SANITIZE_STRING,
+				'ai1ec_cost'          => FILTER_SANITIZE_STRING,
+				'ai1ec_ticket_url'    => FILTER_VALIDATE_URL,
+				'ai1ec_contact_name'  => FILTER_SANITIZE_STRING,
+				'ai1ec_contact_phone' => FILTER_SANITIZE_STRING,
+				'ai1ec_contact_email' => FILTER_VALIDATE_EMAIL,
+				'ai1ec_contact_url'   => FILTER_VALIDATE_URL,
+			);
+			foreach ( $scalar_field_list as $scalar_field => $field_filter ) {
+				$scalar_value = filter_input(
+					INPUT_POST,
+					$scalar_field,
+					$field_filter
+				);
+				if ( ! empty( $scalar_value ) ) {
+					$use_name         = substr( $scalar_field, 6 );
+					$event->$use_name = $scalar_value;
+				}
+			}
+
+			// Save the event to the database.
+			try {
+				$event->save();
+				$ai1ec_events_helper->cache_event( $event );
+
+				// Check if uploads are enabled and there is an uploaded file.
+				if ( ( is_user_logged_in() ||
+				       $ai1ec_settings->allow_anonymous_submissions &&
+				       $ai1ec_settings->allow_anonymous_uploads ) &&
+				     ! empty( $_FILES['ai1ec_image']['name'] ) ) {
+					require_once( ABSPATH . 'wp-admin/includes/image.php' );
+					require_once( ABSPATH . 'wp-admin/includes/file.php' );
+					require_once( ABSPATH . 'wp-admin/includes/media.php' );
+					$attach_id = media_handle_upload( 'ai1ec_image', $event->post_id );
+					if ( is_int( $attach_id ) ) {
+						update_post_meta( $event->post_id, '_thumbnail_id', $attach_id );
+					}
+				}
+
+				if ( current_user_can( 'publish_ai1ec_events' ) ) {
+					$message   = sprintf(
+						__( 'Thank you for your submission. Your event <em>%s</em> was published successfully.', AI1EC_PLUGIN_NAME ),
+						$post['post_title']
+					);
+					$link_text = __( 'View Your Event', AI1EC_PLUGIN_NAME );
+					$link_url  = get_permalink( $event->post_id );
+				} else {
+					$message   = sprintf(
+						__( 'Thank you for your submission. Your event <em>%s</em> will be reviewed and published once approved.', AI1EC_PLUGIN_NAME ),
+						$post['post_title']
+					);
+					$link_text = __( 'Back to Calendar', AI1EC_PLUGIN_NAME );
+					$link_url  = $ai1ec_calendar_helper->get_calendar_url();
+				}
+			}
+			catch ( Exception $e ) {
+				trigger_error(
+					sprintf(
+						__( 'There was an error during event creation: %s', AI1EC_PLUGIN_NAME ),
+						$e->getMessage()
+					),
+					E_USER_WARNING
+				);
+				$error = true;
+				$message = $default_error_msg;
+			}
+
+			$args = array(
+				'message_type' => $error ? 'error' : 'success',
+				'message'      => $message,
+				'link_text'    => $link_text,
+				'link_url'     => $link_url,
+			);
+
+			$html = $ai1ec_view_helper->get_theme_view(
+				'create-event-message.php',
+				$args
+			);
+		}
+		// Form submission was invalid.
+		else {
+			$error = true;
+		}
+
+		$response = array(
+			'error'   => $error,
+			'message' => $message,
+			'html'    => $html,
+		);
+
+		$ai1ec_view_helper->xml_response( $response );
+	}
+
+	/**
+	 * Performs a captcha check
+	 *
+	 * @return array
+	 */
+	public function check_captcha() {
+		global $ai1ec_settings;
+		$response = array( 'success' => true );
+		if ( empty( $_POST['recaptcha_challenge_field'] ) ||
+			empty( $_POST['recaptcha_response_field'] ) ) {
+			$response['message'] = __( 'There was an error reading the word verification data. Please try again.', AI1EC_PLUGIN_NAME );
+			$response['success'] = false;
+		}
+
+		require_once( AI1EC_LIB_PATH . '/recaptcha/recaptchalib.php' );
+		$resp = recaptcha_check_answer(
+			$ai1ec_settings->recaptcha_private_key,
+			$_SERVER["REMOTE_ADDR"],
+			$_POST["recaptcha_challenge_field"],
+			$_POST["recaptcha_response_field"]
+		);
+
+		if ( ! $resp->is_valid ) {
+			$response['message'] = __( 'Please try answering the word verification again.', AI1EC_PLUGIN_NAME );
+			$response['success'] = false;
+		}
+		return $response;
+	}
+
+	/**
+	 * Checks if the current front-end create event form submission is valid.
+	 *
+	 * @param  string  $message  Error message returned if form is invalid.
+	 * @return boolean True if valid, false otherwise
+	 */
+	private function validate_front_end_create_event_form( &$message ) {
+		global $ai1ec_settings;
+
+		// Check nonce.
+		if ( isset( $_POST[AI1EC_POST_TYPE] ) &&
+		     ! wp_verify_nonce( $_POST[AI1EC_POST_TYPE], 'ai1ec_front_end_form' ) ) {
+			$message = __( 'Access denied.', AI1EC_PLUGIN_NAME );
+			return false;
+		}
+
+		// Check CAPTCHA.
+		if ( ! is_user_logged_in() &&
+		     $ai1ec_settings->allow_anonymous_submissions &&
+		     ! empty( $ai1ec_settings->recaptcha_public_key ) ) {
+
+			$response = $this->check_captcha();
+			if( false === $response['success'] ) {
+				$message = $response['message'];
+				return false;
+			}
+		}
+
+		// Check permission based on settings.
+		if ( ! current_user_can( 'edit_ai1ec_events' ) &&
+		     ! $ai1ec_settings->allow_anonymous_submissions ) {
+			$message = __(
+				'You do not have permission to create events.',
+				AI1EC_PLUGIN_NAME
+			);
+			return false;
+		}
+
+		// Ensure uploaded file is an image.
+		if ( ! empty( $_FILES['ai1ec_image']['name'] ) ) {
+			$is_image = 1 === preg_match(
+				'/\.(jpg|jpe|jpeg|gif|png)$/i',
+				$_FILES['ai1ec_image']['name']
+			);
+			if ( ! $is_image ) {
+				$message = __(
+					'Please upload a valid image file.',
+					AI1EC_PLUGIN_NAME
+				);
+				return false;
+			}
+		}
+
+		return true;
 	}
 }
 // END class

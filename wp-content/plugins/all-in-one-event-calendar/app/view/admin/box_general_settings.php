@@ -3,7 +3,17 @@
 <ul class="nav nav-tabs">
 	<li><a href="#ai1ec-viewing-events" data-toggle="tab"><?php _e( 'Viewing Events', AI1EC_PLUGIN_NAME ); ?></a></li>
 	<li><a href="#ai1ec-editing-events" data-toggle="tab"><?php _e( 'Adding/Editing Events', AI1EC_PLUGIN_NAME ); ?></a></li>
-	<li><a href="#ai1ec-advanced" data-toggle="tab"><?php _e( 'Advanced Settings', AI1EC_PLUGIN_NAME ); ?></a></li>
+	<li class="dropdown">
+		<a href="#" data-toggle="dropdown">
+			<?php _e( 'Advanced', AI1EC_PLUGIN_NAME ); ?>
+			<i class="icon-caret-down"></i>
+		</a>
+		<ul class="dropdown-menu">
+			<li><a href="#ai1ec-advanced" data-toggle="tab"><?php _e( 'Advanced Settings', AI1EC_PLUGIN_NAME ); ?></a></li>
+			<li><a href="#ai1ec-mail" data-toggle="tab"><?php _e( 'E-mail Templates', AI1EC_PLUGIN_NAME ); ?></a></li>
+		</ul>
+	</li>
+	<li><a href="#ai1ec-license-key" data-toggle="tab"><?php _e( 'License Key', AI1EC_PLUGIN_NAME ); ?></a></li>
 </ul>
 
 <div class="tab-content ai1ec-boxed-tabs">
@@ -88,6 +98,16 @@
 				/><span class="add-on"><?php _e( 'events', AI1EC_PLUGIN_NAME ) ?></span>
 		</div>
 
+		<label class="textinput" for="stream_events_per_page">
+			<?php _e( 'Stream pages show at most', AI1EC_PLUGIN_NAME ) ?>
+		</label>
+		<div class="input-append">
+			<input name="stream_events_per_page" id="stream_events_per_page"
+				type="text" class="input-mini"
+				value="<?php echo esc_attr( $stream_events_per_page ) ?>"
+				/><span class="add-on"><?php _e( 'events', AI1EC_PLUGIN_NAME ) ?></span>
+		</div>
+
 		<label class="textinput" for="agenda_events_per_page">
 			<?php _e( 'Agenda pages show at most', AI1EC_PLUGIN_NAME ) ?>
 		</label>
@@ -106,7 +126,7 @@
 			<?php printf(
 				__( 'In <span %s>Agenda-like views</span>, <strong>include all events from last day shown</strong>', AI1EC_PLUGIN_NAME ),
 				'class="ai1ec-tooltip-toggle" title="' .
-					__( 'These include Agenda view, Posterboard view, and the Upcoming Events widget.', AI1EC_PLUGIN_NAME )
+					__( 'These include Agenda view, Posterboard view, Stream view, and the Upcoming Events widget.', AI1EC_PLUGIN_NAME )
 					. '"'
 				); ?>
 		</label>
@@ -163,6 +183,7 @@
 				<p><?php _e( 'Insert one of these shortcodes into your page body to embed the calendar into any arbitrary WordPress Page:', AI1EC_PLUGIN_NAME ); ?></p>
 				<ul>
 					<li><?php _e( 'Posterboard view:', AI1EC_PLUGIN_NAME ); ?> <code>[ai1ec view="posterboard"]</code></li>
+					<li><?php _e( 'Stream view:', AI1EC_PLUGIN_NAME ); ?> <code>[ai1ec view="stream"]</code></li>
 					<li><?php _e( 'Month view:', AI1EC_PLUGIN_NAME ); ?> <code>[ai1ec view="monthly"]</code></li>
 					<li><?php _e( 'Week view:', AI1EC_PLUGIN_NAME ); ?> <code>[ai1ec view="weekly"]</code></li>
 					<li><?php _e( 'Day view:', AI1EC_PLUGIN_NAME ); ?> <code>[ai1ec view="daily"]</code></li>
@@ -187,9 +208,55 @@
 					<li><?php _e( 'Filter by post ID:', AI1EC_PLUGIN_NAME ); ?> <code>[ai1ec post_id="1"]</code></li>
 					<li><?php _e( 'Filter by post IDs (separate IDs by comma):', AI1EC_PLUGIN_NAME ); ?> <code>[ai1ec post_id="1,2"]</code></li>
 				</ul>
+
+				<h4>
+					<?php _e( 'As a Super Widget', AI1EC_PLUGIN_NAME ); ?>
+				</h4>
+				<p><?php _e( "You can also embed a calendar into a remote webpage (for example, a static HTML page hosted on a different server). Here's how:", AI1EC_PLUGIN_NAME ); ?></p>
+				<ol>
+					<li>
+						<p><?php _e( "Add this line just before the closing <code>&lt;/head&gt;</code> tag:", AI1EC_PLUGIN_NAME ); ?></p>
+						<pre>&lt;script type="text/javascript" src="<?php echo site_url( '/?ai1ec_super_widget' ); ?>"&gt;&lt;/script&gt;</pre>
+					</li>
+					<li>
+						<p><?php _e( 'Insert this markup where you would like to embed the Super Widget (using default options):', AI1EC_PLUGIN_NAME ); ?></p>
+						<pre>&lt;div class="timely-calendar"&gt;&lt;/div&gt;</pre>
+					</li>
+					<li>
+						<p>
+							<span class="muted"><?php _e( 'Optional.', AI1EC_PLUGIN_NAME ); ?></span>
+							<?php _e( 'Add options to your Super Widget:', AI1EC_PLUGIN_NAME ); ?>
+						</p>
+						<ul>
+							<li><?php _e( 'Posterboard view:', AI1EC_PLUGIN_NAME ); ?> <code>&lt;div class="timely-calendar" data-action="posterboard"&gt;&lt;/div&gt;</code></li>
+							<li><?php _e( 'Stream view:', AI1EC_PLUGIN_NAME ); ?> <code>&lt;div class="timely-calendar" data-action="stream"&gt;&lt;/div&gt;</code></li>
+							<li><?php _e( 'Month view:', AI1EC_PLUGIN_NAME ); ?> <code>&lt;div class="timely-calendar" data-action="month"&gt;&lt;/div&gt;</code></li>
+							<li><?php _e( 'Week view:', AI1EC_PLUGIN_NAME ); ?> <code>&lt;div class="timely-calendar" data-action="week"&gt;&lt;/div&gt;</code></li>
+							<li><?php _e( 'Day view:', AI1EC_PLUGIN_NAME ); ?> <code>&lt;div class="timely-calendar" data-action="day"&gt;&lt;/div&gt;</code></li>
+							<li><?php _e( 'Agenda view:', AI1EC_PLUGIN_NAME ); ?> <code>&lt;div class="timely-calendar" data-action="agenda"&gt;&lt;/div&gt;</code></li>
+							<li><?php _e( 'Default view as per settings:', AI1EC_PLUGIN_NAME ); ?> <code>&lt;div class="timely-calendar"&gt;&lt;/div&gt;</code></li>
+
+							<li><?php _e( 'Filter by event category ID:', AI1EC_PLUGIN_NAME ); ?> <code>&lt;div class="timely-calendar" data-cat_ids="1"&gt;&lt;/div&gt;</code></li>
+							<li><?php _e( 'Filter by event category IDs (separate IDs by comma):', AI1EC_PLUGIN_NAME ); ?> <code>&lt;div class="timely-calendar" data-cat_ids="1,2"&gt;&lt;/div&gt;</code></li>
+
+							<li><?php _e( 'Filter by event tag ID:', AI1EC_PLUGIN_NAME ); ?> <code>&lt;div class="timely-calendar" data-tag_ids="1"&gt;&lt;/div&gt;</code></li>
+							<li><?php _e( 'Filter by event tag IDs (separate IDs by comma):', AI1EC_PLUGIN_NAME ); ?> <code>&lt;div class="timely-calendar" data-tag_ids="1,2"&gt;&lt;/div&gt;</code></li>
+
+							<li><?php _e( 'Filter by post ID:', AI1EC_PLUGIN_NAME ); ?> <code>&lt;div class="timely-calendar" data-post_ids="1"&gt;&lt;/div&gt;</code></li>
+							<li><?php _e( 'Filter by post IDs (separate IDs by comma):', AI1EC_PLUGIN_NAME ); ?> <code>&lt;div class="timely-calendar" data-post_ids="1,2"&gt;&lt;/div&gt;</code></li>
+
+							<li><?php _e( 'Hide title and navigation buttons:', AI1EC_PLUGIN_NAME ); ?> <code>&lt;div class="timely-calendar" data-no_navigation="true"&gt;&lt;/div&gt;</code></li>
+
+							<li><?php _e( 'Set a default start date: *', AI1EC_PLUGIN_NAME ); ?> <code>&lt;div class="timely-calendar" data-exact_date="21-12-2012"&gt;&lt;/div&gt;</code></li>
+						</ul>
+					</li>
+				</ol>
+				<div class="alert alert-block">
+					<p><?php _e( "* Provide a date in the same format specified by the <strong>Input dates in this format</strong> setting on the <strong>Adding/Editing Events</strong> tab.", AI1EC_PLUGIN_NAME ); ?></p>
+				</div>
 				<div class="alert alert-block">
 					<p><strong><?php _e( 'Warning', AI1EC_PLUGIN_NAME ); ?></strong></p>
-					<p><?php _e( 'It is currently not supported to embed more than one calendar in the same page. Do not attempt to embed the calendar via shortcode in a page that already displays the calendar.', AI1EC_PLUGIN_NAME ); ?></p>
+					<p><?php _e( 'It is currently not supported to embed more than one calendar in the same page. Do not attempt to embed the calendar via shortcode or Super Widget in a page that already displays the calendar.', AI1EC_PLUGIN_NAME ); ?></p>
 				</div>
 			</div>
 		</div>
@@ -208,6 +275,45 @@
 			<?php _e( 'Use <strong>24h time</strong> in time pickers', AI1EC_PLUGIN_NAME ) ?>
 		</label>
 
+		<label for="show_create_event_button">
+			<input class="checkbox" name="show_create_event_button" id="show_create_event_button" type="checkbox" value="1" <?php echo $show_create_event_button ?> />
+			<?php _e( 'Show <strong>Post Your Event</strong> button above the calendar to privileged users', AI1EC_PLUGIN_NAME ) ?>
+		</label>
+
+		<label for="show_front_end_create_form">
+			<input class="checkbox" name="show_front_end_create_form" id="show_front_end_create_form" type="checkbox" value="1" <?php echo $show_front_end_create_form; ?> />
+			<?php _e( 'Clicking <strong>Post Your Event</strong> shows <strong>front-end event creation form</strong>', AI1EC_PLUGIN_NAME ) ?>
+		</label>
+
+		<label for="allow_anonymous_submissions">
+			<input class="checkbox" name="allow_anonymous_submissions" id="allow_anonymous_submissions" type="checkbox" value="1" <?php echo $allow_anonymous_submissions; ?> />
+			<?php _e( 'Allow <strong>anonymous users</strong> to submit events for review', AI1EC_PLUGIN_NAME ) ?>
+		</label>
+
+		<label for="allow_anonymous_uploads">
+			<input class="checkbox" name="allow_anonymous_uploads" id="allow_anonymous_uploads" type="checkbox" value="1" <?php echo $allow_anonymous_uploads; ?> />
+			<?php _e( 'Allow anonymous users to <strong>upload images</strong> for their events', AI1EC_PLUGIN_NAME ) ?>
+		</label>
+
+		<label for="show_add_calendar_button">
+			<input class="checkbox" name="show_add_calendar_button" id="show_add_calendar_button" type="checkbox" value="1" <?php echo $show_add_calendar_button; ?> />
+			<?php _e( 'Enable <strong>Add Your Calendar Feed</strong> button to allow visitors to suggest event feeds', AI1EC_PLUGIN_NAME ) ?>
+		</label>
+
+		<fieldset class="clear ai1ec-recaptcha-settings">
+			<legend><?php _e( 'Configure <a href="https://www.google.com/recaptcha/admin/create" target="_blank">reCAPTCHA</a> to control spam from front-end forms:', AI1EC_PLUGIN_NAME ); ?></legend>
+			<label for="recaptcha_public_key">
+				<?php _e( 'reCAPTCHA public key:', AI1EC_PLUGIN_NAME ) ?>
+			</label>
+			<input class="textinput input-xlarge" name="recaptcha_public_key" id="recaptcha_public_key" type="text" value="<?php echo $recaptcha_public_key; ?>" />
+
+			<br class="clear" />
+ 			<label for="recaptcha_private_key">
+				<?php _e( 'reCAPTCHA private key:', AI1EC_PLUGIN_NAME ) ?>
+			</label>
+			<input class="textinput input-xlarge" name="recaptcha_private_key" id="recaptcha_private_key" type="text" value="<?php echo $recaptcha_private_key; ?>" />
+		</fieldset>
+
 		<label for="disable_autocompletion">
 			<input class="checkbox" name="disable_autocompletion" id="disable_autocompletion" type="checkbox" value="1" <?php echo $disable_autocompletion ?> />
 			<?php _e( '<strong>Disable address autocomplete</strong> function', AI1EC_PLUGIN_NAME ) ?>
@@ -221,17 +327,6 @@
 		<label for="show_publish_button">
 			<input class="checkbox" name="show_publish_button" id="show_publish_button" type="checkbox" value="1" <?php echo $show_publish_button ?> />
 			<?php _e( 'Display <strong>Publish</strong> at bottom of Edit Event form', AI1EC_PLUGIN_NAME ) ?>
-		</label>
-
-		<label for="show_create_event_button">
-			<input class="checkbox" name="show_create_event_button" id="show_create_event_button" type="checkbox" value="1" <?php echo $show_create_event_button ?> />
-			<?php _e( 'Show the old <strong>Post Your Event</strong> button above the calendar to privileged users', AI1EC_PLUGIN_NAME ); ?>
-			<div class="help-block">
-				<?php printf(
-					__( '<a %s>Upgrade to Pro</a> for the new <strong>front-end Post Your Event form</strong>.', AI1EC_PLUGIN_NAME ),
-					'href="http://time.ly/pro-calendar" target="_blank"'
-				); ?>
-			</div>
 		</label>
 
 	</div>
@@ -257,6 +352,11 @@
 		</div>
 		<span class="help-block"><?php _e( 'Try enabling this option if your calendar does not appear on the calendar page. It is needed for compatibility with a small number of themes that call <tt>the_content()</tt> from outside of The Loop. Leave disabled otherwise.', AI1EC_PLUGIN_NAME ) ?></span>
 
+		<label for="ajaxify_events_in_web_widget">
+		<input class="checkbox" name="ajaxify_events_in_web_widget" id="ajaxify_events_in_web_widget" type="checkbox" value="1" <?php echo $ajaxify_events_in_web_widget; ?> />
+		<?php _e( 'In Super Widgets, <strong>use AJAX to load event details inline</strong> rather than navigate to event details page', AI1EC_PLUGIN_NAME ) ?>
+		</label>
+
 		<?php if( $display_event_platform ): ?>
 			<label for="event_platform">
 				<input class="checkbox" name="event_platform" id="event_platform" type="checkbox" value="1"
@@ -279,6 +379,65 @@
 		<div class="clear"></div>
 
 		<?php do_action( 'ai1ec_advanced_settings_after' ); ?>
+	</div>
+
+	<div class="tab-pane" id="ai1ec-mail">
+		<h2><?php _e( 'E-mail Templates', AI1EC_PLUGIN_NAME ); ?></h2>
+
+		<?php do_action( 'ai1ec_mail_settings_before' ); ?>
+
+		<span class="help-block"><?php _e( 'Note: The settings below only apply if the <strong>Add Your Calendar Feed</strong> button is enabled.', AI1EC_PLUGIN_NAME ); ?></span>
+
+		<fieldset>
+			<legend>
+				<?php _e( 'Mail sent to admin when new feed is submitted:', AI1EC_PLUGIN_NAME ); ?>
+			</legend>
+			<div class="row-fluid">
+				<label for="admin_mail_subject">
+					<?php _e( 'Subject:', AI1EC_PLUGIN_NAME ); ?>
+				</label>
+				<input name="admin_mail_subject" id="admin_mail_subject" type="text"
+					class="span12"
+					value="<?php echo esc_attr( $admin_mail_subject ); ?>" />
+			</div>
+			<div class="row-fluid">
+				<label for="admin_mail_body">
+					<?php _e( 'Body:', AI1EC_PLUGIN_NAME ); ?>
+				</label>
+				<textarea name="admin_mail_body" id="admin_mail_body" class="span12"
+					rows="4"><?php echo esc_html( $admin_mail_body ); ?></textarea>
+			</div>
+		</fieldset>
+		<fieldset>
+			<legend>
+				<?php _e( 'Mail sent to user when a new feed is submitted:', AI1EC_PLUGIN_NAME ); ?>
+			</legend>
+			<div class="row-fluid">
+				<label for="user_mail_subject">
+					<?php _e( 'Subject:', AI1EC_PLUGIN_NAME ); ?>
+				</label>
+				<input name="user_mail_subject" id="user_mail_subject" type="text"
+					class="span12"
+					value="<?php echo esc_attr( $user_mail_subject ); ?>" />
+			</div>
+			<div class="row-fluid">
+				<label for="user_mail_body">
+					<?php _e( 'Body:', AI1EC_PLUGIN_NAME ); ?>
+				</label>
+				<textarea name="user_mail_body" id="user_mail_body" class="span12"
+					rows="4"><?php echo esc_html( $user_mail_body ); ?></textarea>
+			</div>
+		</fieldset>
+
+		<?php do_action( 'ai1ec_mail_settings_after' ); ?>
+	</div>
+	<div class="tab-pane" id="ai1ec-license-key">
+		<div class="input-prepend">
+			<span class="add-on"><?php _e( 'License key:', AI1EC_PLUGIN_NAME ) ?></span>
+			<input name="license_key" id="license_key" type="text"
+				class="input-xlarge"
+				value="<?php echo esc_attr( $license_key ) ?>" />
+		</div>
 	</div>
 
 	<div class="ai1ec-tab-pane-not-loaded">

@@ -450,15 +450,10 @@ class Ai1ec_Facebook_Event {
 	 */
 	public function save_to_facebook( Facebook_WP_Extend_Ai1ec $facebook ) {
 		$data_to_send = get_object_vars( $this );
-		$data_to_send['description'] = preg_replace( 
-			'#<\s*script[^>]*>.+<\s*/\s*script\s*>#x', 
-			'', 
-			$data_to_send['description']
-		);
+
 		$data_to_send['description'] = strip_shortcodes( 
 			strip_tags( $data_to_send['description'] )
 		);
-
 		if ( $data_to_send['id'] === NULL ) {
 			$result = array ();
 			unset( $data_to_send['id'] );

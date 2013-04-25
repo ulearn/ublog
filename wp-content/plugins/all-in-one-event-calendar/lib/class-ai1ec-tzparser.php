@@ -270,6 +270,7 @@ class Ai1ec_Tzparser
 		'Turkey'                           => 'Europe/Istanbul',
 		'Turkmenistan'                     => 'Asia/Ashgabat',
 		'Tuvalu'                           => 'Pacific/Funafuti',
+		'US/Eastern'                       => 'America/New_York',
 		'US Eastern Standard Time'         => 'Etc/GMT+5',
 		'US Mountain Standard Time'        => 'America/Phoenix',
 		'Uralsk'                           => 'Asia/Oral',
@@ -295,6 +296,14 @@ class Ai1ec_Tzparser
 		'Yekaterinburg'                    => 'Asia/Yekaterinburg',
 		'Yerevan'                          => 'Asia/Yerevan',
 		'Yukon'                            => 'America/Yakutat',
+	);
+
+	/**
+	 * @var array a map of timezones which are valid for DateTimeZone but return
+	 * false when used in strtotime
+	 */
+	protected $invalid_legacy_for_strotime = array(
+		'US/Eastern' => true,
 	);
 
 	/**
@@ -360,7 +369,10 @@ class Ai1ec_Tzparser
 			} catch ( Exception $excpt ) {
 				$valid_legacy = false;
 			}
-			if ( true === $valid_legacy ) {
+			if (
+				true === $valid_legacy &&
+				! isset( $this->invalid_legacy_for_strotime[$zone] )
+			) {
 				$this->tz_identifiers[$zone] = $zone;
 				unset( $valid_legacy );
 				return $zone;

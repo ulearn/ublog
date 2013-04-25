@@ -51,6 +51,13 @@ class Ai1ec_Settings {
 	public $posterboard_tile_min_width;
 
 	/**
+	 * stream_events_per_page class variable
+	 *
+	 * @var int
+	 **/
+	public $stream_events_per_page;
+
+	/**
 	 * calendar_page_id class publiciable
 	 *
 	 * @var int
@@ -183,16 +190,6 @@ class Ai1ec_Settings {
 	public $show_publish_button;
 
 	/**
-	 * show_create_event_button class variable
-	 *
-	 * Display "Post Your Event" button on the calendar page for those users with
-	 * the privilege.
-	 *
-	 * @var bool
-	 **/
-	var $show_create_event_button;
-
-	/**
 	 * if specified, the calendar will use it as a starting date instead of the current day.
 	 *
 	 * @var string
@@ -219,6 +216,61 @@ class Ai1ec_Settings {
 	 * @var bool
 	 **/
 	public $agenda_events_expanded;
+
+	/**
+	 * show_create_event_button class variable
+	 *
+	 * Display "Post Your Event" button on the calendar page for those users with
+	 * the privilege.
+	 *
+	 * @var bool
+	 **/
+	public $show_create_event_button;
+
+	/**
+	 * Show front-end event creation form if users click the "Post Your Event"
+	 * button.
+	 *
+	 * @var bool
+	 */
+	public $show_front_end_create_form;
+
+	/**
+	 * Allow anonymous users to submit events for review using front-end event
+	 * creation form.
+	 *
+	 * @var bool
+	 */
+	public $allow_anonymous_submissions;
+
+	/**
+	 * Allow anonymous users to uploads images for their events using front-end
+	 * event creation form.
+	 *
+	 * @var bool
+	 */
+	public $allow_anonymous_uploads;
+
+	/**
+	 * Show front-end Add Your Calendar Feed button.
+	 *
+	 * @var bool
+	 */
+	public $show_add_calendar_button;
+
+	/**
+	 * reCAPTCHA public key
+	 *
+	 * @var string
+	 */
+	public $recaptcha_public_key;
+
+	/**
+	 * reCAPTCHA private key
+	 *
+	 * @var string
+	 */
+	public $recaptcha_private_key;
 
 	/**
 	 * turn_off_subscription_buttons class variable
@@ -312,6 +364,13 @@ class Ai1ec_Settings {
 	public $show_intro_video;
 
 	/**
+	 * Whether to display a warning about an invalid license.
+	 *
+	 * @var string
+	 */
+	public $license_warning;
+
+	/**
 	 * Whether to collect event data for Timely.
 	 *
 	 * @var bool
@@ -367,6 +426,49 @@ class Ai1ec_Settings {
 	 * compatible with certain themes.
 	 */
 	public $skip_in_the_loop_check;
+
+	/**
+	 * Ajaxify the events in the widget instead of redirecting the user to the
+	 * calendar.
+	 *
+	 * @var bool
+	 */
+	public $ajaxify_events_in_web_widget;
+
+	/**
+	 * Pro license key.
+	 *
+	 * @var string
+	 */
+	public $license_key;
+
+	/**
+	 * Subject of mail sent to admin when a new calendar feed is contributed.
+	 *
+	 * @var string
+	 */
+	public $admin_mail_subject;
+
+	/**
+	 * Body of mail sent to admin when a new calendar feed is contributed.
+	 *
+	 * @var string
+	 */
+	public $admin_mail_body;
+
+	/**
+	 * Subject of mail sent to user when a new calendar feed is contributed.
+	 *
+	 * @var string
+	 */
+	public $user_mail_subject;
+
+	/**
+	 * Body of mail sent to user when a new calendar feed is contributed.
+	 *
+	 * @var string
+	 */
+	public $user_mail_body;
 
 	/**
 	 * __construct function
@@ -501,12 +603,29 @@ class Ai1ec_Settings {
 	 * @return void
 	 **/
 	function set_defaults() {
+		$admin_mail_subject = __( "[[site_title]] New iCalendar (.ics) feed submitted for review", AI1EC_PLUGIN_NAME );
+		$admin_mail_body = __(
+			"A visitor has submitted their calendar feed for review:\n\niCalendar feed URL: [feed_url]\nCategories: [categories]\n\nTo add this feed to your calendar, visit your Calendar Feeds admin screen and add it as an ICS feed:\n[feeds_url]\n\nPlease respond to this user by e-mail ([user_email]) to let them know whether or not their feed is approved.\n\n[site_title]\n[site_url]",
+			AI1EC_PLUGIN_NAME
+		);
+		$user_mail_subject = __( "[[site_title]] Thanks for your calendar submission", AI1EC_PLUGIN_NAME );
+		$user_mail_body = __(
+			"We have received your calendar submission. We will review it shortly and let you know if it is approved.\n\nThere is a small chance that your submission was lost in a spam trap. If you don't hear from us soon, please resubmit.\n\nThanks,\n[site_title]\n[site_url]",
+			AI1EC_PLUGIN_NAME
+		);
+		$license_key = '';
+		if (
+			AI1EC_TIMELY_SUBSCRIPTION != 'REPLACE_ME' &&
+			AI1EC_TIMELY_SUBSCRIPTION != ''
+		)
+			$license_key = AI1EC_TIMELY_SUBSCRIPTION;
 		$defaults = array(
 			'calendar_page_id'               => 0,
 			'default_calendar_view'          => 'posterboard',
 			'default_categories'             => array(),
 			'default_tags'                   => array(),
 			'view_posterboard_enabled'       => TRUE,
+			'view_stream_enabled'            => TRUE,
 			'view_month_enabled'             => TRUE,
 			'view_week_enabled'              => TRUE,
 			'view_oneday_enabled'            => TRUE,
@@ -518,6 +637,7 @@ class Ai1ec_Settings {
 			'exact_date'                     => '',
 			'posterboard_events_per_page'    => 30,
 			'posterboard_tile_min_width'     => 240,
+			'stream_events_per_page'         => 30,
 			'agenda_events_per_page'         => Ai1ec_Meta::get_option(
 				'posts_per_page'
 			),
@@ -531,6 +651,12 @@ class Ai1ec_Settings {
 			'hide_maps_until_clicked'        => FALSE,
 			'exclude_from_search'            => FALSE,
 			'show_create_event_button'       => FALSE,
+			'show_front_end_create_form'     => FALSE,
+			'allow_anonymous_submissions'    => FALSE,
+			'allow_anonymous_uploads'        => FALSE,
+			'show_add_calendar_button'       => FALSE,
+			'recaptcha_public_key'           => '',
+			'recaptcha_private_key'          => '',
 			'turn_off_subscription_buttons'  => FALSE,
 			'inject_categories'              => FALSE,
 			'input_date_format'              => 'def',
@@ -542,6 +668,7 @@ class Ai1ec_Settings {
 			'geo_region_biasing'             => FALSE,
 			'show_data_notification'         => TRUE,
 			'show_intro_video'               => TRUE,
+			'license_warning'                => 'valid',
 			'allow_statistics'               => TRUE,
 			'event_platform'                 => FALSE,
 			'event_platform_strict'          => FALSE,
@@ -550,6 +677,12 @@ class Ai1ec_Settings {
 			'show_location_in_title'         => TRUE,
 			'show_year_in_agenda_dates'      => FALSE,
 			'skip_in_the_loop_check'         => false,
+			'ajaxify_events_in_web_widget'   => false,
+			'admin_mail_subject'             => $admin_mail_subject,
+			'admin_mail_body'                => $admin_mail_body,
+			'user_mail_subject'              => $user_mail_subject,
+			'user_mail_body'                 => $user_mail_body,
+			'license_key'                    => $license_key
 		);
 
 		foreach ( $defaults as $key => $default ) {
@@ -611,16 +744,25 @@ class Ai1ec_Settings {
 			'exact_date',
 			'posterboard_events_per_page',
 			'posterboard_tile_min_width',
+			'stream_events_per_page',
 			'agenda_events_per_page',
 			'input_date_format',
 			'allow_events_posting_facebook',
 			'facebook_credentials',
 			'user_role_can_create_event',
 			'timezone',
+			'recaptcha_public_key',
+			'recaptcha_private_key',
+			'admin_mail_subject',
+			'admin_mail_body',
+			'user_mail_subject',
+			'user_mail_body',
+			'license_key',
 		);
 
 		$checkboxes = array(
 			'view_posterboard_enabled',
+			'view_stream_enabled',
 			'view_month_enabled',
 			'view_week_enabled',
 			'view_oneday_enabled',
@@ -629,9 +771,13 @@ class Ai1ec_Settings {
 			'agenda_events_expanded',
 			'include_events_in_rss',
 			'show_publish_button',
-			'show_create_event_button',
 			'hide_maps_until_clicked',
 			'exclude_from_search',
+			'show_create_event_button',
+			'show_front_end_create_form',
+			'allow_anonymous_submissions',
+			'allow_anonymous_uploads',
+			'show_add_calendar_button',
 			'turn_off_subscription_buttons',
 			'inject_categories',
 			'input_24h_time',
@@ -640,6 +786,7 @@ class Ai1ec_Settings {
 			'show_location_in_title',
 			'show_year_in_agenda_dates',
 			'skip_in_the_loop_check',
+			'ajaxify_events_in_web_widget',
 		);
 		// Only super-admins have the power to change Event Platform mode.
 		if ( is_super_admin() ) {
@@ -680,6 +827,14 @@ class Ai1ec_Settings {
 		);
 		if ( $this->posterboard_events_per_page <= 0 ) {
 			$this->posterboard_events_per_page = 1;
+		}
+
+		// Stream events per page
+		$this->stream_events_per_page = intval(
+			$this->stream_events_per_page
+		);
+		if ( $this->stream_events_per_page <= 0 ) {
+			$this->stream_events_per_page = 1;
 		}
 
 		// Posterboard tile minimum width
@@ -754,6 +909,27 @@ class Ai1ec_Settings {
 	 */
 	function update_intro_video( $value = FALSE ) {
 		$this->show_intro_video = $value;
+		update_option( 'ai1ec_settings', $this );
+	}
+
+	/**
+	 * Update setting of license_warning - whether current license is valid, and
+	 * whether the user cares. Can be either 'valid', 'invalid', or 'dismissed'.
+	 * 'dismissed' implies an invalid license and the user does not want to see
+	 * a warning about it.
+	 *
+	 * Trying to set license status from 'dismissed' to 'invalid' will fail; the
+	 * user has indicated they do not want to be reminded of the invalid license.
+	 * To return the status to 'invalid', the license must first become 'valid'
+	 * again.
+	 *
+	 * @param  string $value The new setting for license_warning.
+	 * @return void
+	 */
+	function update_license_warning( $value = 'valid' ) {
+		if ( 'invalid' !== $value || 'dismissed' !== $this->license_warning ) {
+			$this->license_warning = $value;
+		}
 		update_option( 'ai1ec_settings', $this );
 	}
 

@@ -4,7 +4,7 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_i
 Tags: calendar, event, events, ics, ics calendar, ical-feed, ics feed, wordpress ics importer, wordpress ical importer, upcoming events, todo, notes, journal, freebusy, availability, web calendar, web events, webcal, google calendar, ical, iCalendar, all-in-one, ai1ec, google calendar sync, ical sync, events sync, holiday calendar, calendar 2011, events 2011, widget, events widget, upcoming events widget, calendar widget, agenda widget, posterboard
 Requires at least: 3.2
 Tested up to: 3.5
-Stable tag: 1.9.6-standard
+Stable tag: 1.9.8-pro
 License: EULA.license
 
 A calendar system with many views, upcoming events widget, color-coded categories, recurrence, and import/export of facebook events and .ics feeds.
@@ -15,9 +15,15 @@ Welcome to the [All-in-One Event Calendar Plugin](http://time.ly/), from [Timely
 
 Our calendar system combines a clean visual design, solid architectural patterns and a powerful set of features to create the most advanced calendar system available for WordPress. Best of all: it’s completely free.
 
-Download the free Standard edition at [time.ly](http://time.ly/) and choose from 3 custom designed themes for your Calendar, or develop your own! Also includes Posterboard view, Facebook integration, inline Calendar Theme editing and more.
+Purchase the Pro edition at [time.ly](http://time.ly/pricing) and get Super Widgets, front-end Post Your Event form, Stream View, Premium Support, and much more.
 
-**New in version 1.9:**
+**New in version 1.9 Pro:**
+* Front-end public Post Your Event form
+* User feed submissions
+* Stream View
+* Bulk CSV Upload
+* Super Widgets: embed your calendar into an external site
+* Premium Support access
 * Inline Calendar Theme editor
 * Edit one instance of a recurring event
 * Improved Agenda and Posterboard event filtering
@@ -38,7 +44,7 @@ This plugin has many features we hope will prove useful to users, including:
 * Embedded **Google Maps**
 * **Color-coded** events based on category
 * Featured **event images and category images**
-* **Month**, **week**, **day**, **agenda**, and **posterboard** views
+* **Month**, **week**, **day**, **agenda**, **stream**, and **posterboard** views
 * **Upcoming Events** widget
 * Direct links to **filtered calendar views**
 * **Facebook** integration
@@ -50,6 +56,7 @@ This plugin has many features we hope will prove useful to users, including:
 * Categorize and tag imported calendar feeds automatically
 * Events from [The Events Calendar](http://wordpress.org/extend/plugins/the-events-calendar/) plugin can also be easily imported
 * Enable Events Platform mode to allow for a dedicated calendar application
+* **Super Widgets** to embed your calendar into an external site
 
 Importing and exporting iCalendar (.ics) feeds is one of the strongest features of the All-in-One Event Calendar system. Enter an event on one site and you can have it appear automatically in another website's calendar. You can even send events from a specific category or tag (or combination of categories and tags).
 
@@ -101,7 +108,11 @@ http://vimeo.com/55904173
 
 == Changelog ==
 
-= Version 1.9.6-standard =
+= Version 1.9.8-pro =
+* Fixed issue where clearing filters did not work
+* Made small CSS alterations
+
+= Version 1.9.7-pro =
 * Fixed issue with plugin update failing due to permissions error
 * Fixed issue with admin area menu entries disappearing for
 non-administrative users
@@ -122,9 +133,8 @@ view with certain plugins activated
 form category/tag selectors
 * Fixed issue with events disappearing from Agenda-like calendar views
 before they end
-* Fixed issue with all-day events not ending on correct date
 
-= Version 1.9.5-standard =
+= Version 1.9.6-pro =
 * Fixed an issue where the time of events, occurring on or after DST
 change, has incorrect offset (see
 http://help.time.ly/customer/portal/articles/1038017 for more details)
@@ -134,7 +144,8 @@ than being refreshed during automatic cron update
 * Fixed an issue where geographical information import/export via .ics
 feeds is causing loss of data
 
-= Version 1.9.4-standard =
+
+= Version 1.9.5-pro =
 * Fixed issue with exported ICS feed containing invalid characters
 * Fixed issue with calendar failing to apply filters when embedded via shortcode
 * Addressing issue with database update failing with unclear error
@@ -142,9 +153,8 @@ feeds is causing loss of data
 * Fixed issue with slash symbols polluting some values
 * Fixed issue with all-day events not ending on correct date
 * Modified uninstall process to remove plugin-specific options
-* Fixed issue with events not being imported on some server configurations
 
-= Version 1.9.3-standard =
+= Version 1.9.4-pro =
 * Fixed issue with .ics file being generated with invalid fields
 * Implemented better integration with qTranslate
 * Made an improvement to webfont loading
@@ -153,18 +163,34 @@ feeds is causing loss of data
 * Improved .ics import handling of all-day events
 * When database upgrade fails, now displays friendly message
 
-= Version 1.9.2-standard =
-* Fixed issue with calendar toolbar not updating in shortcode-embedded calendar
+= Version 1.9.3-pro =
+* Fixed issues with front-end Post Your Event form in IE8, IE9, Firefox, and on iPad
+* Repaired some overly aggressive link styling done in 1.9.2
+* Fixed a second URL issue with calendar page sometimes missing trailing slash
+* Added support for reading legacy time zone name "US/Eastern" to .ics import
+
+= Version 1.9.2-pro =
 * Renamed "Instantaneous" checkbox to "No end time"
 * Added option to skip in_the_loop() check to resolve conflicts with certain themes (Gonzo, Simplicity, etc.)
-* Fixed second URL issue with calendar page sometimes missing trailing slash
+* Properly translated some strings
+* Fixed a couple problems when importing .ics feeds
+* Made external resource URLs protocolless or use https to support https-based sites
+* Fixed escape slashes being output in date/time format expressions
 
-= Version 1.9.1-standard =
-* Restored the old front-end Post Your Event button (links to Add New Event screen in WP dashboard)
+= Version 1.9.1-pro =
 * Fixed URL issue with calendar page being a subpage of a parent
 * Fixed URL issue with calendar page sometimes missing trailing slash
+* Fixed issue with front-end modals not displaying in IE10 Preview
+* Fixed issue with calendar toolbar not updating in shortcode-embedded calendar
+* Added event venue, organizer, contact, external URL fields to front-end form
+* Fixed issue with Event Categories not getting saved when submitting an event using the front-end form
 
-= Version 1.9-standard =
+= Version 1.9-pro =
+* Front-end public Post Your Event form
+* Stream View
+* Super Widgets - embed your calendar in another website
+* User feed submissions
+* Premium Support access
 * Inline Calendar Theme editor
 * Edit one instance of a recurring event
 * Improved Agenda and Posterboard Event Filtering
@@ -172,8 +198,8 @@ feeds is causing loss of data
 * Revised Calendar UI and better filtering
 * Prominently featured event images, and Event Category default image
 * RSS event feed
+* Setting to select default start date, category and tag filters
 * WPML compatibility
-* Setting to select initial category and tag filters
 * Instantaneous events: events with start time only
 * Limit Upcoming Events widget to # of events
 * Better preservation of event location, categories and tags on import/export
@@ -187,9 +213,6 @@ feeds is causing loss of data
 * Added Website URL field
 * UI improvements to administration screens
 * Bug fixes, UI enhancements, and more
-
-= Version 1.8.4-premium =
-* Added support for WordPress 3.5
 
 = Version 1.8.3-premium =
 * Fixed an issue with google maps
